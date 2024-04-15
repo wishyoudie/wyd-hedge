@@ -1,37 +1,94 @@
-import Link from "next/link";
+"use client";
 
-export default function HomePage() {
+import { useBackButton, useInitData, useMainButton } from "@tma.js/sdk-react";
+import { useEffect, useMemo, useState } from "react";
+
+function MainButtonTest() {
+  const mainButton = useMainButton();
+  const backButton = useBackButton();
+
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const onMainButtonClick = () => setCount((prevCount) => prevCount + 1);
+    const onBackButtonClick = () => setCount((prevCount) => prevCount - 1);
+
+    mainButton.enable().show();
+    mainButton.on("click", onMainButtonClick);
+    backButton.on("click", onBackButtonClick);
+
+    return () => {
+      mainButton.off("click", onMainButtonClick);
+      mainButton.hide();
+      backButton.off("click", onBackButtonClick);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    mainButton.setText(`Count is ${count}`);
+  }, [mainButton, count]);
+
+  useEffect(() => {
+    if (count === 0) {
+      backButton.hide();
+      return;
+    }
+    backButton.show();
+  }, [backButton, count]);
+
+  return null;
+}
+
+/**
+ * Displays current application init data.
+ */
+function InitData() {
+  const initData = useInitData();
+
+  const initDataJson = useMemo(() => {
+    if (!initData) {
+      return "Init data is empty.";
+    }
+    const {
+      authDate,
+      chat,
+      hash,
+      canSendAfter,
+      queryId,
+      receiver,
+      user,
+      startParam,
+    } = initData;
+
+    return JSON.stringify(
+      {
+        authDate,
+        chat,
+        hash,
+        canSendAfter,
+        queryId,
+        receiver,
+        user,
+        startParam,
+      },
+      null,
+      " ",
+    );
+  }, [initData]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
-          </Link>
-        </div>
-      </div>
-    </main>
+    <pre>
+      <code>{initDataJson}</code>
+    </pre>
+  );
+}
+
+export default function Home() {
+  return (
+    <>
+      <MainButtonTest />
+      <InitData />
+    </>
   );
 }
