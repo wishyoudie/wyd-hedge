@@ -1,8 +1,11 @@
 interface SDKProviderErrorProps {
-  message: string;
+  error: unknown;
 }
 
-export default function SDKProviderError({ message }: SDKProviderErrorProps) {
+export default function SDKProviderError({ error }: SDKProviderErrorProps) {
+  const message =
+    error instanceof Error ? error.message : JSON.stringify(error);
+
   return (
     <blockquote>
       <code>{message}</code>
