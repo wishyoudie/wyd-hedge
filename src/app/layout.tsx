@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import { TmaSDKLoader } from "~/components/TmaSDKLoader";
+import { TmaSDKLoader } from "~/src/app";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,8 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
-        <TmaSDKLoader>{children}</TmaSDKLoader>
+      <body className={`font-sans ${inter.variable} overflow-hidden`}>
+        <div className="h-screen overflow-y-scroll">
+          <TmaSDKLoader>{children}</TmaSDKLoader>
+        </div>
       </body>
     </html>
   );
