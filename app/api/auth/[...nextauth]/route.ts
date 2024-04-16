@@ -1,18 +1,16 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { objectToAuthDataMap, AuthDataValidator } from "@telegram-auth/server";
 import { createUserOrUpdate } from "~/server/queries";
-import { env } from "~/env";
 
 declare module "next-auth" {
   interface Session {
     user: {
-      tg_id: number;
-      first_name: string;
-      last_name: string;
-      username: string;
-      photo_url?: string;
+      id: string;
+      name: string;
+      image: string;
+      email: string;
     };
   }
 }
@@ -25,20 +23,18 @@ export const authOptions: NextAuthOptions = {
       credentials: {},
       async authorize(credentials, req) {
         const validator = new AuthDataValidator({
-          // botToken: `${process.env.BOT_TOKEN}`,
-          botToken: env.BOT_TOKEN,
+          botToken: `${process.env.BOT_TOKEN}`,
         });
 
-        const data = objectToAuthDataMap(req.query || {});
+        const data = objectToAuthDataMap(req.query ?? {});
         const user = await validator.validate(data);
 
         if (user.id && user.first_name) {
           const returned = {
-            tg_id: user.id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            username: user.username,
-            photo_url: user.photo_url,
+            id: user.id.toString(),
+            email: user.id.toString(),
+            name: [user.first_name, user.last_name ?? ""].join(" "),
+            image: user.photo_url,
           };
 
           try {
@@ -55,7 +51,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, user, token }) {
-      //   session.user.tg_id = session.user.tg_id;
+      session.user.id = session.user.email;
       return session;
     },
   },

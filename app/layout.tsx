@@ -1,6 +1,11 @@
+import ThemeProvider from "~/app/theme/theme-provider";
+import Nav from "./_components/navigation/topnav";
+
 import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
+
+import AuthProvider from "./auth-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,10 +24,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`font-sans ${inter.variable} overflow-hidden`}>
-        <div className="h-screen overflow-y-scroll">{children}</div>
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body className={`font-sans ${inter.variable} overflow-hidden`}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {/* <div className="h-screen overflow-y-scroll">{children}</div> */}
+            <Nav />
+            <main>{children}</main>
+          </ThemeProvider>
+        </body>
+      </html>
+    </AuthProvider>
   );
 }
