@@ -1,4 +1,4 @@
-import { TmaSDKLoader } from "~/src/app";
+import { TmaSDKLoader } from "../_components/tma/TmaSDKLoader";
 
 export default function TMARootLayout({
   children,
