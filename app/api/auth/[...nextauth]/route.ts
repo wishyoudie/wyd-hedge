@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { objectToAuthDataMap, AuthDataValidator } from "@telegram-auth/server";
 import { createUserOrUpdate } from "~/server/queries";
+import { env } from "~/env";
 
 declare module "next-auth" {
   interface Session {
@@ -25,7 +26,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         const validator = new AuthDataValidator({
           // botToken: `${process.env.BOT_TOKEN}`,
-          botToken: "6339130363:AAFnWQam_pPhS2ULsv80QsXU7RDphNsYYww",
+          botToken: env.BOT_TOKEN,
         });
 
         const data = objectToAuthDataMap(req.query || {});

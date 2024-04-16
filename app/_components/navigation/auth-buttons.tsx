@@ -21,7 +21,10 @@ export default function SignInButton({ botUsername }: { botUsername: string }) {
     <LoginButton
       botUsername={botUsername}
       onAuthCallback={(data: TelegramAuthData) => {
-        signIn("telegram-login", { callbackUrl: "/" }, data);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
+        signIn("telegram-login", { callbackUrl: "/" }, data as any).catch(
+          console.error,
+        );
       }}
     />
   );

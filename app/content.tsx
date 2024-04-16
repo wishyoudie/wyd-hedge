@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
-import { db } from "~/server/db";
+import { getMe } from "~/server/queries";
 
 export default async function Content() {
   const session = await getServerSession(authOptions);
@@ -16,9 +16,7 @@ export default async function Content() {
     );
   }
 
-  const user = await db.query.users.findFirst({
-    where: (model, { eq }) => eq(model.tg_id, session.user.tg_id),
-  });
+  const user = await getMe(session.user.tg_id);
 
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
