@@ -5,5 +5,10 @@ export default function TMARootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <TmaSDKLoader>{children}</TmaSDKLoader>;
+  return (
+    <TmaSDKLoader>
+      <div>ASDASD</div>
+      {children}
+    </TmaSDKLoader>
+  );
 }

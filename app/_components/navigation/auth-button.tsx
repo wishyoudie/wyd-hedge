@@ -10,7 +10,6 @@ import {
 } from "~/shared/ui/dropdown-menu";
 import { LoginButton } from "@telegram-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/shared/ui/avatar";
-// import { Button } from "~/shared/ui/button";
 import { ReloadIcon, ExitIcon } from "@radix-ui/react-icons";
 
 import { useSession, signOut } from "next-auth/react";

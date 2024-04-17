@@ -26,7 +26,9 @@ export default function RootLayout({
   return (
     <AuthProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={`font-sans ${inter.variable} overflow-hidden`}>
+        <body
+          className={`font-sans antialiased ${inter.variable} overflow-hidden`}
+        >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {/* <div className="h-screen overflow-y-scroll">{children}</div> */}
             <Nav />
