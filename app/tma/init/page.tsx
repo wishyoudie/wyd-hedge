@@ -1,16 +1,18 @@
 "use client";
 
-import { useInitDataRaw } from "@tma.js/sdk-react";
+import { useInitDataRaw, useMiniApp } from "@tma.js/sdk-react";
 import { useSession } from "next-auth/react";
-import { useEffect, type PropsWithChildren } from "react";
+import { useEffect } from "react";
 import { signInAs } from "~/shared/utils";
 
-export default function TmaAuth({ children }: PropsWithChildren) {
+export default function TmaAuth() {
   const initData = useInitDataRaw();
-  const { status } = useSession();
+  const miniApp = useMiniApp();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (status === "unauthenticated") {
+    miniApp.setHeaderColor("#0a0a0a");
+    if (status !== "unauthenticated" && !session?.user) {
       if (initData) {
         signInAs(
           {
@@ -25,7 +27,7 @@ export default function TmaAuth({ children }: PropsWithChildren) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [session?.user]);
 
-  return <div>{children}</div>;
+  return <></>;
 }
