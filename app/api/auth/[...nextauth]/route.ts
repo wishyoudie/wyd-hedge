@@ -40,6 +40,16 @@ export const authOptions: NextAuthOptions = {
                 throw new Error("Empty parsed initData");
               }
 
+              const user = {
+                id: parsed.id,
+                first_name: parsed.firstName,
+                last_name: parsed.lastName,
+                username: parsed.username,
+                photo_url: parsed.photoUrl,
+              };
+
+              createUserOrUpdate(user).catch(console.error);
+
               return {
                 id: `${parsed.id}`,
                 name: [parsed.firstName, parsed.lastName ?? ""].join(" "),
