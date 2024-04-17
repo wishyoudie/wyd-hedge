@@ -10,9 +10,7 @@ type SignInData =
       initData: string;
     };
 
-export function signInAs(data: SignInData) {
+export function signInAs(data: SignInData, callbackUrl: string) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-  signIn("telegram-login", { callbackUrl: "/" }, data as any).catch(
-    console.error,
-  );
+  signIn("telegram-login", { callbackUrl }, data as any).catch(console.error);
 }

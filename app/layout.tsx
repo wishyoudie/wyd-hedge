@@ -1,5 +1,4 @@
 import ThemeProvider from "~/app/theme/theme-provider";
-import Nav from "./_components/navigation/topnav";
 
 import "~/styles/globals.css";
 
@@ -30,9 +29,7 @@ export default function RootLayout({
           className={`font-sans antialiased ${inter.variable} overflow-hidden`}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {/* <div className="h-screen overflow-y-scroll">{children}</div> */}
-            <Nav />
-            <main>{children}</main>
+            {children}
           </ThemeProvider>
         </body>
       </html>

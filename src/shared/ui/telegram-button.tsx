@@ -12,7 +12,7 @@ export default function TelegramButton({
     <div className="telegram-button">
       <LoginButton
         botUsername={botUsername}
-        onAuthCallback={(data) => signInAs({ is_tma: false, ...data })}
+        onAuthCallback={(data) => signInAs({ is_tma: false, ...data }, "/")}
         showAvatar={false}
         cornerRadius={12}
       />
