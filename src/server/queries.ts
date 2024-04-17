@@ -1,5 +1,4 @@
-// import "server-only";
-"use server";
+import "server-only";
 
 import { db } from "./db";
 import type { TelegramUserData } from "@telegram-auth/server";
@@ -8,16 +7,14 @@ import { users } from "./db/schema";
 export async function createUserOrUpdate(user: TelegramUserData) {
   await db
     .insert(users)
-    .values({
-      id: `${user.id}`,
-      name: user.first_name,
-      image: user.photo_url,
-    })
+    .values(user)
     .onConflictDoUpdate({
-      target: `${user.id}`,
+      target: users.id,
       set: {
-        name: user.first_name,
-        image: user.photo_url,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        username: user.username,
+        photo_url: user.photo_url,
       },
     });
 }

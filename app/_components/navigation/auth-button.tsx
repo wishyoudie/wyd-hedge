@@ -29,10 +29,7 @@ export default function AuthButton({ botUsername }: { botUsername: string }) {
         <DropdownMenuTrigger asChild>
           <div>
             <Avatar>
-              <AvatarImage
-                src={session.user?.image ?? "/default.webp"}
-                alt="@shadcn"
-              />
+              <AvatarImage src={session.user?.image ?? ""} alt="@shadcn" />
               <AvatarFallback>{session.user?.name}</AvatarFallback>
             </Avatar>
           </div>
