@@ -13,6 +13,7 @@ export const env = createEnv({
       .default("development"),
     BOT_USERNAME: z.string(),
     BOT_TOKEN: z.string(),
+    MINI_APP_URL: z.string(),
   },
 
   /**
@@ -33,6 +34,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     BOT_USERNAME: process.env.BOT_USERNAME,
     BOT_TOKEN: process.env.BOT_TOKEN,
+    MINI_APP_URL: process.env.MINI_APP_URL,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

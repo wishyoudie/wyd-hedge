@@ -18,3 +18,9 @@ export async function createUserOrUpdate(user: TelegramUserData) {
       },
     });
 }
+
+export async function getUserById(id: string) {
+  return await db.query.users.findFirst({
+    where: (model, { eq }) => eq(model.id, +id),
+  });
+}

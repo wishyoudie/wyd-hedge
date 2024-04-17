@@ -1,6 +1,9 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]/route";
-import { db } from "~/server/db";
+import { Card, CardContent, CardHeader, CardTitle } from "~/shared/ui/card";
+import { getUserById } from "~/server/queries";
+import LoggedOffCard from "~/widgets/logged-off";
+import { env } from "~/env";
 
 export const dynamic = "force-dynamic";
 
@@ -8,23 +11,37 @@ export default async function HomePage() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return <div className="mt-10 flex justify-center">Not logged in</div>;
+    return (
+      <div className="flex w-full justify-center pt-44">
+        <LoggedOffCard miniAppLink={env.MINI_APP_URL} />
+      </div>
+    );
   }
 
-  const user = await db.query.users.findFirst({
-    where: (model, { eq }) => eq(model.id, session.user.tg_id),
-  });
+  const user = await getUserById(session.user.id);
 
   return (
     <div className="mt-10 flex flex-col items-center">
-      <h1>{session.user.name}</h1>
-      {/* <h1 className="max-w-[300px] truncate">{user?.image}</h1> */}
-      <pre>
-        <blockquote>{JSON.stringify(session.user)}</blockquote>
-      </pre>
-      <h1>{user?.id}</h1>
-      <h1>{user?.username}</h1>
-      <h1>{user?.photo_url}</h1>
+      <Card>
+        <CardHeader>
+          <CardTitle>Session Data</CardTitle>
+          <CardContent>
+            <pre>
+              <blockquote>{JSON.stringify(session.user, null, " ")}</blockquote>
+            </pre>
+          </CardContent>
+        </CardHeader>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>DB Data</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <pre>
+            <blockquote>{JSON.stringify(user, null, " ")}</blockquote>
+          </pre>
+        </CardContent>
+      </Card>
     </div>
   );
 }

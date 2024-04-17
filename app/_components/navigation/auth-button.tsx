@@ -8,12 +8,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/shared/ui/dropdown-menu";
-import { LoginButton } from "@telegram-auth/react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "~/shared/ui/avatar";
 import { ReloadIcon, ExitIcon } from "@radix-ui/react-icons";
 
 import { useSession, signOut } from "next-auth/react";
-import { signInAs } from "~/shared/utils";
+import TelegramButton from "../../../src/shared/ui/telegram-button";
 
 export default function AuthButton({ botUsername }: { botUsername: string }) {
   const { data: session, status } = useSession();
@@ -48,5 +48,5 @@ export default function AuthButton({ botUsername }: { botUsername: string }) {
     );
   }
 
-  return <LoginButton botUsername={botUsername} onAuthCallback={signInAs} />;
+  return <TelegramButton botUsername={botUsername} />;
 }
