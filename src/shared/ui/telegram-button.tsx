@@ -23,7 +23,9 @@ export default function TelegramButton({
     >
       <LoginButton
         botUsername={botUsername}
-        onAuthCallback={(data) => signInAs({ is_tma: false, ...data }, "/")}
+        onAuthCallback={(data) =>
+          signInAs({ is_tma: false, ...data }, "/dashboard")
+        }
         showAvatar={false}
         cornerRadius={12}
       />

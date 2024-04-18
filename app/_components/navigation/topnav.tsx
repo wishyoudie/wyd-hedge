@@ -41,7 +41,7 @@ export default async function Nav() {
       <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
         <Link href="/" className="mr-8 flex items-center space-x-4">
           <Logo size={10} />
-          <span className="hidden font-bold sm:inline-block">Accounting</span>
+          <span className="hidden font-bold sm:inline-block">Accountant</span>
         </Link>
         <nav className="flex items-center gap-4 text-sm lg:gap-6">
           {regularItems.map(
