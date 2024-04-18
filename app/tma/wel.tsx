@@ -1,13 +1,7 @@
-"use client";
-
-import { useInitData } from "@tma.js/sdk-react";
-
-export default function Welcome() {
-  const initData = useInitData();
-
+export default function Welcome({ text }: { text?: string }) {
   return (
     <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-      Welcome, {initData?.user?.username}
+      Welcome, {text}
     </h1>
   );
 }

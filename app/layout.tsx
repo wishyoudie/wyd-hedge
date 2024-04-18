@@ -25,7 +25,9 @@ export default function RootLayout({
   return (
     <AuthProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={`font-sans antialiased ${inter.variable}`}>
+        <body
+          className={`font-sans antialiased ${inter.variable} overflow-hidden bg-background`}
+        >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
           </ThemeProvider>

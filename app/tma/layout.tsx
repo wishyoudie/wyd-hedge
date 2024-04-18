@@ -5,5 +5,9 @@ export default function TMARootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <TmaSDKLoader>{children}</TmaSDKLoader>;
+  return (
+    <TmaSDKLoader>
+      <main className="overflow-y-scroll">{children}</main>
+    </TmaSDKLoader>
+  );
 }
