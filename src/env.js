@@ -14,6 +14,7 @@ export const env = createEnv({
     BOT_USERNAME: z.string(),
     BOT_TOKEN: z.string(),
     MINI_APP_URL: z.string(),
+    ADMIN_IDS: z.array(z.string()),
   },
 
   /**
@@ -35,7 +36,8 @@ export const env = createEnv({
     BOT_USERNAME: process.env.BOT_USERNAME,
     BOT_TOKEN: process.env.BOT_TOKEN,
     MINI_APP_URL: process.env.MINI_APP_URL,
-    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+    // @ts-expect-error Not ts
+    ADMIN_IDS: JSON.parse(process.env.ADMIN_IDS),
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

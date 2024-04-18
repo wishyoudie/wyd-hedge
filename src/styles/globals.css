@@ -75,6 +75,23 @@
     }
   }
 
-.telegram-button {
-  filter: saturate(0%) brightness(70%) contrast(500%) invert(1);
+.spinner-line {
+  animation: spinner-fade-out 1s linear infinite;
+}
+
+.spinner-line line {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  stroke: currentColor;
+}
+
+@keyframes spinner-fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+
 }
