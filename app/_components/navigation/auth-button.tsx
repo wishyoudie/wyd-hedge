@@ -10,7 +10,7 @@ import {
 } from "~/shared/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/shared/ui/avatar";
-import { ReloadIcon, ExitIcon } from "@radix-ui/react-icons";
+import { ReloadIcon, ExitIcon, GearIcon } from "@radix-ui/react-icons";
 
 import { useSession, signOut } from "next-auth/react";
 import TelegramButton from "../../../src/shared/ui/telegram-button";
@@ -27,7 +27,7 @@ export default function AuthButton({ botUsername }: { botUsername: string }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div>
-            <Avatar>
+            <Avatar className="size-10">
               <AvatarImage src={session.user?.image ?? ""} alt="@shadcn" />
               <AvatarFallback>{session.user?.name}</AvatarFallback>
             </Avatar>
@@ -36,8 +36,10 @@ export default function AuthButton({ botUsername }: { botUsername: string }) {
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>{session.user?.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Test 1</DropdownMenuItem>
-          <DropdownMenuItem disabled>Test 2</DropdownMenuItem>
+          <DropdownMenuItem>
+            <GearIcon className="mr-2 h-4 w-4" />
+            Settings
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut()}>
             <ExitIcon className="mr-2 h-4 w-4" />

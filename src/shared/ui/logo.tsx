@@ -1,6 +1,5 @@
 import { list } from "@vercel/blob";
 import { Skeleton } from "./skeleton";
-import Image from "next/image";
 
 export default async function Logo({ size = 16 }: { size?: number }) {
   const blobs = await list();
@@ -10,10 +9,11 @@ export default async function Logo({ size = 16 }: { size?: number }) {
     return <Skeleton className={`size-${size}`} />;
   }
   return (
-    <Image
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
       src={logo?.url}
       alt="logo"
-      className="rounded-md shadow"
+      className="rounded-xl"
       width={size * 4}
       height={size * 4}
     />
