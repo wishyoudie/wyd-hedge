@@ -4,15 +4,17 @@ import AuthButton from "./auth-button";
 
 import Link from "next/link";
 import { env } from "~/env";
+import Logo from "~/shared/ui/logo";
 
 export default function Nav() {
   return (
-    <nav className="sticky top-0 z-40 flex w-full flex-col gap-1 bg-background pt-1">
-      <div className="flex items-center justify-between px-5 py-1">
-        <Link href="/">
-          <div className="flex items-center gap-1 ">Accounting</div>
+    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 max-w-screen-2xl items-center">
+        <Link href="/" className="mr-6 flex items-center space-x-2">
+          <Logo size={9} />
+          <span className="hidden font-bold sm:inline-block">Accounting</span>
         </Link>
-        <div className="flex items-center justify-center gap-3">
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div>
             <ThemeToggle />
           </div>

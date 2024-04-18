@@ -7,7 +7,7 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
     images: {
-        remotePatterns: [{hostname: "t.me"}]
+        remotePatterns: [{hostname: "t.me"}, {hostname: "*.public.blob.vercel-storage.com"}]
     },
     typescript: {
         ignoreBuildErrors: true,
