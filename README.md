@@ -1,16 +1,5 @@
-# wishyoudie hedge fund
+# AccountAnt
 
-## Explanation
+**_AccountAnt_** is a Next.js app for your expenses, incomes, loans (and more!)
 
-This is yet another accounting app that lets you manage your finances. The name is purely humorous.
-
-## Things Learned
-
-- [x] SSR
-- [x] Next.js App Router
-- [x] Vercel hosting
-- [x] Separating environments between Telegram Mini Apps and normal browser
-- [x] @tma.js
-- [ ] API building
-- [ ] Auth building
-- [ ] Telegram Bot development
+Available both [via browser](https://wyd-hedge.vercel.app) and directly [inside Telegram](https://t.me/wydhedge_bot/accounting).
