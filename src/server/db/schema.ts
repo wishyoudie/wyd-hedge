@@ -1,14 +1,17 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { pgTableCreator, varchar, integer } from "drizzle-orm/pg-core";
+import {
+  pgTableCreator,
+  varchar,
+  integer,
+  serial,
+  pgEnum,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
+export const operationEnum = pgEnum("op_type", ["expense", "income"]);
+
 export const createTable = pgTableCreator((name) => `wyd-hedge_${name}`);
 
 export const users = createTable("user", {
@@ -18,3 +21,18 @@ export const users = createTable("user", {
   username: varchar("username", { length: 256 }),
   photo_url: varchar("photo_url", { length: 256 }),
 });
+
+export const operations = createTable("operation", {
+  id: serial("id").primaryKey(),
+  user_id: integer("user_id")
+    .references(() => users.id)
+    .notNull(),
+  op_type: operationEnum("op_type").notNull(),
+  value: integer("value").notNull(),
+  createdAt: timestamp("createdAt").defaultNow(),
+});
+
+export type TInsertOperation = Omit<
+  typeof operations.$inferInsert,
+  "user_id" | "id"
+>;
