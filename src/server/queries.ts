@@ -32,7 +32,15 @@ export async function getUserById(id: string) {
   }
 }
 
-export async function getUserOperations(userId: SN) {
+export async function getUserOperations(userId: SN, limit = 5) {
+  return await db
+    .select()
+    .from(operations)
+    .where(eq(operations.user_id, sntoint(userId)))
+    .limit(limit);
+}
+
+export async function getAllUserOperations(userId: SN) {
   return await db
     .select()
     .from(operations)

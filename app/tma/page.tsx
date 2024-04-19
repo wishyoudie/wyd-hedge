@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { Button } from "~/shared/ui/button";
 import WelUser from "./welUser";
 import BackButton from "~/shared/ui/back-button";
 import QrScanner from "./qr";
+import AddOperationForm from "./_components/add-operation-form";
 
 export default async function HomePage() {
   return (
@@ -11,13 +11,11 @@ export default async function HomePage() {
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
           <WelUser />
           <div className="container flex flex-wrap gap-2">
-            <Button variant="outline">
-              <Link href="/tma/incomes">Incomes</Link>
-            </Button>
             <QrScanner />
             <Button variant="outline">Hide sensitive</Button>
           </div>
         </div>
+        <AddOperationForm />
       </div>
       <BackButton hide />
     </>
