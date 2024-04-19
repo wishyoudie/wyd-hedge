@@ -12,8 +12,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Accounting",
-  description: "made by @wishyoudie",
+  title: "Accountant",
+  description: "Finances Managing App",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
