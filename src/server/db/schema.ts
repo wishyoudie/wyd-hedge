@@ -32,7 +32,15 @@ export const operations = createTable("operation", {
   createdAt: timestamp("createdAt").defaultNow(),
 });
 
-export type TInsertOperation = Omit<
+export type InsertOperation = Omit<
   typeof operations.$inferInsert,
   "user_id" | "id"
 >;
+
+export type Operation = {
+  id: number;
+  user_id: number;
+  value: number;
+  op_type: "expense" | "income";
+  createdAt: Date | null;
+};

@@ -1,6 +1,5 @@
 import { authOptions } from "app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { insertOperation } from "~/server/queries";
 import { Button } from "~/shared/ui/button";
@@ -30,7 +29,7 @@ export default async function AddOperationForm() {
             op_type: e.get("op_type")! as "expense" | "income",
             value: +e.get("value")!,
           });
-          revalidatePath("/tma");
+
           redirect("/tma");
         }}
       >

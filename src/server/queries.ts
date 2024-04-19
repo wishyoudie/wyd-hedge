@@ -2,7 +2,7 @@ import "server-only";
 
 import { db } from "./db";
 import type { TelegramUserData } from "@telegram-auth/server";
-import { type TInsertOperation, operations, users } from "./db/schema";
+import { type InsertOperation, operations, users } from "./db/schema";
 import { eq } from "drizzle-orm";
 
 type SN = string | number;
@@ -47,7 +47,7 @@ export async function getAllUserOperations(userId: SN) {
     .where(eq(operations.user_id, sntoint(userId)));
 }
 
-export async function insertOperation(userId: SN, operation: TInsertOperation) {
+export async function insertOperation(userId: SN, operation: InsertOperation) {
   return await db.insert(operations).values({
     user_id: sntoint(userId),
     ...operation,

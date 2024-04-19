@@ -23,31 +23,31 @@ export default async function DashboardPage() {
   return (
     <BentoGrid>
       <BentoGridItem colSpan={1} rowSpan={2}>
-        <Link href={`/dashboard/operations/${user.id}`}>
-          <Card>
-            <CardHeader>
-              <CardTitle>Operations</CardTitle>
-              <CardContent>
-                <pre>
-                  <blockquote>
-                    {JSON.stringify(operations, null, " ")}
-                  </blockquote>
-                </pre>
-              </CardContent>
-            </CardHeader>
-          </Card>
-        </Link>
+        <Card>
+          <CardContent>
+            <ul>
+              {operations.map((op) => (
+                <Link key={op.id} href={`/dashboard/operation/${op.id}`}>
+                  <li className="w-full py-2 hover:bg-background/30">
+                    {op.op_type === "income" ? "+" : "-"}
+                    {op.value}
+                  </li>
+                </Link>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
       </BentoGridItem>
       <BentoGridItem colSpan={2}>
         <Card>
           <CardHeader>
             <CardTitle>DB Data</CardTitle>
-            <CardContent>
-              <pre>
-                <blockquote>{JSON.stringify(user, null, " ")}</blockquote>
-              </pre>
-            </CardContent>
           </CardHeader>
+          <CardContent>
+            <pre>
+              <blockquote>{JSON.stringify(user, null, " ")}</blockquote>
+            </pre>
+          </CardContent>
         </Card>
       </BentoGridItem>
     </BentoGrid>
