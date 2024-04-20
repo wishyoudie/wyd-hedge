@@ -43,7 +43,7 @@ function OperationItem(props: OperationItemProps) {
           <span
             className={`text-2xl font-semibold ${type === "income" ? "text-green-500" : "text-red-500"}`}
           >
-            +${value}
+            ${value}
           </span>
         </div>
       </div>
@@ -55,7 +55,7 @@ export default async function OperationsCard(props: { userId: number }) {
   const operations = await getUserOperations(props.userId);
 
   return (
-    <Card>
+    <Card className="w-full md:w-96">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           Recent Operations

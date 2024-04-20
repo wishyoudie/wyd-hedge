@@ -53,3 +53,11 @@ export async function insertOperation(userId: SN, operation: InsertOperation) {
     ...operation,
   });
 }
+
+export async function getDetailedOperation(operationId: number) {
+  const result = await db
+    .select()
+    .from(operations)
+    .where(eq(operations.id, operationId));
+  return result.length > 0 ? result[0] : undefined;
+}
