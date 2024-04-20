@@ -34,9 +34,7 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </BentoGridItem>
-      {/* <BentoGridItem colSpan={2}> */}
       <OperationsCard userId={user.id} />
-      {/* </BentoGridItem> */}
     </BentoGrid>
   );
 }
