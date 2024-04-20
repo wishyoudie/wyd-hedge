@@ -29,6 +29,7 @@ export const operations = createTable("operation", {
     .notNull(),
   op_type: operationEnum("op_type").notNull(),
   value: integer("value").notNull(),
+  name: varchar("name", { length: 256 }).notNull().default("Operation"),
   createdAt: timestamp("createdAt").defaultNow(),
 });
 
@@ -42,5 +43,6 @@ export type Operation = {
   user_id: number;
   value: number;
   op_type: "expense" | "income";
+  name: string;
   createdAt: Date | null;
 };

@@ -1,10 +1,10 @@
 import { authOptions } from "app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getUserById, getUserOperations } from "~/server/queries";
+import { getUserById } from "~/server/queries";
 import { BentoGrid, BentoGridItem } from "~/shared/ui/bento-grid";
 import { Card, CardHeader, CardTitle, CardContent } from "~/shared/ui/card";
+import OperationsCard from "~/widgets/operations";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -18,26 +18,8 @@ export default async function DashboardPage() {
     redirect("/");
   }
 
-  const operations = await getUserOperations(user.id);
-
   return (
     <BentoGrid>
-      <BentoGridItem colSpan={1} rowSpan={2}>
-        <Card>
-          <CardContent>
-            <ul>
-              {operations.map((op) => (
-                <Link key={op.id} href={`/dashboard/operation/${op.id}`}>
-                  <li className="w-full py-2 hover:bg-background/30">
-                    {op.op_type === "income" ? "+" : "-"}
-                    {op.value}
-                  </li>
-                </Link>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      </BentoGridItem>
       <BentoGridItem colSpan={2}>
         <Card>
           <CardHeader>
@@ -45,11 +27,16 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
             <pre>
-              <blockquote>{JSON.stringify(user, null, " ")}</blockquote>
+              <blockquote>
+                {JSON.stringify({ ...user, photo_url: "Photo" }, null, " ")}
+              </blockquote>
             </pre>
           </CardContent>
         </Card>
       </BentoGridItem>
+      {/* <BentoGridItem colSpan={2}> */}
+      <OperationsCard userId={user.id} />
+      {/* </BentoGridItem> */}
     </BentoGrid>
   );
 }
