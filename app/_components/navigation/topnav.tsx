@@ -13,11 +13,11 @@ const regularItems = [
     hidden: true,
   },
   {
-    href: "/operations",
+    href: "/dashboard/operations",
     label: "Operations",
   },
   {
-    href: "/loans",
+    href: "/dashboard/loans",
     label: "Loans",
   },
 ];

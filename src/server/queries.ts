@@ -3,7 +3,7 @@ import "server-only";
 import { db } from "./db";
 import type { TelegramUserData } from "@telegram-auth/server";
 import { type InsertOperation, operations, users } from "./db/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 type SN = string | number;
 const sntoint = (v: SN) => (typeof v === "string" ? +v : v);
@@ -32,11 +32,17 @@ export async function getUserById(id: string) {
   }
 }
 
-export async function getUserOperations(userId: SN, limit = 3) {
+export async function getLastUserOperations(userId: SN, limit = 3) {
   return await db
-    .select()
+    .select({
+      id: operations.id,
+      value: operations.value,
+      op_type: operations.op_type,
+      name: operations.name,
+    })
     .from(operations)
     .where(eq(operations.user_id, sntoint(userId)))
+    .orderBy(desc(operations.id))
     .limit(limit);
 }
 
