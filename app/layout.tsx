@@ -5,6 +5,7 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 
 import AuthProvider from "./auth-provider";
+import { Toaster } from "~/shared/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>

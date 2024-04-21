@@ -16,7 +16,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "~/shared/ui/select";
@@ -33,14 +32,18 @@ export default async function AddOperationForm(props: { redirect: string }) {
       action={async (formData: FormData) => {
         "use server";
 
-        const data = {
-          op_type: formData.get("op_type")! as "expense" | "income",
-          value: +formData.get("value")!,
-        };
+        if (isNaN(Number(formData.get("value")))) {
+        } else {
+          const data = {
+            name: formData.get("name") as string,
+            op_type: formData.get("op_type")! as "expense" | "income",
+            value: +formData.get("value")!,
+          };
 
-        await insertOperation(session.user.id, data);
+          await insertOperation(session.user.id, data);
 
-        redirect(props.redirect);
+          redirect(props.redirect);
+        }
       }}
     >
       <DialogHeader>
@@ -54,25 +57,26 @@ export default async function AddOperationForm(props: { redirect: string }) {
           <Label htmlFor="name" className="text-right">
             Name
           </Label>
-          <Input id="name" value="Pedro Duarte" className="col-span-3" />
+          <Input name="name" className="col-span-3" />
         </div>
-        <div className="grid grid-cols-4 items-center gap-4">
+        <div className="">
           <Select name="op_type" required>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select a fruit" />
+              <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="blueberry">Blueberry</SelectItem>
-                <SelectItem value="grapes">Grapes</SelectItem>
-                <SelectItem value="pineapple">Pineapple</SelectItem>
+                <SelectItem value="expense">Expense</SelectItem>
+                <SelectItem value="income">Income</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Input id="username" value="@peduarte" className="col-span-3" />
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="value" className="text-right">
+            Value
+          </Label>
+          <Input name="value" className="col-span-3" />
         </div>
       </div>
       <DialogFooter>
