@@ -1,18 +1,17 @@
-import NewOperationModal from "~/widgets/new-operation-modal";
+import { getDetailedOperation } from "~/server/queries";
 import OperationModal from "~/widgets/operation-modal";
 
-export default function OperationModalPortal({
+export default async function OperationModalPortal({
   params: { id: operationId },
 }: {
   params: { id: string };
 }) {
-  if (operationId === "new") {
-    return <NewOperationModal />;
-  }
   const idAsNumber = Number(operationId);
   if (isNaN(idAsNumber)) {
     throw new Error("Invalid Operation ID");
   }
 
-  return <OperationModal operationId={idAsNumber} />;
+  const operation = await getDetailedOperation(idAsNumber);
+
+  return <OperationModal operation={operation} />;
 }

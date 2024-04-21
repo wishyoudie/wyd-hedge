@@ -6,6 +6,7 @@ import { formatDate } from "~/shared/lib/utils";
 import { Button } from "~/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/shared/ui/card";
 import WalletIcon from "~/shared/ui/icons/wallet";
+import { Dialog, DialogContent, DialogTrigger } from "~/shared/ui/dialog";
 
 type OperationItemProps = {
   operation: Operation;
@@ -68,9 +69,18 @@ export default async function OperationsCard(props: { userId: number }) {
           ))}
         </OperationList>
         <div className="mt-4 flex flex-col gap-2">
-          <Link href="/dashboard/operation/new">
+          {/* <Link href="/dashboard/operation/new">
             <Button className="w-full">New</Button>
-          </Link>
+          </Link> */}
+          <Dialog>
+            <DialogTrigger>
+              <Button className="w-full">New</Button>
+            </DialogTrigger>
+            <DialogContent>
+              {/* <AddOperationForm redirect="/dashboard" /> */}
+              <div>asljdkjaskd</div>
+            </DialogContent>
+          </Dialog>
           <Link href="/operations">
             <Button className="w-full" variant="outline">
               View All

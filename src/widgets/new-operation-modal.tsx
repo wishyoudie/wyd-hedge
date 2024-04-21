@@ -1,5 +1,5 @@
-import Modal from "~/shared/ui/modal";
+import AddOperationForm from "~/features/add-operation-form";
 
-export default function NewOperationModal() {
-  return <Modal>NEW OPERATION</Modal>;
+export default async function NewOperationModal() {
+  return <AddOperationForm redirect="/dashboard" />;
 }

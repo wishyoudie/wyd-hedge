@@ -1,14 +1,25 @@
-import { getDetailedOperation } from "~/server/queries";
-import Modal from "~/shared/ui/modal";
+"use client";
 
-export default async function OperationModal(props: { operationId: number }) {
-  const operation = await getDetailedOperation(props.operationId);
+import { useRouter } from "next/navigation";
+import type { Operation } from "~/server/db/schema";
+import { Dialog, DialogContent } from "~/shared/ui/dialog";
+
+export default function OperationModal(props: { operation?: Operation }) {
+  const router = useRouter();
+
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      router.back();
+    }
+  };
 
   return (
-    <Modal>
-      <pre>
-        <blockquote>{JSON.stringify(operation, null, " ")}</blockquote>
-      </pre>
-    </Modal>
+    <Dialog defaultOpen onOpenChange={handleOpenChange}>
+      <DialogContent>
+        <pre>
+          <blockquote>{JSON.stringify(props.operation, null, " ")}</blockquote>
+        </pre>
+      </DialogContent>
+    </Dialog>
   );
 }
