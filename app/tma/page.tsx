@@ -2,7 +2,6 @@ import { Button } from "~/shared/ui/button";
 import WelUser from "./welUser";
 import BackButton from "~/shared/ui/back-button";
 import QrScanner from "./qr";
-import AddOperationForm from "../../src/features/add-operation-form";
 
 export default async function HomePage() {
   return (
@@ -15,7 +14,6 @@ export default async function HomePage() {
             <Button variant="outline">Hide sensitive</Button>
           </div>
         </div>
-        <AddOperationForm redirect="/tma" />
       </div>
       <BackButton hide />
     </>
