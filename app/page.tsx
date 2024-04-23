@@ -7,7 +7,7 @@ import LoggedOffWidget from "~/widgets/logged-off";
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
 
-  if (!session?.user) {
+  if (!session) {
     return (
       <>
         <HomeNav />
