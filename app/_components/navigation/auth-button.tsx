@@ -15,9 +15,11 @@ import { ExitIcon, GearIcon } from "@radix-ui/react-icons";
 import { useSession, signOut } from "next-auth/react";
 import TelegramButton from "../../../src/shared/ui/telegram-button";
 import Spinner from "~/shared/ui/spinner";
+import { useRouter } from "next/navigation";
 
 export default function AuthButton({ botUsername }: { botUsername: string }) {
   const { data: session, status } = useSession();
+  const router = useRouter();
 
   if (status === "loading") {
     return <Spinner />;
@@ -39,7 +41,7 @@ export default function AuthButton({ botUsername }: { botUsername: string }) {
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuLabel>{session.user?.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/web/settings")}>
             <GearIcon className="mr-2 h-4 w-4" />
             Settings
           </DropdownMenuItem>
