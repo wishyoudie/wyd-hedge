@@ -20,5 +20,5 @@ export default async function HomePage() {
     );
   }
 
-  redirect("/dashboard");
+  redirect("/web");
 }

@@ -1,7 +1,7 @@
 import Nav from "app/_components/navigation/topnav";
 import Footer from "./footer";
 
-export default function DashboardLayout(props: {
+export default function WebLayout(props: {
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {

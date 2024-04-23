@@ -8,16 +8,16 @@ import { isAdmin } from "~/shared/utils/isAdmin";
 
 const regularItems = [
   {
-    href: "/dashboard",
+    href: "/web",
     label: "Dashboard",
     hidden: true,
   },
   {
-    href: "/dashboard/operations",
+    href: "/web/operations",
     label: "Operations",
   },
   {
-    href: "/dashboard/loans",
+    href: "/web/loans",
     label: "Loans",
   },
 ];
@@ -35,7 +35,7 @@ export default async function Nav() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
-        <Link href="/dashboard" className="mr-8 flex items-center space-x-4">
+        <Link href="/web" className="mr-8 flex items-center space-x-4">
           <Logo size={10} />
           <span className="hidden font-bold sm:inline-block">Accountant</span>
         </Link>

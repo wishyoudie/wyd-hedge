@@ -19,7 +19,7 @@ export default async function OperationsCard(props: { userId: number }) {
       <CardContent>
         <ul>
           {operations.map((op) => (
-            <Link href={`/dashboard/operation/${op.id}`} key={op.id}>
+            <Link href={`/web/operation/${op.id}`} key={op.id}>
               <OperationItem operation={op} />
             </Link>
           ))}
@@ -30,10 +30,10 @@ export default async function OperationsCard(props: { userId: number }) {
               <Button className="w-full">New</Button>
             </DialogTrigger>
             <DialogContent>
-              <AddOperationForm redirect="/dashboard" />
+              <AddOperationForm redirect="/web" />
             </DialogContent>
           </Dialog>
-          <Link href="/dashboard/operations">
+          <Link href="/web/operations">
             <Button className="w-full" variant="outline">
               View All
             </Button>
