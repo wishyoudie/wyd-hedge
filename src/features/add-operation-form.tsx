@@ -38,6 +38,7 @@ export default async function AddOperationForm(props: { redirect: string }) {
             name: formData.get("name") as string,
             op_type: formData.get("op_type")! as "expense" | "income",
             value: +formData.get("value")!,
+            currency: formData.get("currency") as string,
           };
 
           await insertOperation(session.user.id, data);
@@ -68,6 +69,17 @@ export default async function AddOperationForm(props: { redirect: string }) {
               <SelectGroup>
                 <SelectItem value="expense">Expense</SelectItem>
                 <SelectItem value="income">Income</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select name="currency" required>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Currency" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="RUB">RUB</SelectItem>
+                <SelectItem value="USD">USD</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>

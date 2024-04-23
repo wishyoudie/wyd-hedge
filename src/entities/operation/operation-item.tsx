@@ -1,5 +1,5 @@
 import type { Operation } from "~/server/db/schema";
-import { cn, formatDate } from "~/shared/lib/utils";
+import { cn, formatDate, formatMoney } from "~/shared/lib/utils";
 import WalletIcon from "~/shared/ui/icons/wallet";
 
 type OperationItemProps = {
@@ -8,7 +8,7 @@ type OperationItemProps = {
 };
 
 export default function OperationItem(props: OperationItemProps) {
-  const { value, op_type: type, createdAt, name } = props.operation;
+  const { value, op_type: type, createdAt, name, currency } = props.operation;
 
   return (
     <div
@@ -29,13 +29,15 @@ export default function OperationItem(props: OperationItemProps) {
             )}
           </div>
         </div>
-        <div>
-          <span
-            className={`text-2xl font-semibold ${type === "income" ? "text-green-500" : "text-red-500"}`}
-          >
-            ${value}
-          </span>
-        </div>
+        {value && (
+          <div>
+            <span
+              className={`text-2xl font-semibold ${type === "income" ? "text-green-500" : "text-red-500"}`}
+            >
+              {formatMoney(value, currency)}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

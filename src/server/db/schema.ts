@@ -20,6 +20,7 @@ export const users = createTable("user", {
   last_name: varchar("last_name", { length: 256 }),
   username: varchar("username", { length: 256 }),
   photo_url: varchar("photo_url", { length: 256 }),
+  currency: varchar("currency", { length: 5 }).notNull().default("RUB"),
 });
 
 export const operations = createTable("operation", {
@@ -29,6 +30,7 @@ export const operations = createTable("operation", {
     .notNull(),
   op_type: operationEnum("op_type").notNull(),
   value: integer("value").notNull(),
+  currency: varchar("currency", { length: 5 }).notNull(),
   name: varchar("name", { length: 256 }).notNull().default("Operation"),
   createdAt: timestamp("createdAt").defaultNow(),
 });
@@ -42,6 +44,7 @@ export type Operation = {
   id: number;
   user_id: number;
   value: number;
+  currency: string;
   op_type: "expense" | "income";
   name: string;
   createdAt: Date | null;

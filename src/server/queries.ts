@@ -37,6 +37,7 @@ export async function getLastUserOperations(userId: SN, limit = 3) {
     .select({
       id: operations.id,
       value: operations.value,
+      currency: operations.currency,
       op_type: operations.op_type,
       name: operations.name,
     })
