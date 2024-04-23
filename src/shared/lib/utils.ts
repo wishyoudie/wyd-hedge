@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import Settings from "./settings";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -17,5 +18,6 @@ export function formatMoney(value: number, currency = "RUB") {
   return new Intl.NumberFormat("ru-RU", {
     style: "currency",
     currency: currency,
+    maximumFractionDigits: Settings.precision,
   }).format(value);
 }

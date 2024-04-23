@@ -4,6 +4,7 @@ import { db } from "./db";
 import type { TelegramUserData } from "@telegram-auth/server";
 import { type InsertOperation, operations, users } from "./db/schema";
 import { desc, eq } from "drizzle-orm";
+import { getSessionUser } from "~/shared/utils/getServerSession";
 
 type SN = string | number;
 const sntoint = (v: SN) => (typeof v === "string" ? +v : v);
@@ -30,6 +31,14 @@ export async function getUserById(id: string) {
   } else {
     return undefined;
   }
+}
+
+export async function getCurrentUser() {
+  const sessionUser = await getSessionUser();
+  if (!sessionUser) {
+    throw new Error("No session found when accessing current user");
+  }
+  return await getUserById(sessionUser.id);
 }
 
 export async function getLastUserOperations(userId: SN, limit = 3) {
