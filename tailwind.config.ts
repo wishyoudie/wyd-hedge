@@ -51,6 +51,29 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        telegram: {
+          background: {
+            DEFAULT: "var(--tg-theme-background-color)",
+            secondary: "var(--tg-theme-secondary-background-color)",
+          },
+          section: {
+            header: "var(--tg-theme-section-header-text-color)",
+            background: "var(--tg-theme-section-background-color)",
+          },
+          header: "var(--tg-header-color)",
+          subtitle: "var(--tg-theme-subtitle-text-color)",
+          link: "var(--tg-theme-link-color)",
+          button: {
+            text: "var(--tg-theme-button-text-color)",
+            background: "var(--tg-theme-button-color)",
+          },
+          text: {
+            DEFAULT: "var(--tg-theme-text-color)",
+            accent: "var(--tg-theme-accent-text-color)",
+            destructive: "var(--tg-theme-destructive-text-color)",
+            hint: "var(--tg-theme-hint-color)",
+          },
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
