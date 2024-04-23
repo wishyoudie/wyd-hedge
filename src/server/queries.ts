@@ -5,6 +5,7 @@ import type { TelegramUserData } from "@telegram-auth/server";
 import { type InsertOperation, operations, users } from "./db/schema";
 import { desc, eq } from "drizzle-orm";
 import { getSessionUser } from "~/shared/utils/getServerSession";
+import { getCurrencyRate } from "./currencies";
 
 type SN = string | number;
 const sntoint = (v: SN) => (typeof v === "string" ? +v : v);
@@ -64,10 +65,32 @@ export async function getAllUserOperations(userId: SN) {
 }
 
 export async function insertOperation(userId: SN, operation: InsertOperation) {
-  return await db.insert(operations).values({
+  const user = await getUserById(`${userId}`);
+  if (!user) throw new Error("No User with given id");
+
+  const baseCurrency = operation.currency.toLowerCase();
+  const targetCurrency = user.currency.toLowerCase();
+
+  let value = operation.value;
+
+  if (baseCurrency === targetCurrency) {
+  } else {
+    const rate = await getCurrencyRate(baseCurrency, targetCurrency);
+    value = value * rate;
+  }
+  if (operation.op_type === "expense") {
+    value = -value;
+  }
+
+  await db.insert(operations).values({
     user_id: sntoint(userId),
     ...operation,
   });
+
+  await db
+    .update(users)
+    .set({ networth: user.networth + value })
+    .where(eq(users.id, user.id));
 }
 
 export async function getDetailedOperation(operationId: number) {

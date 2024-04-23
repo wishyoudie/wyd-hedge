@@ -8,9 +8,8 @@ import {
   serial,
   pgEnum,
   timestamp,
-  numeric,
+  real,
 } from "drizzle-orm/pg-core";
-import Settings from "~/shared/lib/settings";
 
 export const operationEnum = pgEnum("op_type", ["expense", "income"]);
 
@@ -23,7 +22,7 @@ export const users = createTable("user", {
   username: varchar("username", { length: 256 }),
   photo_url: varchar("photo_url", { length: 256 }),
   currency: varchar("currency", { length: 5 }).notNull().default("RUB"),
-  networth: numeric("networth", { precision: Settings.precision }).default("0"),
+  networth: real("networth").default(0).notNull(),
 });
 
 export const operations = createTable("operation", {
