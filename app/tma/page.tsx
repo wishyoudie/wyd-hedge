@@ -2,6 +2,8 @@ import { getCurrentUser } from "~/server/queries";
 import BackButton from "~/shared/ui/back-button";
 import Balance from "~/shared/ui/tma/balance";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const user = await getCurrentUser();
   const balance = user?.networth ? +user.networth : 0;
@@ -9,7 +11,11 @@ export default async function HomePage() {
   return (
     <>
       <div className="min-h-screen px-4">
-        <Balance value={balance} currency={user?.currency} />
+        <Balance
+          value={balance}
+          currency={user?.currency}
+          locale={user?.locale}
+        />
       </div>
       <BackButton hide />
     </>

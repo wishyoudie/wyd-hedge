@@ -25,6 +25,13 @@ export async function createUserOrUpdate(user: TelegramUserData) {
     });
 }
 
+export async function updateUserSettings(
+  settings: Partial<{ locale: string; currency: string }>,
+) {
+  const user = await getCurrentUser();
+  await db.update(users).set(settings).where(eq(users.id, user!.id));
+}
+
 export async function getUserById(id: string) {
   const values = await db.select().from(users).where(eq(users.id, +id));
   if (values.length > 0) {

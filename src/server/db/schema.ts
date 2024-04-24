@@ -21,8 +21,9 @@ export const users = createTable("user", {
   last_name: varchar("last_name", { length: 256 }),
   username: varchar("username", { length: 256 }),
   photo_url: varchar("photo_url", { length: 256 }),
-  currency: varchar("currency", { length: 5 }).notNull().default("RUB"),
   networth: real("networth").default(0).notNull(),
+  currency: varchar("currency", { length: 5 }).notNull().default("RUB"),
+  locale: varchar("locale", { length: 5 }).notNull().default("ru-RU"),
 });
 
 export const operations = createTable("operation", {
