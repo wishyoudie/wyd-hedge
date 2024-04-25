@@ -1,16 +1,16 @@
-import { authOptions } from "app/api/auth/[...nextauth]/route";
+import { authOptions } from "~/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { insertOperation } from "~/server/queries";
-import { Button } from "~/shared/ui/button";
+import { Button } from "~/components/button/button";
 import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "~/shared/ui/dialog";
-import { Input } from "~/shared/ui/input";
-import { Label } from "~/shared/ui/label";
+} from "~/components/dialog/dialog";
+import { Input } from "~/components/input/input";
+import { Label } from "~/components/label/label";
 import {
   Select,
   SelectContent,
@@ -18,7 +18,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/shared/ui/select";
+} from "~/components/select/select";
 
 export default async function AddOperationForm(props: { redirect: string }) {
   const session = await getServerSession(authOptions);
