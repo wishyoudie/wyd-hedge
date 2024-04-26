@@ -1,22 +1,18 @@
-import { getCurrentUser } from "~/server/queries";
-import BackButton from "~/components/back-button/back-button";
-import Balance from "~/components/balance/balance";
-
-export const dynamic = "force-dynamic";
+import DuckWorkLottie from "~/components/lottie/duck-work";
+import BackButton from "./_components/back-button";
+import { Placeholder } from "@xelene/tgui";
 
 export default async function HomePage() {
-  const user = await getCurrentUser();
-  const balance = user?.networth ? +user.networth : 0;
-
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   return (
     <>
-      <div className="min-h-screen px-4">
-        <Balance
-          value={balance}
-          currency={user?.currency}
-          locale={user?.locale}
-        />
-      </div>
+      <Placeholder
+        // title="Work in Progress"
+        header="Work in Progress"
+        description="You came in too early, we are still working on our TMA."
+      >
+        <DuckWorkLottie />
+      </Placeholder>
       <BackButton hide />
     </>
   );

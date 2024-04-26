@@ -24,13 +24,13 @@ export const authOptions: NextAuthOptions = {
       name: "Telegram Login",
       credentials: {},
       async authorize(_, req) {
-        console.log(req.query);
+        // console.log(req.query);
         if (req.query) {
           const { is_tma, ...request } = req.query;
           const token = env.BOT_TOKEN;
 
           if (is_tma === "true") {
-            console.log("Authorizing from TMA");
+            // console.log("Authorizing from TMA");
 
             try {
               validate(request.initData, token);
@@ -64,7 +64,7 @@ export const authOptions: NextAuthOptions = {
               console.error(e);
             }
           } else if (is_tma === "false") {
-            console.log("Authorizing from LoginWidget");
+            // console.log("Authorizing from LoginWidget");
 
             const validator = new AuthDataValidator({
               botToken: token,

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Welcome from "~/app/tma/wel";
 
 export default function AuthSignIn() {
@@ -5,6 +6,7 @@ export default function AuthSignIn() {
     <div className="flex min-h-screen flex-col items-center justify-center">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
         <Welcome />
+        <Link href="/tma">HOME</Link>
       </div>
     </div>
   );

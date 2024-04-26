@@ -1,4 +1,4 @@
-import BackButton from "~/components/back-button/back-button";
+import BackButton from "~/app/tma/_components/back-button";
 
 export default function TMAOperationsPage() {
   return (
