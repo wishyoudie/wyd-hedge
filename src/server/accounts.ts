@@ -38,3 +38,7 @@ export async function increaseAccountValue(accountId: number, value: number) {
     .where(eq(accounts.id, accountId))
     .returning();
 }
+
+export async function getUserAccounts(userId: number) {
+  return await db.select().from(accounts).where(eq(accounts.userId, userId));
+}

@@ -26,7 +26,8 @@ export const users = createTable("user", {
 export const settings = createTable("settings", {
   userId: integer("userId")
     .references(() => users.id)
-    .notNull(),
+    .notNull()
+    .primaryKey(),
   currency: varchar("currency", { length: 5 }).notNull().default("rub"),
   locale: varchar("locale", { length: 5 }).notNull().default("ru"),
 });
@@ -42,7 +43,7 @@ export const accounts = createTable("accounts", {
   currency: varchar("currency", { length: 5 }),
   value: real("value").notNull().default(0),
   name: varchar("name"),
-  color: varchar("color", { length: 7 }),
+  color: varchar("color", { length: 9 }),
 });
 
 export type InsertAccount = typeof accounts.$inferInsert;

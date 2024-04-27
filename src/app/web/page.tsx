@@ -1,12 +1,11 @@
-import { authOptions } from "~/app/api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { getUserById } from "~/server/queries";
 import { BentoGrid, BentoGridItem } from "~/components/bento-grid/bento-grid";
 
 import OperationsCard from "~/components/operation/operations";
 import BalanceCard from "~/components/balance/balance";
 import { Card, CardContent, CardHeader } from "~/components/card/card";
+import AccountsCard from "~/components/accounts/accounts-card";
+import { getSessionUser } from "~/shared/utils/getServerSession";
 
 function DummyCard() {
   return (
@@ -18,16 +17,8 @@ function DummyCard() {
 }
 
 export default async function DashboardPage() {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    redirect("/");
-  }
-
-  const user = await getUserById(session.user.id);
-
-  if (!user) {
-    redirect("/");
-  }
+  const user = await getSessionUser();
+  if (!user) redirect("/");
 
   return (
     <BentoGrid>
@@ -35,16 +26,16 @@ export default async function DashboardPage() {
         <DummyCard />
       </BentoGridItem>
       <BentoGridItem colSpan={1}>
-        <BalanceCard userId={user.id} />
+        <BalanceCard userId={+user.id} />
       </BentoGridItem>
       <BentoGridItem>
-        <OperationsCard userId={user.id} />
+        <OperationsCard userId={+user.id} />
       </BentoGridItem>
       <BentoGridItem colSpan={1}>
         <DummyCard />
       </BentoGridItem>
       <BentoGridItem colSpan={1}>
-        <DummyCard />
+        <AccountsCard userId={+user.id} />
       </BentoGridItem>
       <BentoGridItem colSpan={1}>
         <DummyCard />

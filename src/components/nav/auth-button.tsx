@@ -50,12 +50,12 @@ export default function AuthButton({ botUsername }: { botUsername: string }) {
           <DropdownMenuLabel>{session.user?.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => router.push("/web/settings")}>
-            <GearIcon className="mr-2 h-4 w-4" />
+            <GearIcon className="mr-2 size-4" />
             Settings
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut()}>
-            <ExitIcon className="mr-2 h-4 w-4" />
+            <ExitIcon className="mr-2 size-4" />
             Sign out
           </DropdownMenuItem>
         </DropdownMenuContent>
