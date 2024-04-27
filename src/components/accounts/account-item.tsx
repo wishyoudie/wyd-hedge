@@ -1,9 +1,16 @@
+import { getRatedValue } from "~/server/currencies";
 import type { Account } from "~/server/db/schema";
 import { formatMoney } from "~/shared/lib/utils";
 
-export default function AccountItem(
+export default async function AccountItem(
   props: Account & { user: { locale: string; currency: string } },
 ) {
+  const ratedValue = await getRatedValue(
+    props.currency!,
+    props.user.currency,
+    props.value,
+  );
+
   return (
     <div
       className="flex items-center justify-between rounded-lg px-4 py-3"
@@ -15,12 +22,12 @@ export default function AccountItem(
         </h3>
         {props.currency !== props.user.currency && (
           <span className="text-sm font-medium leading-none">
-            {formatMoney(props.value, props.currency!)}
+            {formatMoney(props.value, props.currency!, props.user.locale)}
           </span>
         )}
       </div>
       <div className="leading-loose">
-        {formatMoney(props.value, props.user.currency)}
+        {formatMoney(ratedValue, props.user.currency, props.user.locale)}
       </div>
     </div>
   );

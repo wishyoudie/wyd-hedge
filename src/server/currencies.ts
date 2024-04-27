@@ -10,3 +10,12 @@ export async function getCurrencyRate(base: string, target: string) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return result[base][target];
 }
+
+export async function getRatedValue(
+  base: string,
+  target: string,
+  value: number,
+) {
+  const rate = await getCurrencyRate(base, target);
+  return value * rate;
+}
