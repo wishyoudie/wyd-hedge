@@ -12,7 +12,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "~/components/dialog/dialog";
-import AddOperationForm from "~/features/add-operation-form";
+import AddOperationForm from "~/widgets/add-operation-form";
 import OperationItem from "./operation-item";
 
 export default async function OperationsCard(props: { userId: number }) {

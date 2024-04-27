@@ -1,10 +1,12 @@
-import { getUserById } from "~/server/queries";
 import { getSessionUser } from "~/shared/utils/getServerSession";
 import SettingsModal from "~/components/settings-modal/settings-modal";
+import { getUserSettings } from "~/server/settings";
 
 export default async function SettingsModalPortal() {
   const sessionUser = await getSessionUser();
-  const user = await getUserById(sessionUser!.id);
+  const userSettings = await getUserSettings(+sessionUser!.id);
 
-  return <SettingsModal user={user} />;
+  return (
+    <SettingsModal defaultValues={userSettings} userId={+sessionUser!.id} />
+  );
 }

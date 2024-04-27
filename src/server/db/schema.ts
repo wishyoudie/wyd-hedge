@@ -29,7 +29,6 @@ export const settings = createTable("settings", {
     .notNull(),
   currency: varchar("currency", { length: 5 }).notNull().default("rub"),
   locale: varchar("locale", { length: 5 }).notNull().default("ru"),
-  theme: varchar("theme"),
 });
 
 export type InsertSettings = typeof settings.$inferInsert;

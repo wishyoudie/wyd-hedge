@@ -11,7 +11,7 @@ export async function getUserSettings(userId: number) {
   return result!;
 }
 
-export function getDefaultSettings(): Omit<Settings, "userId" | "theme"> {
+export function getDefaultSettings(): Omit<Settings, "userId"> {
   return {
     currency: "rub",
     locale: "ru",
