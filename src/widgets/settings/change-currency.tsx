@@ -9,7 +9,8 @@ import {
 import Settings from "~/shared/lib/settings";
 
 type Props = {
-  defaultValue: string;
+  defaultValue?: string;
+  placeholder?: string;
   name: string;
 };
 
@@ -17,7 +18,7 @@ export default function SelectCurrency(props: Props) {
   return (
     <Select name={props.name} defaultValue={props.defaultValue}>
       <SelectTrigger>
-        <SelectValue placeholder={props.defaultValue} />
+        <SelectValue placeholder={props.placeholder ?? props.defaultValue} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>

@@ -7,13 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/card/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "~/components/dialog/dialog";
-import AddOperationForm from "~/widgets/add-operation-form";
-import OperationItem from "./operation-item";
+import OperationItem from "../../components/operation/operation-item";
 
 export default async function OperationsCard(props: { userId: number }) {
   const operations = await getLastUserOperations(props.userId);
@@ -34,14 +28,9 @@ export default async function OperationsCard(props: { userId: number }) {
           ))}
         </ul>
         <div className="mt-4 flex flex-col gap-2">
-          <Dialog>
-            <DialogTrigger>
-              <Button className="w-full">New</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <AddOperationForm redirect="/web" />
-            </DialogContent>
-          </Dialog>
+          <Link href="/web/operation/new">
+            <Button className="w-fill">New</Button>
+          </Link>
           <Link href="/web/operations">
             <Button className="w-full" variant="outline">
               View All

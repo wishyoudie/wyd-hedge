@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { BentoGrid, BentoGridItem } from "~/components/bento-grid/bento-grid";
 
-import OperationsCard from "~/components/operation/operations";
+import OperationsCard from "~/widgets/operations/operations-card";
 import BalanceCard from "~/components/balance/balance";
 import { Card, CardContent, CardHeader } from "~/components/card/card";
 import AccountsCard from "~/components/accounts/accounts-card";

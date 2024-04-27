@@ -63,7 +63,6 @@ export async function getLastUserOperations(userId: SN, limit = 3) {
     .select({
       id: operations.id,
       value: operations.value,
-      currency: operations.currency,
       type: operations.type,
       name: operations.name,
     })
@@ -80,10 +79,7 @@ export async function getAllUserOperations(userId: SN) {
     .where(eq(operations.userId, sntoint(userId)));
 }
 
-export async function insertOperation(userId: SN, operation: InsertOperation) {
-  const user = await getUserById(`${userId}`);
-  if (!user) throw new Error("No User with given id");
-
+export async function insertOperation(operation: InsertOperation) {
   await db.insert(operations).values(operation).onConflictDoNothing();
   await increaseAccountValue(operation.accountId, operation.value);
 }

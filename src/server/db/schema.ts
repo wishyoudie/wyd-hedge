@@ -59,7 +59,6 @@ export const operations = createTable("operation", {
     .notNull(),
   type: operationEnum("type").notNull(),
   value: real("value").notNull(),
-  currency: varchar("currency", { length: 5 }).notNull(),
   name: varchar("name", { length: 256 }).notNull(),
   createdAt: timestamp("createdAt").defaultNow(),
 });

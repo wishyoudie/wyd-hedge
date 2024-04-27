@@ -12,6 +12,7 @@ import { Label } from "../label/label";
 import SelectLocale from "~/widgets/settings/change-locale";
 import SelectCurrency from "~/widgets/settings/change-currency";
 import { SubmitButton } from "../button/submit-button";
+import { toast } from "sonner";
 
 export default function SettingsModal(props: {
   defaultValues: { locale: string; currency: string };
@@ -26,12 +27,17 @@ export default function SettingsModal(props: {
     }
   };
 
+  const handleSubmit = () => {
+    handleOpenChange(false);
+    toast("Settings have been updated");
+  };
+
   return (
     <Dialog defaultOpen onOpenChange={handleOpenChange}>
-      <DialogHeader>
-        <DialogTitle>Preferences</DialogTitle>
-      </DialogHeader>
       <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Your Settings</DialogTitle>
+        </DialogHeader>
         <form className="grid gap-4 p-4" action={action}>
           <div className="grid grid-cols-2 items-center gap-4">
             <Label htmlFor="locale" className="text-right">
@@ -51,9 +57,7 @@ export default function SettingsModal(props: {
               defaultValue={props.defaultValues.currency}
             />
           </div>
-          <SubmitButton onClick={() => handleOpenChange(false)}>
-            Save Changes
-          </SubmitButton>
+          <SubmitButton onClick={handleSubmit}>Save Changes</SubmitButton>
         </form>
       </DialogContent>
     </Dialog>
