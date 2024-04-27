@@ -8,7 +8,7 @@ type OperationItemProps = {
 };
 
 export default function OperationItem(props: OperationItemProps) {
-  const { value, op_type: type, createdAt, name, currency } = props.operation;
+  const { value, type, createdAt, name, currency } = props.operation;
 
   return (
     <div

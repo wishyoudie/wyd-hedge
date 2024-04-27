@@ -2,34 +2,43 @@ import "server-only";
 
 import { db } from "./db";
 import type { TelegramUserData } from "@telegram-auth/server";
-import { type InsertOperation, operations, users } from "./db/schema";
+import { type InsertOperation, operations, users, settings } from "./db/schema";
 import { desc, eq } from "drizzle-orm";
 import { getSessionUser } from "~/shared/utils/getServerSession";
+import { increaseAccountValue } from "./accounts";
+import { getUserSettings } from "./settings";
 import { getCurrencyRate } from "./currencies";
 
 type SN = string | number;
 const sntoint = (v: SN) => (typeof v === "string" ? +v : v);
 
 export async function createUserOrUpdate(user: TelegramUserData) {
-  await db
-    .insert(users)
-    .values(user)
-    .onConflictDoUpdate({
-      target: users.id,
-      set: {
-        first_name: user.first_name,
-        last_name: user.last_name,
-        username: user.username,
-        photo_url: user.photo_url,
-      },
-    });
-}
+  const alreadyExists = await db.query.users.findFirst({
+    where: (model, { eq }) => eq(model.id, user.id),
+  });
 
-export async function updateUserSettings(
-  settings: Partial<{ locale: string; currency: string }>,
-) {
-  const user = await getCurrentUser();
-  await db.update(users).set(settings).where(eq(users.id, user!.id));
+  if (alreadyExists) {
+    return;
+  }
+
+  const locale = user.language_code ?? "ru";
+
+  await db.insert(users).values(user);
+  // .onConflictDoUpdate({
+  //   target: users.id,
+  //   set: {
+  //     first_name: user.first_name,
+  //     last_name: user.last_name,
+  //     username: user.username,
+  //     photo_url: user.photo_url,
+  //   },
+  // });
+
+  await db.insert(settings).values({
+    userId: user.id,
+    locale: locale,
+    currency: locale === "ru" ? "rub" : "usd",
+  });
 }
 
 export async function getUserById(id: string) {
@@ -55,11 +64,11 @@ export async function getLastUserOperations(userId: SN, limit = 3) {
       id: operations.id,
       value: operations.value,
       currency: operations.currency,
-      op_type: operations.op_type,
+      type: operations.type,
       name: operations.name,
     })
     .from(operations)
-    .where(eq(operations.user_id, sntoint(userId)))
+    .where(eq(operations.userId, sntoint(userId)))
     .orderBy(desc(operations.id))
     .limit(limit);
 }
@@ -68,36 +77,15 @@ export async function getAllUserOperations(userId: SN) {
   return await db
     .select()
     .from(operations)
-    .where(eq(operations.user_id, sntoint(userId)));
+    .where(eq(operations.userId, sntoint(userId)));
 }
 
 export async function insertOperation(userId: SN, operation: InsertOperation) {
   const user = await getUserById(`${userId}`);
   if (!user) throw new Error("No User with given id");
 
-  const baseCurrency = operation.currency.toLowerCase();
-  const targetCurrency = user.currency.toLowerCase();
-
-  let value = operation.value;
-
-  if (baseCurrency === targetCurrency) {
-  } else {
-    const rate = await getCurrencyRate(baseCurrency, targetCurrency);
-    value = value * rate;
-  }
-  if (operation.op_type === "expense") {
-    value = -value;
-  }
-
-  await db.insert(operations).values({
-    user_id: sntoint(userId),
-    ...operation,
-  });
-
-  await db
-    .update(users)
-    .set({ networth: user.networth + value })
-    .where(eq(users.id, user.id));
+  await db.insert(operations).values(operation).onConflictDoNothing();
+  await increaseAccountValue(operation.accountId, operation.value);
 }
 
 export async function getDetailedOperation(operationId: number) {
@@ -106,4 +94,32 @@ export async function getDetailedOperation(operationId: number) {
     .from(operations)
     .where(eq(operations.id, operationId));
   return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getUserTotalSavings(userId: SN) {
+  const id = sntoint(userId);
+  const userSettings = await getUserSettings(id);
+
+  if (!userSettings) {
+    throw new Error("No User with given id");
+  }
+
+  const userAccounts = await db.query.accounts.findMany({
+    where: (i, { eq }) => eq(i.userId, id),
+  });
+  let result = 0;
+
+  for (const account of userAccounts) {
+    if (account.currency === userSettings.currency) {
+      result += account.value;
+    } else {
+      const rate = await getCurrencyRate(
+        account.currency!,
+        userSettings.currency,
+      );
+      result += account.value * rate;
+    }
+  }
+
+  return result;
 }

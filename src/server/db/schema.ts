@@ -21,20 +21,46 @@ export const users = createTable("user", {
   last_name: varchar("last_name", { length: 256 }),
   username: varchar("username", { length: 256 }),
   photo_url: varchar("photo_url", { length: 256 }),
-  networth: real("networth").default(0).notNull(),
-  currency: varchar("currency", { length: 5 }).notNull().default("RUB"),
-  locale: varchar("locale", { length: 5 }).notNull().default("ru-RU"),
 });
+
+export const settings = createTable("settings", {
+  userId: integer("userId")
+    .references(() => users.id)
+    .notNull(),
+  currency: varchar("currency", { length: 5 }).notNull().default("rub"),
+  locale: varchar("locale", { length: 5 }).notNull().default("ru"),
+  theme: varchar("theme"),
+});
+
+export type InsertSettings = typeof settings.$inferInsert;
+export type Settings = typeof settings.$inferSelect;
+
+export const accounts = createTable("accounts", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId")
+    .references(() => users.id)
+    .notNull(),
+  currency: varchar("currency", { length: 5 }),
+  value: real("value").notNull().default(0),
+  name: varchar("name"),
+  color: varchar("color", { length: 7 }),
+});
+
+export type InsertAccount = typeof accounts.$inferInsert;
+export type Account = typeof accounts.$inferSelect;
 
 export const operations = createTable("operation", {
   id: serial("id").primaryKey(),
-  user_id: integer("user_id")
+  userId: integer("userId")
     .references(() => users.id)
     .notNull(),
-  op_type: operationEnum("op_type").notNull(),
-  value: integer("value").notNull(),
+  accountId: integer("accountId")
+    .references(() => accounts.id)
+    .notNull(),
+  type: operationEnum("type").notNull(),
+  value: real("value").notNull(),
   currency: varchar("currency", { length: 5 }).notNull(),
-  name: varchar("name", { length: 256 }).notNull().default("Operation"),
+  name: varchar("name", { length: 256 }).notNull(),
   createdAt: timestamp("createdAt").defaultNow(),
 });
 
@@ -42,13 +68,4 @@ export type InsertOperation = Omit<
   typeof operations.$inferInsert,
   "user_id" | "id"
 >;
-
-export type Operation = {
-  id: number;
-  user_id: number;
-  value: number;
-  currency: string;
-  op_type: "expense" | "income";
-  name: string;
-  createdAt: Date | null;
-};
+export type Operation = typeof operations.$inferSelect;

@@ -36,7 +36,7 @@ export default async function AddOperationForm(props: { redirect: string }) {
         } else {
           const data = {
             name: formData.get("name") as string,
-            op_type: formData.get("op_type")! as "expense" | "income",
+            type: formData.get("type")! as "expense" | "income",
             value: +formData.get("value")!,
             currency: formData.get("currency") as string,
           };
@@ -61,7 +61,7 @@ export default async function AddOperationForm(props: { redirect: string }) {
           <Input name="name" className="col-span-3" />
         </div>
         <div className="">
-          <Select name="op_type" required>
+          <Select name="type" required>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Type" />
             </SelectTrigger>
