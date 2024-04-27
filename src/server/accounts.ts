@@ -9,7 +9,7 @@ function getDefaultAccountName(locale: string) {
 }
 
 export async function createAccount(account: InsertAccount) {
-  const settings = (await getUserSettings(account.userId))!;
+  const settings = await getUserSettings(account.userId);
 
   const currency = account.currency ?? settings.currency;
 

@@ -1,18 +1,20 @@
+import { getUserTotalSavings } from "~/server/queries";
+import { getUserSettings } from "~/server/settings";
+import { Card, CardContent, CardHeader, CardTitle } from "../card/card";
 import { formatMoney } from "~/shared/lib/utils";
 
-type BalanceProps = {
-  value: number;
-  currency?: string;
-  locale?: string;
-};
+export default async function BalanceCard(props: { userId: number }) {
+  const settings = await getUserSettings(props.userId);
+  const total = await getUserTotalSavings(props.userId);
 
-export default function Balance(props: BalanceProps) {
   return (
-    <div className="flex flex-col items-center py-2">
-      <span className="text-base">Баланс</span>
-      <span className="whitespace-nowrap text-5xl font-bold">
-        {formatMoney(props.value, props.currency, props.locale)}
-      </span>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Balance</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {formatMoney(total, settings.currency, settings.locale)}
+      </CardContent>
+    </Card>
   );
 }

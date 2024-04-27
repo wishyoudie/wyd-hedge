@@ -19,7 +19,7 @@ export default async function OperationsCard(props: { userId: number }) {
   const operations = await getLastUserOperations(props.userId);
 
   return (
-    <Card className="w-full md:w-96">
+    <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           Recent Operations

@@ -8,9 +8,7 @@ export default function WebLayout(props: {
   return (
     <>
       <Nav />
-      <main className="flex-1">
-        <div className="border-b">{props.children}</div>
-      </main>
+      <main className="flex-1 border-b">{props.children}</main>
       {props.modal}
       <div id="modal-root" />
       <Footer />

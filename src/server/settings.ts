@@ -4,9 +4,11 @@ import { settings, type Settings } from "./db/schema";
 import { eq } from "drizzle-orm";
 
 export async function getUserSettings(userId: number) {
-  return await db.query.settings.findFirst({
+  const result = await db.query.settings.findFirst({
     where: (model, { eq }) => eq(model.userId, userId),
   });
+
+  return result!;
 }
 
 export function getDefaultSettings(): Omit<Settings, "userId" | "theme"> {
