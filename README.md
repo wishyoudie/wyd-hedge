@@ -16,15 +16,16 @@ Feature-wise:
 - [ ] Add integration with QR codes (for TMA). Scan invoices to automatically update your operations.
 - [ ] Add stock and other investments tracking. Possibly, add option to view your total balance with or without investments included.
 - [ ] Add loans support. Share same loan via 'invitation' link. Generate different link for TMA users.
+- [ ] Add hotkeys and command menu to web version.
 
 Codebase-wise:
 
-- [ ] Move from FSD to Next-specific file structure.
+- [x] Move from FSD to Next-specific file structure.
 - [ ] Add i18n (possibly `next-intl`).
-- [ ] Rename all internal backend to camelCase.
+- [x] Rename all internal backend to camelCase.
 - [ ] Add loading states to improve UX.
 - [ ] Add low-res favicon.
-- [ ] Add better components for TMA, decide the code structure to separate those from shadcn.
+- [x] Add better components for TMA, decide the code structure to separate those from shadcn.
 
 Global:
 
