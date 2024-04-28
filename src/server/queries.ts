@@ -36,7 +36,6 @@ export async function createUserOrUpdate(user: TelegramUserData) {
 
   await db.insert(settings).values({
     userId: user.id,
-    locale: locale,
     currency: locale === "ru" ? "rub" : "usd",
   });
 }

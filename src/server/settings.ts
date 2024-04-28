@@ -16,21 +16,17 @@ export async function getUserSettings(userId?: number) {
 export function getDefaultSettings(): Omit<Settings, "userId"> {
   return {
     currency: "rub",
-    locale: "ru",
   };
 }
 
 type SettingsKey = keyof Omit<Settings, "userId">;
 
-export async function updateUserSetting(
-  key: SettingsKey,
-  value: string | number,
-  userId: number,
-) {
+export async function updateUserSetting(key: SettingsKey, value: string) {
+  const user = await getCurrentUser();
   return await db
     .update(settings)
     .set({ [key]: value })
-    .where(eq(settings.userId, userId))
+    .where(eq(settings.userId, user!.id))
     .returning();
 }
 

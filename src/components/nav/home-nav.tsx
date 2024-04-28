@@ -3,6 +3,7 @@ import ThemeToggle from "~/components/theme-select/theme-select";
 import { Link } from "~/navigation";
 import Logo from "~/components/logo/logo";
 import { useTranslations } from "next-intl";
+import LocaleToggle from "../locale-select/locale-select";
 
 export default function HomeNav() {
   const t = useTranslations("web.navbar");
@@ -16,13 +17,12 @@ export default function HomeNav() {
         </Link>
 
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div>
-            <ThemeToggle
-              light={t("light")}
-              dark={t("dark")}
-              system={t("system")}
-            />
-          </div>
+          <ThemeToggle
+            light={t("light")}
+            dark={t("dark")}
+            system={t("system")}
+          />
+          <LocaleToggle />
         </div>
       </div>
     </header>
