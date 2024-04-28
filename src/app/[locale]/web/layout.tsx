@@ -10,7 +10,6 @@ export default function WebLayout(props: {
       <Nav />
       <main className="flex-1 border-b">{props.children}</main>
       {props.modal}
-      <div id="modal-root" />
       <Footer />
     </>
   );

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import {
   Select,
   SelectContent,
@@ -8,6 +9,8 @@ import {
 } from "~/components/select/select";
 
 export default function SelectType() {
+  const t = useTranslations("global");
+
   return (
     <Select name="type" required>
       <SelectTrigger>
@@ -15,8 +18,8 @@ export default function SelectType() {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectItem value="income">Income</SelectItem>
-          <SelectItem value="expense">Expense</SelectItem>
+          <SelectItem value="income">{t("income")}</SelectItem>
+          <SelectItem value="expense">{t("expense")}</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

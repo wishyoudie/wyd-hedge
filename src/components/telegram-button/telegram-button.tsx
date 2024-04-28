@@ -1,6 +1,7 @@
 "use client";
 
 import { LoginButton } from "@telegram-auth/react";
+import { useLocale } from "next-intl";
 import { useTheme } from "next-themes";
 import { signInAs } from "~/shared/utils";
 
@@ -12,6 +13,8 @@ export default function TelegramButton({
   botUsername: string;
 }) {
   const { resolvedTheme } = useTheme();
+  const locale = useLocale();
+
   return (
     <div
       style={{
@@ -26,6 +29,7 @@ export default function TelegramButton({
         onAuthCallback={(data) => signInAs({ is_tma: false, ...data }, "/web")}
         showAvatar={false}
         cornerRadius={12}
+        lang={locale}
       />
     </div>
   );

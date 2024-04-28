@@ -21,10 +21,12 @@ import TelegramButton from "../telegram-button/telegram-button";
 import Spinner from "~/components/spinner/spinner";
 import { useRouter } from "~/navigation";
 import { Skeleton } from "~/components/skeleton/skeleton";
+import { useTranslations } from "next-intl";
 
 export default function AuthButton({ botUsername }: { botUsername: string }) {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const t = useTranslations("web");
 
   if (status === "loading") {
     return <Spinner />;
@@ -51,12 +53,12 @@ export default function AuthButton({ botUsername }: { botUsername: string }) {
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => router.push("/web/settings")}>
             <GearIcon className="mr-2 size-4" />
-            Settings
+            {t("settings.short")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut()}>
             <ExitIcon className="mr-2 size-4" />
-            Sign out
+            {t("signOut")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

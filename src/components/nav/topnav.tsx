@@ -5,22 +5,7 @@ import { Link } from "~/navigation";
 import { env } from "~/env";
 import Logo from "~/components/logo/logo";
 import { isAdmin } from "~/shared/utils/isAdmin";
-
-const regularItems = [
-  {
-    href: "/web",
-    label: "Dashboard",
-    hidden: true,
-  },
-  {
-    href: "/web/operations",
-    label: "Operations",
-  },
-  {
-    href: "/web/loans",
-    label: "Loans",
-  },
-];
+import { useTranslations } from "next-intl";
 
 const adminItems = [
   {
@@ -31,6 +16,22 @@ const adminItems = [
 
 export default async function Nav() {
   const isUserAdmin = await isAdmin();
+  const t = useTranslations("web.navbar");
+  const regularItems = [
+    {
+      href: "/web",
+      label: t("dashboard"),
+      hidden: true,
+    },
+    {
+      href: "/web/operations",
+      label: t("operations"),
+    },
+    {
+      href: "/web/loans",
+      label: t("loans"),
+    },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

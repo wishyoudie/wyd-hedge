@@ -2,10 +2,12 @@ import "server-only";
 import { db } from "./db";
 import { settings, type Settings } from "./db/schema";
 import { eq } from "drizzle-orm";
+import { getCurrentUser } from "./queries";
 
-export async function getUserSettings(userId: number) {
+export async function getUserSettings(userId?: number) {
+  const id = userId ?? (await getCurrentUser())!.id;
   const result = await db.query.settings.findFirst({
-    where: (model, { eq }) => eq(model.userId, userId),
+    where: (model, { eq }) => eq(model.userId, id),
   });
 
   return result!;

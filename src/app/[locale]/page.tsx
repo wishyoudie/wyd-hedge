@@ -1,13 +1,12 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import HomeNav from "../../components/nav/home-nav";
-import LoggedOffWidget from "~/components/logged-off/logged-off";
+import LoggedOffWidget from "~/widgets/logged-off/logged-off";
+import { getSessionUser } from "~/shared/utils/getServerSession";
 
 export default async function HomePage() {
-  const session = await getServerSession(authOptions);
+  const user = await getSessionUser();
 
-  if (!session) {
+  if (!user) {
     return (
       <>
         <HomeNav />

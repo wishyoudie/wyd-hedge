@@ -1,5 +1,59 @@
 {
     "web": {
-        "dummy": "Dummy"
+        "dummy": "Dummy",
+        "navbar": {
+            "dashboard": "Dashboard",
+            "operations": "Operations",
+            "loans": "Loans"
+        },
+        "dashboard": {
+            "recentOperations": "Recent Operations"
+        },
+        "balance": "Balance",
+        "loggedoff": {
+            "slogan": "Manage your finances",
+            "description": "Accountant offers a fast, efficient and beautifully-designed solution to keep track of your savings. Integrated with Telegram.",
+            "open": "Open Mini App"
+        },
+        "settings": {
+            "short": "Settings",
+            "long": "User Preferences",
+            "toastText": "Updated Preferences",
+            "language": "Language",
+            "currency": "Default Currency",
+            "buttonText": "Save changes"
+        },
+        "signOut": "Sign out",
+        "operations": {
+            "modalTitle": "New Operation",
+            "toastText": "Created new operation",
+            "expense": "Expense",
+            "income": "Income",
+            "name": "Name",
+            "value": "Value",
+            "account": "Account",
+            "buttonText": "Create",
+            "type": "Type"
+        },
+        "notfound": {
+            "title": "Not Found",
+            "description": "The page you are trying to visit does not exist.",
+            "home": "Home"
+        },
+        "footerText": "Made by "
+    },
+    "tma": {
+        "navbar": {
+            "home": "Home",
+            "operations": "Operations",
+            "profile": "Profile"
+        }
+    },
+    "global": {
+        "expense": "Expense",
+        "income": "Income",
+        "add": "Add",
+        "viewAll": "View All",
+        "noresults": "No Results."
     }
 }

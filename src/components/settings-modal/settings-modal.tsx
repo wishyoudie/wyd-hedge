@@ -13,6 +13,7 @@ import SelectLocale from "~/widgets/settings/change-locale";
 import SelectCurrency from "~/widgets/settings/change-currency";
 import { SubmitButton } from "../button/submit-button";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function SettingsModal(props: {
   defaultValues: { locale: string; currency: string };
@@ -20,6 +21,7 @@ export default function SettingsModal(props: {
 }) {
   const router = useRouter();
   const action = changeSettings.bind(null, props.userId);
+  const t = useTranslations("web.settings");
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
@@ -29,19 +31,19 @@ export default function SettingsModal(props: {
 
   const handleSubmit = () => {
     handleOpenChange(false);
-    toast("Settings have been updated");
+    toast(t("toastText"));
   };
 
   return (
     <Dialog defaultOpen onOpenChange={handleOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Your Settings</DialogTitle>
+          <DialogTitle>{t("long")}</DialogTitle>
         </DialogHeader>
         <form className="grid gap-4 p-4" action={action}>
           <div className="grid grid-cols-2 items-center gap-4">
             <Label htmlFor="locale" className="text-right">
-              Language
+              {t("language")}
             </Label>
             <SelectLocale
               name="locale"
@@ -50,14 +52,14 @@ export default function SettingsModal(props: {
           </div>
           <div className="grid grid-cols-2 items-center gap-4">
             <Label htmlFor="currency" className="text-right">
-              Default Currency
+              {t("currency")}
             </Label>
             <SelectCurrency
               name="currency"
               defaultValue={props.defaultValues.currency}
             />
           </div>
-          <SubmitButton onClick={handleSubmit}>Save Changes</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>{t("buttonText")}</SubmitButton>
         </form>
       </DialogContent>
     </Dialog>

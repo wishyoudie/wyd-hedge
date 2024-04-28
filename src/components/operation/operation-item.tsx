@@ -1,14 +1,16 @@
 import type { Operation } from "~/server/db/schema";
 import { cn, formatDate, formatMoney } from "~/shared/lib/utils";
 import WalletIcon from "~/components/icons/wallet";
+import { getUserSettings } from "~/server/settings";
 
 type OperationItemProps = {
   operation: Partial<Operation>;
   className?: string;
 };
 
-export default function OperationItem(props: OperationItemProps) {
-  const { value, type, createdAt, name, currency } = props.operation;
+export default async function OperationItem(props: OperationItemProps) {
+  const { value, type, createdAt, name } = props.operation;
+  const userSettings = await getUserSettings();
 
   return (
     <div
@@ -34,7 +36,7 @@ export default function OperationItem(props: OperationItemProps) {
             <span
               className={`text-2xl font-semibold ${type === "income" ? "text-green-500" : "text-red-500"}`}
             >
-              {formatMoney(value, currency)}
+              {formatMoney(value, userSettings.currency)}
             </span>
           </div>
         )}
