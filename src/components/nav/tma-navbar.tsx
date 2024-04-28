@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "~/navigation";
 import { Tabbar } from "@xelene/tgui";
 import { Icon24Person } from "~/components/icons/person";
 import { Icon24Archive } from "~/components/icons/archive";

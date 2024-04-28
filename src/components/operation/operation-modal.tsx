@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "~/navigation";
 import type { Operation } from "~/server/db/schema";
 import { Dialog, DialogContent } from "~/components/dialog/dialog";
 

@@ -1,4 +1,4 @@
-import ThemeProvider from "~/app/_providers/theme-provider";
+import ThemeProvider from "~/app/[locale]/_providers/theme-provider";
 
 import "~/styles/globals.css";
 
@@ -20,12 +20,14 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  params: { locale },
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
   return (
     <AuthProvider>
-      <html lang="en" suppressHydrationWarning>
+      <html lang={locale} suppressHydrationWarning>
         <body
           className={`font-sans antialiased ${inter.variable} flex h-screen flex-col overflow-hidden bg-background`}
         >

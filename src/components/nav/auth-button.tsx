@@ -19,7 +19,7 @@ import { ExitIcon, GearIcon } from "@radix-ui/react-icons";
 import { useSession, signOut } from "next-auth/react";
 import TelegramButton from "../telegram-button/telegram-button";
 import Spinner from "~/components/spinner/spinner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "~/navigation";
 import { Skeleton } from "~/components/skeleton/skeleton";
 
 export default function AuthButton({ botUsername }: { botUsername: string }) {

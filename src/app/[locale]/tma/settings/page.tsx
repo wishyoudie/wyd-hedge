@@ -1,6 +1,6 @@
 import ThemeToggle from "~/components/theme-select/theme-select";
 import { updateUserSettings } from "~/server/queries";
-import BackButton from "~/app/tma/_components/back-button";
+import BackButton from "~/app/[locale]/tma/_components/back-button";
 import { Button } from "~/components/button/button";
 import {
   Select,

@@ -6,11 +6,13 @@ import BalanceCard from "~/components/balance/balance";
 import { Card, CardContent, CardHeader } from "~/components/card/card";
 import AccountsCard from "~/components/accounts/accounts-card";
 import { getSessionUser } from "~/shared/utils/getServerSession";
+import { useTranslations } from "next-intl";
 
 function DummyCard() {
+  const t = useTranslations("web");
   return (
     <Card>
-      <CardHeader>Dummy</CardHeader>
+      <CardHeader>{t("dummy")}</CardHeader>
       <CardContent></CardContent>
     </Card>
   );

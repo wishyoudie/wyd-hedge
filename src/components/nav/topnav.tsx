@@ -1,7 +1,7 @@
 import ThemeToggle from "~/components/theme-select/theme-select";
 import AuthButton from "./auth-button";
 
-import Link from "next/link";
+import { Link } from "~/navigation";
 import { env } from "~/env";
 import Logo from "~/components/logo/logo";
 import { isAdmin } from "~/shared/utils/isAdmin";
