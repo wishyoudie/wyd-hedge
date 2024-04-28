@@ -23,21 +23,24 @@ export async function createUserOrUpdate(user: TelegramUserData) {
 
   const locale = user.language_code ?? "ru";
 
-  await db.insert(users).values(user);
-  // .onConflictDoUpdate({
-  //   target: users.id,
-  //   set: {
-  //     first_name: user.first_name,
-  //     last_name: user.last_name,
-  //     username: user.username,
-  //     photo_url: user.photo_url,
-  //   },
-  // });
-
-  await db.insert(settings).values({
-    userId: user.id,
-    currency: locale === "ru" ? "rub" : "usd",
-  });
+  await db
+    .insert(users)
+    .values(user)
+    .onConflictDoUpdate({
+      target: users.id,
+      set: {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        username: user.username,
+        photo_url: user.photo_url,
+      },
+    })
+    .then(async () => {
+      await db.insert(settings).values({
+        userId: user.id,
+        currency: locale === "ru" ? "rub" : "usd",
+      });
+    });
 }
 
 export async function getUserById(id: string) {
