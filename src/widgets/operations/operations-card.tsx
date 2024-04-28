@@ -8,11 +8,11 @@ import {
   CardTitle,
 } from "~/components/card/card";
 import OperationItem from "../../components/operation/operation-item";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export default async function OperationsCard(props: { userId: number }) {
   const operations = await getLastUserOperations(props.userId);
-  const t = useTranslations();
+  const t = await getTranslations();
 
   return (
     <Card>

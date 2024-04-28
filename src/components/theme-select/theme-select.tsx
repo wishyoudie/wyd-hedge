@@ -11,7 +11,13 @@ import {
   DropdownMenuTrigger,
 } from "~/components/dropdown-menu/dropdown-menu";
 
-export default function ThemeToggle() {
+type Props = {
+  light: string;
+  dark: string;
+  system: string;
+};
+
+export default function ThemeToggle(props: Props) {
   const { setTheme } = useTheme();
 
   return (
@@ -25,13 +31,13 @@ export default function ThemeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
+          {props.light}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
+          {props.dark}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
+          {props.system}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -4,7 +4,12 @@
         "navbar": {
             "dashboard": "Dashboard",
             "operations": "Operations",
-            "loans": "Loans"
+            "loans": "Loans",
+            "settings": "Settings",
+            "signOut": "Sign out",
+            "light": "Light",
+            "dark": "Dark",
+            "system": "System"
         },
         "dashboard": {
             "recentOperations": "Recent Operations"
@@ -23,7 +28,6 @@
             "currency": "Default Currency",
             "buttonText": "Save changes"
         },
-        "signOut": "Sign out",
         "operations": {
             "modalTitle": "New Operation",
             "toastText": "Created new operation",
@@ -33,7 +37,8 @@
             "value": "Value",
             "account": "Account",
             "buttonText": "Create",
-            "type": "Type"
+            "type": "Type",
+            "noResults": "No Results."
         },
         "notfound": {
             "title": "Not Found",
@@ -53,7 +58,6 @@
         "expense": "Expense",
         "income": "Income",
         "add": "Add",
-        "viewAll": "View All",
-        "noresults": "No Results."
+        "viewAll": "View All"
     }
 }

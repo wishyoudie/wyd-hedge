@@ -13,15 +13,20 @@ import SelectLocale from "~/widgets/settings/change-locale";
 import SelectCurrency from "~/widgets/settings/change-currency";
 import { SubmitButton } from "../button/submit-button";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
 
-export default function SettingsModal(props: {
+type Props = {
   defaultValues: { locale: string; currency: string };
   userId: number;
-}) {
+  toastText: string;
+  title: string;
+  language: string;
+  currency: string;
+  buttonText: string;
+};
+
+export default function SettingsModal(props: Props) {
   const router = useRouter();
   const action = changeSettings.bind(null, props.userId);
-  const t = useTranslations("web.settings");
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
@@ -31,19 +36,19 @@ export default function SettingsModal(props: {
 
   const handleSubmit = () => {
     handleOpenChange(false);
-    toast(t("toastText"));
+    toast(props.toastText);
   };
 
   return (
     <Dialog defaultOpen onOpenChange={handleOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("long")}</DialogTitle>
+          <DialogTitle>{props.title}</DialogTitle>
         </DialogHeader>
         <form className="grid gap-4 p-4" action={action}>
           <div className="grid grid-cols-2 items-center gap-4">
             <Label htmlFor="locale" className="text-right">
-              {t("language")}
+              {props.language}
             </Label>
             <SelectLocale
               name="locale"
@@ -52,14 +57,14 @@ export default function SettingsModal(props: {
           </div>
           <div className="grid grid-cols-2 items-center gap-4">
             <Label htmlFor="currency" className="text-right">
-              {t("currency")}
+              {props.currency}
             </Label>
             <SelectCurrency
               name="currency"
               defaultValue={props.defaultValues.currency}
             />
           </div>
-          <SubmitButton onClick={handleSubmit}>{t("buttonText")}</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>{props.buttonText}</SubmitButton>
         </form>
       </DialogContent>
     </Dialog>

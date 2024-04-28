@@ -3,12 +3,12 @@ import { getSessionUser } from "~/shared/utils/getServerSession";
 import { DataTable } from "./data-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Operation } from "~/server/db/schema";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export default async function OperationsPage() {
   const user = await getSessionUser();
   const operations = await getAllUserOperations(user!.id);
-  const t = useTranslations("web.operations");
+  const t = await getTranslations("web.operations");
 
   const columns: ColumnDef<Operation>[] = [
     {
@@ -27,7 +27,11 @@ export default async function OperationsPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={operations} />
+      <DataTable
+        columns={columns}
+        data={operations}
+        noResults={t("noResults")}
+      />
     </div>
   );
 }

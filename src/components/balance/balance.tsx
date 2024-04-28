@@ -2,12 +2,12 @@ import { getUserTotalSavings } from "~/server/queries";
 import { getUserSettings } from "~/server/settings";
 import { Card, CardContent, CardHeader, CardTitle } from "../card/card";
 import { formatMoney } from "~/shared/lib/utils";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export default async function BalanceCard(props: { userId: number }) {
   const settings = await getUserSettings(props.userId);
   const total = await getUserTotalSavings(props.userId);
-  const t = useTranslations("web");
+  const t = await getTranslations("web");
 
   return (
     <Card>

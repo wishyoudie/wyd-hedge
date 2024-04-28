@@ -1,5 +1,63 @@
 {
     "web": {
-        "dummy": "Пустышка"
+        "dummy": "Пустышка",
+        "navbar": {
+            "dashboard": "Главная",
+            "operations": "Операции",
+            "loans": "Долги",
+            "settings": "Настройки",
+            "signOut": "Выйти",
+            "light": "Светлая",
+            "dark": "Темная",
+            "system": "Системная"
+        },
+        "dashboard": {
+            "recentOperations": "Последние операции"
+        },
+        "balance": "Баланс",
+        "loggedoff": {
+            "slogan": "Планируйте свои расходы",
+            "description": "Accountant предлагает быстрое и удобное решение для учета ваших финансов. Интегрирован с Telegram.",
+            "open": "Открыть Mini App"
+        },
+        "settings": {
+            "short": "Настройки",
+            "long": "Настройки",
+            "toastText": "Настройки обновлены",
+            "language": "Язык",
+            "currency": "Валюта по умолчанию",
+            "buttonText": "Сохранить"
+        },
+        "operations": {
+            "modalTitle": "Новая операция",
+            "toastText": "Операция добавлена",
+            "expense": "Трата",
+            "income": "Доход",
+            "name": "Название",
+            "value": "Величина",
+            "account": "Счет",
+            "buttonText": "Создать",
+            "type": "Тип",
+            "noResults": "Нет результатов."
+        },
+        "notfound": {
+            "title": "Не найдена",
+            "description": "Страницы, которой вы искали, не существует.",
+            "home": "Домой"
+        },
+        "footerText": "Made by "
+    },
+    "tma": {
+        "navbar": {
+            "home": "Главная",
+            "operations": "Операции",
+            "profile": "Профиль"
+        }
+    },
+    "global": {
+        "expense": "Трата",
+        "income": "Доход",
+        "add": "Добавить",
+        "viewAll": "Посмотреть все"
     }
 }

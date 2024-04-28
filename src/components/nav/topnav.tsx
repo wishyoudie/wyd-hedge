@@ -5,7 +5,7 @@ import { Link } from "~/navigation";
 import { env } from "~/env";
 import Logo from "~/components/logo/logo";
 import { isAdmin } from "~/shared/utils/isAdmin";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 const adminItems = [
   {
@@ -16,7 +16,7 @@ const adminItems = [
 
 export default async function Nav() {
   const isUserAdmin = await isAdmin();
-  const t = useTranslations("web.navbar");
+  const t = await getTranslations("web.navbar");
   const regularItems = [
     {
       href: "/web",
@@ -70,9 +70,17 @@ export default async function Nav() {
         </nav>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div>
-            <ThemeToggle />
+            <ThemeToggle
+              light={t("light")}
+              dark={t("dark")}
+              system={t("system")}
+            />
           </div>
-          <AuthButton botUsername={env.BOT_USERNAME} />
+          <AuthButton
+            botUsername={env.BOT_USERNAME}
+            settings={t("settings")}
+            signOut={t("signOut")}
+          />
         </div>
       </div>
     </header>

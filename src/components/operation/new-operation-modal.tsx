@@ -15,15 +15,23 @@ import { toast } from "sonner";
 import { Input } from "../input/input";
 import type { Account } from "~/server/db/schema";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../tabs/tabs";
-import { useTranslations } from "next-intl";
 
-export default function NewOperationModal(props: {
+type Props = {
   userId: number;
   accounts: Account[];
-}) {
+  toastText: string;
+  expense: string;
+  income: string;
+  title: string;
+  name: string;
+  value: string;
+  accountLabel: string;
+  buttonText: string;
+};
+
+export default function NewOperationModal(props: Props) {
   const router = useRouter();
   const action = createOperation.bind(null, props.userId);
-  const t = useTranslations("web.operations");
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
@@ -33,20 +41,20 @@ export default function NewOperationModal(props: {
 
   const handleSubmit = () => {
     handleOpenChange(false);
-    toast(t("toastText"));
+    toast(props.toastText);
   };
 
   return (
     <Dialog defaultOpen onOpenChange={handleOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("modalTitle")}</DialogTitle>
+          <DialogTitle>{props.title}</DialogTitle>
         </DialogHeader>
         <form className="grid gap-4 p-4" action={action}>
           <Tabs defaultValue="expense">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="expense">{t("expense")}</TabsTrigger>
-              <TabsTrigger value="income">{t("income")}</TabsTrigger>
+              <TabsTrigger value="expense">{props.expense}</TabsTrigger>
+              <TabsTrigger value="income">{props.income}</TabsTrigger>
             </TabsList>
             <TabsContent value="expense">
               <input hidden name="type" value="expense" />
@@ -57,7 +65,7 @@ export default function NewOperationModal(props: {
           </Tabs>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="col-span-1 text-right">
-              {t("name")}
+              {props.name}
             </Label>
             <Input
               className="col-span-3"
@@ -68,7 +76,7 @@ export default function NewOperationModal(props: {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="value" className="col-span-1 text-right">
-              {t("value")}
+              {props.value}
             </Label>
             <Input
               className="col-span-3"
@@ -79,11 +87,11 @@ export default function NewOperationModal(props: {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="accountId" className="col-span-1 text-right">
-              {t("account")}
+              {props.accountLabel}
             </Label>
             <SelectAccount userId={props.userId} accounts={props.accounts} />
           </div>
-          <SubmitButton onClick={handleSubmit}>{t("buttonText")}</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>{props.buttonText}</SubmitButton>
         </form>
       </DialogContent>
     </Dialog>
