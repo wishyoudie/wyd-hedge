@@ -21,7 +21,7 @@ Feature-wise:
 Codebase-wise:
 
 - [x] Move from FSD to Next-specific file structure.
-- [ ] Add i18n (possibly `next-intl`).
+- [x] Add i18n (`next-intl`).
 - [x] Rename all internal backend to camelCase.
 - [ ] Add loading states to improve UX.
 - [ ] Add low-res favicon.
