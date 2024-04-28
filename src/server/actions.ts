@@ -6,8 +6,8 @@ import { z } from "zod";
 import { insertOperation } from "./queries";
 
 const settingsSchema = z.object({
-  locale: z.string(),
-  currency: z.string(),
+  locale: z.string().optional(),
+  currency: z.string().optional(),
 });
 
 const operationSchema = z.object({

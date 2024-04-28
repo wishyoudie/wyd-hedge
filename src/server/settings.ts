@@ -34,7 +34,9 @@ export async function updateUserSetting(
     .returning();
 }
 
-export async function updateUserSettings(newSettings: Settings) {
+export async function updateUserSettings(
+  newSettings: Partial<Settings> & { userId: number },
+) {
   return await db
     .update(settings)
     .set(newSettings)

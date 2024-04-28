@@ -14,7 +14,6 @@ export default async function SettingsModalPortal() {
       userId={+sessionUser!.id}
       buttonText={t("buttonText")}
       currency={t("currency")}
-      language={t("language")}
       title={t("long")}
       toastText={t("toastText")}
     />
