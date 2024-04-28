@@ -10,19 +10,7 @@ import {
   DropdownMenuItem,
 } from "~/components/dropdown-menu/dropdown-menu";
 import { usePathname, useRouter } from "~/navigation";
-
-const items = [
-  {
-    locale: "ru",
-    emoji: "🇷🇺",
-    text: "Русский",
-  },
-  {
-    locale: "en",
-    emoji: "🇬🇧",
-    text: "English",
-  },
-];
+import Settings from "~/shared/lib/settings";
 
 export default function LocaleToggle() {
   const currentLocale = useLocale();
@@ -43,7 +31,7 @@ export default function LocaleToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {items.map((item) => (
+        {Settings.localeWidgetItems.map((item) => (
           <DropdownMenuItem
             key={item.locale}
             className="flex items-center gap-2"
