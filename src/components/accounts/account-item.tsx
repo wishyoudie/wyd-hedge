@@ -1,10 +1,12 @@
 import { getRatedValue } from "~/server/currencies";
 import type { Account } from "~/server/db/schema";
-import { formatMoney } from "~/shared/lib/utils";
+import ColorCircle from "../color-circle/color-circle";
+import { getFormatter } from "next-intl/server";
 
 export default async function AccountItem(
   props: Account & { user: { currency: string } },
 ) {
+  const formatter = await getFormatter();
   const ratedValue = await getRatedValue(
     props.currency!,
     props.user.currency,
@@ -12,22 +14,24 @@ export default async function AccountItem(
   );
 
   return (
-    <div
-      className="flex items-center justify-between rounded-lg px-4 py-3"
-      style={{ backgroundColor: props.color ?? "hsl(var(--accent))" }}
-    >
-      <div>
-        <h3 className="text-lg font-semibold leading-none tracking-tight">
-          {props.name}
-        </h3>
+    <div className="flex items-center">
+      <ColorCircle color={props.color ?? "hsl(var(--accent))"} size={30} />
+      <div className="ml-4 space-y-1">
+        <p className="text-sm font-medium leading-none">{props.name}</p>
         {props.currency !== props.user.currency && (
-          <span className="text-sm font-medium leading-none">
-            {formatMoney(props.value, props.currency!)}
-          </span>
+          <p className="text-sm text-muted-foreground">
+            {formatter.number(props.value, {
+              style: "currency",
+              currency: props.user.currency,
+            })}
+          </p>
         )}
       </div>
-      <div className="leading-loose">
-        {formatMoney(ratedValue, props.user.currency)}
+      <div className="ml-auto font-medium">
+        {formatter.number(ratedValue, {
+          style: "currency",
+          currency: props.user.currency,
+        })}
       </div>
     </div>
   );
