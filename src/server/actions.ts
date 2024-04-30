@@ -7,7 +7,6 @@ import { insertOperation } from "./queries";
 import { insertAccount } from "./accounts";
 
 const settingsSchema = z.object({
-  locale: z.string().optional(),
   currency: z.string().optional(),
 });
 
@@ -27,7 +26,6 @@ const accountSchema = z.object({
 
 export async function changeSettings(userId: number, formData: FormData) {
   const validation = settingsSchema.safeParse({
-    locale: formData.get("locale"),
     currency: formData.get("currency"),
   });
 

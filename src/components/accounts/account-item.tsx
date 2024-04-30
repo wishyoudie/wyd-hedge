@@ -22,7 +22,7 @@ export default async function AccountItem(
           <p className="text-sm text-muted-foreground">
             {formatter.number(props.value, {
               style: "currency",
-              currency: props.user.currency,
+              currency: props.currency!,
             })}
           </p>
         )}
