@@ -3,7 +3,7 @@ import type { Account } from "~/server/db/schema";
 import { formatMoney } from "~/shared/lib/utils";
 
 export default async function AccountItem(
-  props: Account & { user: { locale: string; currency: string } },
+  props: Account & { user: { currency: string } },
 ) {
   const ratedValue = await getRatedValue(
     props.currency!,
@@ -22,12 +22,12 @@ export default async function AccountItem(
         </h3>
         {props.currency !== props.user.currency && (
           <span className="text-sm font-medium leading-none">
-            {formatMoney(props.value, props.currency!, props.user.locale)}
+            {formatMoney(props.value, props.currency!)}
           </span>
         )}
       </div>
       <div className="leading-loose">
-        {formatMoney(ratedValue, props.user.currency, props.user.locale)}
+        {formatMoney(ratedValue, props.user.currency)}
       </div>
     </div>
   );

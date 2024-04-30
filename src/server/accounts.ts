@@ -8,13 +8,13 @@ function getDefaultAccountName(locale: string) {
   return locale === "ru" ? "Счет" : "Account";
 }
 
-export async function createAccount(account: InsertAccount) {
+export async function insertAccount(account: InsertAccount, locale = "ru") {
   const settings = await getUserSettings(account.userId);
 
   const currency = account.currency ?? settings.currency;
 
   const value = account.value ?? 0;
-  const name = account.name ?? getDefaultAccountName(settings.locale);
+  const name = account.name ?? getDefaultAccountName(locale);
 
   return await db
     .insert(accounts)

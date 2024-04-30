@@ -40,6 +40,16 @@
             "type": "Type",
             "noResults": "No Results."
         },
+        "accounts": {
+            "cardTitle": "Accounts",
+            "buttonLong": "New Account",
+            "buttonShort": "Add",
+            "name": "Name",
+            "namePlaceholder": "Tinkoff Black",
+            "value": "Starting Point",
+            "valuePlaceholder": "10000",
+            "toastText": "Created new account"
+        },
         "notfound": {
             "title": "Not Found",
             "description": "The page you are trying to visit does not exist.",

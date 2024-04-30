@@ -1,21 +1,29 @@
 import { getUserAccounts } from "~/server/accounts";
-import { Card, CardContent, CardHeader, CardTitle } from "../card/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/card/card";
 import { DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons";
-import AccountItem from "./account-item";
+import AccountItem from "../../components/accounts/account-item";
 import { getUserSettings } from "~/server/settings";
-import { Button } from "../button/button";
+import { Button } from "../../components/button/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../dropdown-menu/dropdown-menu";
+} from "../../components/dropdown-menu/dropdown-menu";
+import { Link } from "~/navigation";
+import { getTranslations } from "next-intl/server";
 
 type Props = {
   userId: number;
 };
 
 export default async function AccountsCard(props: Props) {
+  const t = await getTranslations("web.accounts");
   const accounts = await getUserAccounts(props.userId);
   const settings = await getUserSettings(props.userId);
 
@@ -23,7 +31,7 @@ export default async function AccountsCard(props: Props) {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>Accounts</span>
+          <span>{t("cardTitle")}</span>
           <span>
             {accounts.length > 0 && (
               <DropdownMenu>
@@ -33,7 +41,7 @@ export default async function AccountsCard(props: Props) {
                 <DropdownMenuContent>
                   <DropdownMenuItem>
                     <PlusIcon className="mr-2 size-4" />
-                    New
+                    {t("buttonShort")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -47,11 +55,13 @@ export default async function AccountsCard(props: Props) {
             <AccountItem
               key={account.id}
               {...account}
-              user={{ locale: settings.locale, currency: settings.currency }}
+              user={{ currency: settings.currency }}
             />
           ))
         ) : (
-          <Button>New</Button>
+          <Link href="/web/account/new">
+            <Button className="w-full">{t("buttonLong")}</Button>
+          </Link>
         )}
       </CardContent>
     </Card>

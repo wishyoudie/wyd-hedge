@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { updateUserSettings } from "./settings";
 import { z } from "zod";
 import { insertOperation } from "./queries";
+import { insertAccount } from "./accounts";
 
 const settingsSchema = z.object({
   locale: z.string().optional(),
@@ -14,7 +15,14 @@ const operationSchema = z.object({
   type: z.enum(["expense", "income"]),
   value: z.number(),
   accountId: z.number(),
-  name: z.string().nullable(),
+  name: z.string().optional(),
+});
+
+const accountSchema = z.object({
+  name: z.string(),
+  currency: z.string(),
+  value: z.number().optional(),
+  color: z.string().optional(),
 });
 
 export async function changeSettings(userId: number, formData: FormData) {
@@ -52,6 +60,28 @@ export async function createOperation(userId: number, formData: FormData) {
           : -validation.data.value,
     };
     await insertOperation(data);
+    revalidatePath("/web");
+  } else {
+    throw new Error(validation.error.message);
+  }
+}
+
+export async function createAccount(
+  userId: number,
+  locale: string,
+  formData: FormData,
+) {
+  const validation = accountSchema.safeParse({
+    name: formData.get("name"),
+    currency: formData.get("currency"),
+    value: Number(formData.get("value")),
+    color: formData.get("color"),
+  });
+
+  if (validation.success) {
+    const data = { ...validation.data, userId };
+
+    await insertAccount(data, locale);
     revalidatePath("/web");
   } else {
     throw new Error(validation.error.message);

@@ -4,7 +4,7 @@ import { BentoGrid, BentoGridItem } from "~/components/bento-grid/bento-grid";
 import OperationsCard from "~/widgets/operations/operations-card";
 import BalanceCard from "~/components/balance/balance";
 import { Card, CardContent, CardHeader } from "~/components/card/card";
-import AccountsCard from "~/components/accounts/accounts-card";
+import AccountsCard from "~/widgets/accounts/accounts-card";
 import { getSessionUser } from "~/shared/utils/getServerSession";
 import { useTranslations } from "next-intl";
 

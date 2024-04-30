@@ -34,11 +34,21 @@
             "expense": "Трата",
             "income": "Доход",
             "name": "Название",
-            "value": "Величина",
+            "value": "Сумма",
             "account": "Счет",
             "buttonText": "Создать",
             "type": "Тип",
             "noResults": "Нет результатов."
+        },
+        "accounts": {
+            "cardTitle": "Счета",
+            "buttonLong": "Новый счет",
+            "buttonShort": "Добавить",
+            "name": "Название",
+            "namePlaceholder": "Tinkoff Black",
+            "value": "Начальная сумма",
+            "valuePlaceholder": "10000",
+            "toastText": "Счет добавлена"
         },
         "notfound": {
             "title": "Не найдена",
