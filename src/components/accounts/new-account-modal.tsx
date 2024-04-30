@@ -13,6 +13,7 @@ import { SubmitButton } from "../button/submit-button";
 import { toast } from "sonner";
 import { Input } from "../input/input";
 import { useLocale } from "next-intl";
+import SelectCurrency from "~/widgets/settings/change-currency";
 
 type Props = {
   userId: number;
@@ -75,6 +76,12 @@ export default function NewAccountModal(props: Props) {
               Color
             </Label>
             <Input className="col-span-3" name="color" type="color" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="color" className="col-span-1 text-right">
+              Currency
+            </Label>
+            <SelectCurrency name="currency" />
           </div>
           <SubmitButton onClick={handleSubmit}>{props.buttonText}</SubmitButton>
         </form>
