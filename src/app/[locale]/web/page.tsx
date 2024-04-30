@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader } from "~/components/card/card";
 import AccountsCard from "~/widgets/accounts/accounts-card";
 import { getSessionUser } from "~/shared/utils/getServerSession";
 import { useTranslations } from "next-intl";
+import OperationsByDayChart from "~/widgets/charts/operation-by-day";
 
 function DummyCard() {
   const t = useTranslations("web");
@@ -23,31 +24,32 @@ export default async function DashboardPage() {
   if (!user) redirect("/");
 
   return (
-    <BentoGrid>
-      <BentoGridItem colSpan={1}>
-        <DummyCard />
-      </BentoGridItem>
-      <BentoGridItem colSpan={1}>
-        <BalanceCard userId={+user.id} />
-      </BentoGridItem>
-      <BentoGridItem>
-        <OperationsCard userId={+user.id} />
-      </BentoGridItem>
-      <BentoGridItem colSpan={1}>
-        <DummyCard />
-      </BentoGridItem>
-      <BentoGridItem colSpan={1}>
-        <AccountsCard userId={+user.id} />
-      </BentoGridItem>
-      <BentoGridItem colSpan={1}>
-        <DummyCard />
-      </BentoGridItem>
-      <BentoGridItem colSpan={1}>
-        <DummyCard />
-      </BentoGridItem>
-      <BentoGridItem colSpan={1}>
-        <DummyCard />
-      </BentoGridItem>
-    </BentoGrid>
+    <>
+      <BentoGrid>
+        <BentoGridItem colSpan={1}>
+          <DummyCard />
+        </BentoGridItem>
+        <BentoGridItem colSpan={1}>
+          <BalanceCard userId={+user.id} />
+        </BentoGridItem>
+        <BentoGridItem>
+          <OperationsCard userId={+user.id} />
+        </BentoGridItem>
+        <BentoGridItem colSpan={1}>
+          <DummyCard />
+        </BentoGridItem>
+        <BentoGridItem colSpan={1}>
+          <AccountsCard userId={+user.id} />
+        </BentoGridItem>
+        <BentoGridItem colSpan={1}>
+          <DummyCard />
+        </BentoGridItem>
+        <BentoGridItem colSpan={1}>
+          <DummyCard />
+        </BentoGridItem>
+        <BentoGridItem colSpan={2}></BentoGridItem>
+      </BentoGrid>
+      <OperationsByDayChart />
+    </>
   );
 }
