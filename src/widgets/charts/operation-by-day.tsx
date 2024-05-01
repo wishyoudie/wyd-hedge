@@ -16,6 +16,11 @@ import {
   CardTitle,
 } from "~/components/card/card";
 
+type Props = {
+  // data
+  className?: string;
+};
+
 const data = [
   { value: 12, date: "2024-12-12" },
   { value: 9, date: "2024-12-11" },
@@ -23,9 +28,9 @@ const data = [
   { value: 20, date: "2024-12-9" },
 ];
 
-export default function OperationsByDayChart() {
+export default function OperationsByDayChart(props: Props) {
   return (
-    <Card>
+    <Card className={props.className}>
       <CardHeader>
         <CardTitle>Operations</CardTitle>
       </CardHeader>

@@ -20,6 +20,7 @@ import { getTranslations } from "next-intl/server";
 
 type Props = {
   userId: number;
+  className?: string;
 };
 
 export default async function AccountsCard(props: Props) {
@@ -28,7 +29,7 @@ export default async function AccountsCard(props: Props) {
   const settings = await getUserSettings(props.userId);
 
   return (
-    <Card>
+    <Card className={props.className}>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>{t("cardTitle")}</span>
