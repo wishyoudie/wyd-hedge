@@ -1,7 +1,8 @@
-import { getOperationsWithCategories } from "~/server/operations";
+import { getUserCategories } from "~/server/categories";
+// import { getOperationsWithCategories } from "~/server/operations";
 
 export default async function CategoriesPage() {
-  const operations = await getOperationsWithCategories();
+  const operations = await getUserCategories();
 
   return (
     <>

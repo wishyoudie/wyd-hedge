@@ -7,7 +7,16 @@ export async function getOperationsWithCategories(userId?: string) {
   return await db.query.operations.findMany({
     where: (model, { eq }) => eq(model.userId, +id),
     with: {
-      operationCategories: true,
+      operationCategories: {
+        with: {
+          category: {
+            columns: {
+              name: true,
+              color: true,
+            },
+          },
+        },
+      },
     },
   });
 }
