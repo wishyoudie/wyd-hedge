@@ -32,6 +32,10 @@ export default async function Nav() {
       href: "/web/loans",
       label: t("loans"),
     },
+    {
+      href: "/web/categories",
+      label: t("categories"),
+    },
   ];
 
   return (

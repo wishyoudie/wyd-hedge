@@ -1,6 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
+import { relations } from "drizzle-orm";
 import {
   pgTableCreator,
   varchar,
@@ -9,6 +10,7 @@ import {
   pgEnum,
   timestamp,
   real,
+  primaryKey,
 } from "drizzle-orm/pg-core";
 
 export const operationEnum = pgEnum("op_type", ["expense", "income"]);
@@ -67,3 +69,55 @@ export type InsertOperation = Omit<
   "user_id" | "id"
 >;
 export type Operation = typeof operations.$inferSelect;
+
+export const operationsRelations = relations(operations, ({ many }) => ({
+  operationCategories: many(operationOnCategories),
+}));
+
+export const categories = createTable("category", {
+  id: serial("id").primaryKey(),
+  parentId: integer("parentId"),
+  userId: integer("userId").references(() => users.id),
+  name: varchar("name").notNull(),
+  color: varchar("color", { length: 9 }),
+});
+
+export const categoriesRelations = relations(categories, ({ one, many }) => ({
+  parent: one(categories, {
+    fields: [categories.parentId],
+    references: [categories.id],
+  }),
+  operations: many(operations),
+}));
+
+export type InsertCategory = Omit<typeof categories.$inferInsert, "id">;
+export type Category = typeof categories.$inferSelect;
+
+export const operationOnCategories = createTable(
+  "post_categories",
+  {
+    operationId: integer("operationId")
+      .notNull()
+      .references(() => operations.id),
+    categoryId: integer("categoryId")
+      .notNull()
+      .references(() => categories.id),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.operationId, t.categoryId] }),
+  }),
+);
+
+export const operationOnCategoriesRelations = relations(
+  operationOnCategories,
+  ({ one }) => ({
+    operation: one(operations, {
+      fields: [operationOnCategories.operationId],
+      references: [operations.id],
+    }),
+    category: one(categories, {
+      fields: [operationOnCategories.categoryId],
+      references: [categories.id],
+    }),
+  }),
+);
