@@ -2,7 +2,13 @@ import "server-only";
 
 import { db } from "./db";
 import type { TelegramUserData } from "@telegram-auth/server";
-import { type InsertOperation, operations, users, settings } from "./db/schema";
+import {
+  type InsertOperation,
+  operations,
+  users,
+  settings,
+  categories,
+} from "./db/schema";
 import { desc, eq } from "drizzle-orm";
 import { getSessionUser } from "~/shared/utils/getServerSession";
 import { increaseAccountValue } from "./accounts";
@@ -39,6 +45,13 @@ export async function createUserOrUpdate(user: TelegramUserData) {
       await db.insert(settings).values({
         userId: user.id,
         currency: locale === "ru" ? "rub" : "usd",
+      });
+    })
+    .then(async () => {
+      await db.insert(categories).values({
+        name: locale === "ru" ? "Все" : "All",
+        userId: user.id,
+        parentId: null,
       });
     });
 }
