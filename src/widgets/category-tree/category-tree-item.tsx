@@ -50,7 +50,9 @@ export default function CategoryTreeItem(props: Props) {
           <div
             className={`rounded-xl py-3 text-center transition-colors ${cn}`}
           >
-            <h3 className="font-medium">{props.name}</h3>
+            <h3 className="font-medium">
+              {props.name === "root" ? "All" : props.name}
+            </h3>
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -82,7 +84,11 @@ export default function CategoryTreeItem(props: Props) {
             <form action={createCategory} className="grid gap-4 space-y-6 p-4">
               <div className="grid items-center gap-1.5">
                 <Label htmlFor="parentId">Parent</Label>
-                <Input type="text" value={props.name} disabled />
+                <Input
+                  type="text"
+                  value={props.name === "root" ? "Default" : props.name}
+                  disabled
+                />
                 <Input
                   type="hidden"
                   name="parentId"

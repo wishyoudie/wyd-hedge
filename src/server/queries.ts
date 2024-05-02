@@ -49,7 +49,7 @@ export async function createUserOrUpdate(user: TelegramUserData) {
     })
     .then(async () => {
       await db.insert(categories).values({
-        name: locale === "ru" ? "Все" : "All",
+        name: "root",
         userId: user.id,
         parentId: null,
       });
