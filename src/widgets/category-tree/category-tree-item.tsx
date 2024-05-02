@@ -148,12 +148,14 @@ export default function CategoryTreeItem(props: Props) {
               Add Subcategory
             </DropdownMenuItem>
           </DialogTrigger>
-          <DialogTrigger>
-            <DropdownMenuItem onClick={() => setDialogContent("rename")}>
-              <Pencil2Icon className="mr-2 size-4" />
-              Rename
-            </DropdownMenuItem>
-          </DialogTrigger>
+          {!attributes.isRoot && (
+            <DialogTrigger>
+              <DropdownMenuItem onClick={() => setDialogContent("rename")}>
+                <Pencil2Icon className="mr-2 size-4" />
+                Rename
+              </DropdownMenuItem>
+            </DialogTrigger>
+          )}
           {!attributes.isRoot && (
             <DialogTrigger>
               <DropdownMenuItem
