@@ -5,6 +5,7 @@ import { updateUserSettings } from "./settings";
 import { z } from "zod";
 import { insertOperation } from "./queries";
 import { insertAccount } from "./accounts";
+import { insertCategory } from "./categories";
 
 const settingsSchema = z.object({
   currency: z.string().optional(),
@@ -22,6 +23,11 @@ const accountSchema = z.object({
   currency: z.string(),
   value: z.number().optional(),
   color: z.string().optional(),
+});
+
+const categorySchema = z.object({
+  name: z.string(),
+  parentId: z.number(),
 });
 
 export async function changeSettings(userId: number, formData: FormData) {
@@ -81,6 +87,22 @@ export async function createAccount(
 
     await insertAccount(data, locale);
     revalidatePath("/web");
+  } else {
+    throw new Error(validation.error.message);
+  }
+}
+
+export async function createCategory(userId: number, formData: FormData) {
+  const validation = categorySchema.safeParse({
+    name: formData.get("name"),
+    parentId: Number(formData.get("parentId")),
+  });
+
+  if (validation.success) {
+    const data = { ...validation.data, userId };
+
+    await insertCategory(data);
+    revalidatePath("/categories");
   } else {
     throw new Error(validation.error.message);
   }
