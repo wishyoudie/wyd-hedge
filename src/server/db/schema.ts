@@ -79,7 +79,6 @@ export const categories = createTable("category", {
   parentId: integer("parentId"),
   userId: integer("userId").references(() => users.id),
   name: varchar("name").notNull(),
-  color: varchar("color", { length: 9 }),
 });
 
 export const categoriesRelations = relations(categories, ({ one, many }) => ({

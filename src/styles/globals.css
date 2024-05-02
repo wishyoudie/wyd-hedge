@@ -100,3 +100,7 @@ dialog {
   max-width: 100vw;
   max-height: 100vh;
 }
+
+.tree-path {
+  stroke: hsl(var(--foreground)) !important; /* Override default lib values */
+}
