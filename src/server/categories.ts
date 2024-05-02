@@ -19,6 +19,15 @@ export async function insertCategory(data: {
   return await db.insert(categories).values(data);
 }
 
+export async function changeCategory(data: { id: number; name: string }) {
+  return await db
+    .update(categories)
+    .set({
+      name: data.name,
+    })
+    .where(eq(categories.id, data.id));
+}
+
 export async function deleteCategory(id: number) {
   return await db
     .delete(categories)

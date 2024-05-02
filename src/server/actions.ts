@@ -8,6 +8,7 @@ import { insertAccount } from "./accounts";
 import {
   insertCategory,
   deleteCategory as _deleteCategory,
+  changeCategory,
 } from "./categories";
 import { getSessionUser } from "~/shared/utils/getServerSession";
 
@@ -111,6 +112,16 @@ export async function createCategory(formData: FormData) {
   } else {
     throw new Error(validation.error.message);
   }
+}
+
+export async function updateCategory(formData: FormData) {
+  const data = {
+    name: formData.get("name") as string,
+    id: Number(formData.get("id")),
+  };
+
+  await changeCategory(data);
+  revalidatePath("/categories");
 }
 
 export async function deleteCategory(formData: FormData) {

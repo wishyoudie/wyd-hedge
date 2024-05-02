@@ -1,6 +1,6 @@
 "use client";
 
-import { PlusCircledIcon, TrashIcon } from "@radix-ui/react-icons";
+import { Pencil2Icon, PlusCircledIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "~/components/button/button";
@@ -20,7 +20,11 @@ import {
 } from "~/components/dropdown-menu/dropdown-menu";
 import { Input } from "~/components/input/input";
 import { Label } from "~/components/label/label";
-import { createCategory, deleteCategory } from "~/server/actions";
+import {
+  createCategory,
+  deleteCategory,
+  updateCategory,
+} from "~/server/actions";
 
 type Props = {
   name: string;
@@ -32,54 +36,32 @@ export default function CategoryTreeItem(props: Props) {
   const [dialogContent, setDialogContent] = useState<string>();
   const attributes = props.attributes as { id: number; isRoot: boolean };
 
-  const handleSubmit = () => {
-    setDialogOpen(false);
-    toast(
-      dialogContent === "add" ? "Added Subcategory" : "Deleted Subcategories",
-    );
-  };
-
   const cn = attributes.isRoot
     ? "bg-primary text-primary-foreground shadow"
     : "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground";
 
-  return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <div
-            className={`rounded-xl py-3 text-center transition-colors ${cn}`}
-          >
-            <h3 className="font-medium">
-              {props.name === "root" ? "All" : props.name}
-            </h3>
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DialogTrigger>
-            <DropdownMenuItem onClick={() => setDialogContent("add")}>
-              <PlusCircledIcon className="mr-2 size-4" />
-              Add Subcategory
-            </DropdownMenuItem>
-          </DialogTrigger>
-          {!attributes.isRoot && (
-            <DialogTrigger>
-              <DropdownMenuItem
-                className="text-destructive"
-                onClick={() => setDialogContent("delete")}
-              >
-                <TrashIcon className="mr-2 size-4" />
-                Delete
-              </DropdownMenuItem>
-            </DialogTrigger>
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <DialogContent>
-        {dialogContent === "add" ? (
+  const handleSubmit = () => {
+    setDialogOpen(false);
+    switch (dialogContent) {
+      case "add":
+        toast("Added Subcategory");
+        break;
+      case "delete":
+        toast("Deleted Subcategory");
+        break;
+      case "rename":
+        toast("Renamed Subcategory");
+        break;
+    }
+  };
+
+  const dialogForm = () => {
+    switch (dialogContent) {
+      case "add":
+        return (
           <>
             <DialogHeader>
-              <DialogTitle>Subcategory</DialogTitle>
+              <DialogTitle>New Subcategory</DialogTitle>
             </DialogHeader>
             <form action={createCategory} className="grid gap-4 space-y-6 p-4">
               <div className="grid items-center gap-1.5">
@@ -102,32 +84,90 @@ export default function CategoryTreeItem(props: Props) {
               <SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
             </form>
           </>
-        ) : (
+        );
+
+      case "rename":
+        return (
+          <>
+            <DialogHeader>
+              <DialogTitle>Category {props.name}</DialogTitle>
+            </DialogHeader>
+            <form action={updateCategory} className="grid gap-4 space-y-6 p-4">
+              <div className="grid items-center gap-1.5">
+                <Label htmlFor="name">Name</Label>
+                <Input type="text" name="name" defaultValue={props.name} />
+              </div>
+              <Input type="hidden" value={attributes.id} name="id" />
+              <SubmitButton onClick={handleSubmit}>Save Changes</SubmitButton>
+            </form>
+          </>
+        );
+
+      case "delete":
+        return (
           <>
             <DialogHeader>
               <DialogTitle>Are you sure?</DialogTitle>
-              <div className="grid gap-4">
-                <p className="pt-2 text-sm text-muted-foreground">
-                  This action cannot be undone. This will permanently delete
-                  this category and all of its children.
-                </p>
-                <div className="flex justify-end gap-2 ">
-                  <Button
-                    variant="outline"
-                    onClick={() => setDialogOpen(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <form action={deleteCategory}>
-                    <Input type="hidden" value={attributes.id} name="id" />
-                    <SubmitButton onClick={handleSubmit}>Continue</SubmitButton>
-                  </form>
-                </div>
-              </div>
             </DialogHeader>
+            <div className="grid gap-4">
+              <p className="pt-2 text-sm text-muted-foreground">
+                This action cannot be undone. This will permanently delete this
+                category and all of its children.
+              </p>
+              <div className="flex justify-end gap-2 ">
+                <Button variant="outline" onClick={() => setDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <form action={deleteCategory}>
+                  <Input type="hidden" value={attributes.id} name="id" />
+                  <SubmitButton onClick={handleSubmit}>Continue</SubmitButton>
+                </form>
+              </div>
+            </div>
           </>
-        )}
-      </DialogContent>
+        );
+    }
+  };
+
+  return (
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div
+            className={`rounded-xl py-3 text-center transition-colors ${cn}`}
+          >
+            <h3 className="font-medium">
+              {props.name === "root" ? "All" : props.name}
+            </h3>
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DialogTrigger>
+            <DropdownMenuItem onClick={() => setDialogContent("add")}>
+              <PlusCircledIcon className="mr-2 size-4" />
+              Add Subcategory
+            </DropdownMenuItem>
+          </DialogTrigger>
+          <DialogTrigger>
+            <DropdownMenuItem onClick={() => setDialogContent("rename")}>
+              <Pencil2Icon className="mr-2 size-4" />
+              Rename
+            </DropdownMenuItem>
+          </DialogTrigger>
+          {!attributes.isRoot && (
+            <DialogTrigger>
+              <DropdownMenuItem
+                className="text-destructive"
+                onClick={() => setDialogContent("delete")}
+              >
+                <TrashIcon className="mr-2 size-4" />
+                Delete
+              </DropdownMenuItem>
+            </DialogTrigger>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DialogContent>{dialogForm()}</DialogContent>
     </Dialog>
   );
 }
