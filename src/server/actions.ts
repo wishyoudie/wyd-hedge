@@ -5,7 +5,11 @@ import { updateUserSettings } from "./settings";
 import { z } from "zod";
 import { insertOperation } from "./queries";
 import { insertAccount } from "./accounts";
-import { insertCategory } from "./categories";
+import {
+  insertCategory,
+  deleteCategory as _deleteCategory,
+} from "./categories";
+import { getSessionUser } from "~/shared/utils/getServerSession";
 
 const settingsSchema = z.object({
   currency: z.string().optional(),
@@ -92,13 +96,14 @@ export async function createAccount(
   }
 }
 
-export async function createCategory(userId: number, formData: FormData) {
+export async function createCategory(formData: FormData) {
   const validation = categorySchema.safeParse({
     name: formData.get("name"),
     parentId: Number(formData.get("parentId")),
   });
 
   if (validation.success) {
+    const userId = +(await getSessionUser())!.id;
     const data = { ...validation.data, userId };
 
     await insertCategory(data);
@@ -106,4 +111,9 @@ export async function createCategory(userId: number, formData: FormData) {
   } else {
     throw new Error(validation.error.message);
   }
+}
+
+export async function deleteCategory(formData: FormData) {
+  await _deleteCategory(Number(formData.get("id")));
+  revalidatePath("/categories");
 }

@@ -37,6 +37,7 @@ function toTreeData(categories: Category[]): TreeNode | null {
     name: root.name,
     attributes: {
       id: root.id,
+      isRoot: true,
     },
     children: [],
   };
@@ -52,6 +53,7 @@ function toTreeData(categories: Category[]): TreeNode | null {
         name: current.name,
         attributes: {
           id: current.id,
+          isRoot: false,
         },
         children: [],
       });
@@ -69,6 +71,7 @@ function toTreeData(categories: Category[]): TreeNode | null {
         name: current.name,
         attributes: {
           id: current.id,
+          isRoot: false,
         },
         children: [],
       });
@@ -84,7 +87,7 @@ export default async function CategoriesPage() {
   const categoriesTreeData = toTreeData(categories);
 
   return (
-    <div className="h-full space-y-4  p-8 pt-6">
+    <div className="h-full space-y-4 p-8 pt-6">
       <header className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">Categories</h2>
       </header>

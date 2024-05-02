@@ -17,7 +17,7 @@ const renderForeignObjectNode = ({
 }: CustomNodeElementProps & { foreignObjectProps: Record<string, number> }) => (
   <g>
     <foreignObject {...foreignObjectProps}>
-      <CategoryTreeItem name={node.name} attributes={node.attributes} />
+      <CategoryTreeItem name={node.name} attributes={node.attributes!} />
       <NewChildButton />
     </foreignObject>
   </g>
@@ -31,7 +31,7 @@ export default function CategoryTree(props: { data: TreeNode }) {
 
   return (
     <div
-      className="h-[90%] rounded-xl border bg-card text-card-foreground shadow"
+      className="h-[93%] rounded-xl border bg-card text-card-foreground shadow"
       ref={containerRef}
     >
       <Tree
