@@ -102,5 +102,5 @@ dialog {
 }
 
 .tree-path {
-  stroke: hsl(var(--muted-foreground)) !important; /* Override default lib values */
+  stroke: hsl(var(--border)) !important; /* Override default lib values */
 }
