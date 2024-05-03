@@ -14,7 +14,7 @@ export default async function AccountItem(
   );
 
   return (
-    <div className="flex items-center">
+    <div className="flex min-h-10 items-center">
       <ColorCircle color={props.color ?? "hsl(var(--accent))"} size={30} />
       <div className="ml-4 space-y-1">
         <p className="text-sm font-medium leading-none">{props.name}</p>

@@ -37,7 +37,7 @@ export default async function DashboardPage() {
           <Button>Add Operation</Button>
         </div>
         <TabsContent value="accounts">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 2xl:grid-cols-12">
             <OperationsByDayChart className="col-span-4" />
             <AccountsCard userId={+user.id} className="col-span-3" />
           </div>
