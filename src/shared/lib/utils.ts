@@ -21,3 +21,7 @@ export function formatMoney(value: number, currency = "RUB", locale = "ru-RU") {
     maximumFractionDigits: Settings.precision,
   }).format(value);
 }
+
+export function isMac() {
+  return navigator.platform.indexOf("Mac") > -1;
+}
