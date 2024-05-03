@@ -10,7 +10,7 @@ These are plans for further development in foreseable future.
 
 Feature-wise:
 
-- [ ] Add different metrics and statistics for user operations (possibly [`chart.js`](https://www.chartjs.org/docs/latest/charts/radar.html)).
+- [ ] Add different metrics and statistics for user operations.
 - [ ] Add family access. Multiple users can share total balance and operation history (adult mode), a _supervisor_ can view other users' stats (child mode).
 - [ ] Add Apple Shortcuts for quicker access (good idea by Gleb Kletskov).
 - [ ] Add integration with QR codes (for TMA). Scan invoices to automatically update your operations.
