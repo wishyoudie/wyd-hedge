@@ -25,3 +25,9 @@ export function formatMoney(value: number, currency = "RUB", locale = "ru-RU") {
 export function isMac() {
   return navigator.platform.indexOf("Mac") > -1;
 }
+
+export function capitalize(str: string) {
+  if (str.length === 0) return str;
+
+  return str[0]!.toUpperCase() + str.substring(1);
+}

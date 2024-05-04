@@ -1,37 +1,22 @@
-import { getAllUserOperations } from "~/server/queries";
 import { getSessionUser } from "~/shared/utils/getServerSession";
 import { DataTable } from "./data-table";
-import type { ColumnDef } from "@tanstack/react-table";
-import type { Operation } from "~/server/db/schema";
-import { getTranslations } from "next-intl/server";
+import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
+import { getUserAccounts } from "~/server/accounts";
+import { getOperationsWithCategories } from "~/server/operations";
 
 export default async function OperationsPage() {
-  const user = await getSessionUser();
-  const operations = await getAllUserOperations(user!.id);
-  const t = await getTranslations("web.operations");
+  const messages = await getMessages();
 
-  const columns: ColumnDef<Operation>[] = [
-    {
-      accessorKey: "name",
-      header: t("name"),
-    },
-    {
-      accessorKey: "type",
-      header: t("type"),
-    },
-    {
-      accessorKey: "value",
-      header: t("value"),
-    },
-  ];
+  const user = await getSessionUser();
+  const operations = await getOperationsWithCategories(user!.id);
+  const accounts = await getUserAccounts(+user!.id);
 
   return (
     <div className="container mx-auto py-10">
-      <DataTable
-        columns={columns}
-        data={operations}
-        noResults={t("noResults")}
-      />
+      <NextIntlClientProvider messages={messages}>
+        <DataTable data={operations} accounts={accounts} />
+      </NextIntlClientProvider>
     </div>
   );
 }
