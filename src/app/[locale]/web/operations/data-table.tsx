@@ -115,14 +115,14 @@ export function DataTable({ data, accounts }: DataTableProps) {
           }
 
           return (
-            <>
+            <div className="flex max-w-40 flex-wrap gap-1">
               {categories.map((category) => (
                 <Badge key={category.id} variant="secondary">
-                  <TagIcon className="size-2" />
+                  <TagIcon className="mr-1 size-2" />
                   <span>{category.name}</span>
                 </Badge>
               ))}
-            </>
+            </div>
           );
         },
       },

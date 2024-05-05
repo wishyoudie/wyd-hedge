@@ -15,10 +15,12 @@ import { toast } from "sonner";
 import { Input } from "../input/input";
 import type { Account } from "~/server/db/schema";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../tabs/tabs";
+import SelectCategory from "~/widgets/operations/select-category";
 
 type Props = {
   userId: number;
   accounts: Account[];
+  categories: { label: string; value: string }[];
   toastText: string;
   expense: string;
   income: string;
@@ -89,7 +91,15 @@ export default function NewOperationModal(props: Props) {
             <Label htmlFor="accountId" className="col-span-1 text-right">
               {props.accountLabel}
             </Label>
-            <SelectAccount userId={props.userId} accounts={props.accounts} />
+            <SelectAccount accounts={props.accounts} />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="categories" className="col-span-1 text-right">
+              Categories
+            </Label>
+            <span className="col-span-3">
+              <SelectCategory categories={props.categories} />
+            </span>
           </div>
           <SubmitButton onClick={handleSubmit}>{props.buttonText}</SubmitButton>
         </form>

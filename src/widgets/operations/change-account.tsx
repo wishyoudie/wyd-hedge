@@ -9,7 +9,6 @@ import {
 } from "~/components/select/select";
 
 type Props = {
-  userId: number;
   accounts: Account[];
 };
 

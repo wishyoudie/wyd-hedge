@@ -8,6 +8,7 @@ import {
   users,
   settings,
   categories,
+  operationOnCategories,
 } from "./db/schema";
 import { desc, eq } from "drizzle-orm";
 import { getSessionUser } from "~/shared/utils/getServerSession";
@@ -95,8 +96,24 @@ export async function getAllUserOperations(userId: SN) {
 }
 
 export async function insertOperation(operation: InsertOperation) {
-  await db.insert(operations).values(operation).onConflictDoNothing();
   await increaseAccountValue(operation.accountId, operation.value);
+  return await db
+    .insert(operations)
+    .values(operation)
+    .returning({ id: operations.id });
+}
+
+export async function insertOperationCategories(
+  operationId: number,
+  categoriesIds: number[],
+) {
+  console.log(categoriesIds);
+  console.log(operationId);
+  await Promise.all(
+    categoriesIds.map((id) =>
+      db.insert(operationOnCategories).values({ categoryId: id, operationId }),
+    ),
+  );
 }
 
 export async function getDetailedOperation(operationId: number) {

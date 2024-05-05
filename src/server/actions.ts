@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { updateUserSettings } from "./settings";
 import { z } from "zod";
-import { insertOperation } from "./queries";
+import { insertOperation, insertOperationCategories } from "./queries";
 import { insertAccount } from "./accounts";
 import {
   insertCategory,
@@ -21,6 +21,7 @@ const operationSchema = z.object({
   value: z.number(),
   accountId: z.number(),
   name: z.string().optional(),
+  categories: z.string(),
 });
 
 const accountSchema = z.object({
@@ -56,19 +57,25 @@ export async function createOperation(userId: number, formData: FormData) {
     value: Number(formData.get("value")),
     accountId: Number(formData.get("accountId")),
     name: formData.get("name"),
+    categories: formData.get("categories"),
   });
 
   if (validation.success) {
     const data = {
-      ...validation.data,
       userId,
+      accountId: validation.data.accountId,
+      type: validation.data.type,
       name: validation.data.name ?? "Unknown",
       value:
         validation.data.type === "income"
           ? validation.data.value
           : -validation.data.value,
     };
-    await insertOperation(data);
+
+    const result = await insertOperation(data);
+    const id = result[0]!.id;
+    const categories = validation.data.categories.split("_").map(Number);
+    await insertOperationCategories(id, categories);
     revalidatePath("/web");
   } else {
     throw new Error(validation.error.message);
