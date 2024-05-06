@@ -11,6 +11,7 @@ import {
   changeCategory,
 } from "./categories";
 import { getSessionUser } from "~/shared/utils/getServerSession";
+import { deleteOperation as _deleteOperation } from "./operations";
 
 const settingsSchema = z.object({
   currency: z.string().optional(),
@@ -80,6 +81,13 @@ export async function createOperation(userId: number, formData: FormData) {
   } else {
     throw new Error(validation.error.message);
   }
+}
+
+export async function deleteOperation(formData: FormData) {
+  const id = Number(formData.get("id"));
+
+  await _deleteOperation(id);
+  revalidatePath("/web/operations");
 }
 
 export async function createAccount(

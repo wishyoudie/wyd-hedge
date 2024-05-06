@@ -18,8 +18,17 @@ import {
 } from "@tanstack/react-table";
 import { useFormatter, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 import { Badge } from "~/components/badge/badge";
 import { Button } from "~/components/button/button";
+import { SubmitButton } from "~/components/button/submit-button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/dialog/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,7 +47,8 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/table/table";
-import type { Account } from "~/server/db/schema";
+import { deleteOperation } from "~/server/actions";
+import type { Account, Operation } from "~/server/db/schema";
 import type { OperationWithCategories } from "~/server/operations";
 
 interface DataTableProps {
@@ -48,9 +58,29 @@ interface DataTableProps {
 
 export function DataTable({ data, accounts }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [dialogData, setDialogData] = useState<number>();
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const formatter = useFormatter();
   const t = useTranslations("web.operations");
+
+  const handleCopyClick = (operation: Operation) => () => {
+    navigator.clipboard
+      .writeText(JSON.stringify(operation))
+      .then(() => {
+        toast("Success", {
+          description: `Copied info about ${operation.name}`,
+        });
+      })
+      .catch(() => {
+        toast("Something went wrong");
+      });
+  };
+
+  const handleDeleteSubmit = () => {
+    setDialogOpen(false);
+    toast("Success", { description: "Operation Deleted" });
+  };
 
   const columns: ColumnDef<OperationWithCategories>[] = useMemo(
     () => [
@@ -162,23 +192,29 @@ export function DataTable({ data, accounts }: DataTableProps) {
           const operation = row.original;
 
           return (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="size-8 p-0">
-                  <DotsHorizontalIcon className="size-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem
-                  onClick={() =>
-                    navigator.clipboard.writeText(`${operation.id}`)
-                  }
-                >
-                  Copy ID
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="size-8 p-0">
+                    <DotsHorizontalIcon className="size-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuItem onClick={handleCopyClick(operation)}>
+                    Copy
+                  </DropdownMenuItem>
+                  <DialogTrigger>
+                    <DropdownMenuItem
+                      className="text-destructive"
+                      onClick={() => setDialogData(operation.id)}
+                    >
+                      Delete
+                    </DropdownMenuItem>
+                  </DialogTrigger>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
           );
         },
       },
@@ -203,7 +239,7 @@ export function DataTable({ data, accounts }: DataTableProps) {
   });
 
   return (
-    <>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter name..."
@@ -284,6 +320,26 @@ export function DataTable({ data, accounts }: DataTableProps) {
           <ChevronRightIcon className="size-3" />
         </Button>
       </div>
-    </>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you sure?</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-4">
+          <p className="pt-2 text-sm text-muted-foreground">
+            This action cannot be undone. This will permanently delete this
+            operation.
+          </p>
+          <div className="flex justify-end gap-2 ">
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>
+              Cancel
+            </Button>
+            <form action={deleteOperation}>
+              <Input type="hidden" value={dialogData} name="id" />
+              <SubmitButton onClick={handleDeleteSubmit}>Continue</SubmitButton>
+            </form>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
