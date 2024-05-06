@@ -44,8 +44,8 @@ export async function changeOperation(data: Operation) {
 }
 
 export async function deleteOperation(operationId: number) {
-  await db.delete(operations).where(eq(operations.id, operationId));
   await db
     .delete(operationOnCategories)
     .where(eq(operationOnCategories.operationId, operationId));
+  await db.delete(operations).where(eq(operations.id, operationId));
 }

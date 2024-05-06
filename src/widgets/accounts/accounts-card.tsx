@@ -63,7 +63,7 @@ export default async function AccountsCard(props: Props) {
               </CardTitle>
             </CardHeader>
             <ScrollArea className="max-h-[464px]">
-              <CardContent className="grid gap-2">
+              <CardContent>
                 {accounts.map((account) => (
                   <AccountItem
                     key={account.id}

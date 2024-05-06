@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { updateUserSettings } from "./settings";
 import { z } from "zod";
 import { insertOperation, insertOperationCategories } from "./queries";
-import { insertAccount } from "./accounts";
+import { insertAccount, deleteAccount as _deleteAccount } from "./accounts";
 import {
   insertCategory,
   deleteCategory as _deleteCategory,
@@ -142,4 +142,9 @@ export async function updateCategory(formData: FormData) {
 export async function deleteCategory(formData: FormData) {
   await _deleteCategory(Number(formData.get("id")));
   revalidatePath("/categories");
+}
+
+export async function deleteAccount(formData: FormData) {
+  await _deleteAccount(Number(formData.get("id")));
+  revalidatePath("/web");
 }

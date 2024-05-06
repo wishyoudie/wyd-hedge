@@ -334,7 +334,7 @@ export function DataTable({ data, accounts }: DataTableProps) {
               Cancel
             </Button>
             <form action={deleteOperation}>
-              <Input type="hidden" value={dialogData} name="id" />
+              <input type="hidden" value={dialogData} name="id" />
               <SubmitButton onClick={handleDeleteSubmit}>Continue</SubmitButton>
             </form>
           </div>
