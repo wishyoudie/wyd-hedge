@@ -1,43 +1,24 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
-
 import { relations } from "drizzle-orm";
 import {
   pgTableCreator,
   varchar,
   integer,
   serial,
-  pgEnum,
   timestamp,
   real,
   primaryKey,
 } from "drizzle-orm/pg-core";
 
-export const operationEnum = pgEnum("op_type", ["expense", "income"]);
-
 export const createTable = pgTableCreator((name) => `wyd-hedge_${name}`);
 
 export const users = createTable("user", {
-  id: integer("id").primaryKey(),
-  first_name: varchar("first_name", { length: 256 }),
-  last_name: varchar("last_name", { length: 256 }),
-  username: varchar("username", { length: 256 }),
-  photo_url: varchar("photo_url", { length: 256 }),
-});
-
-export const settings = createTable("settings", {
-  userId: integer("userId")
-    .references(() => users.id)
-    .notNull()
-    .primaryKey(),
+  id: serial("id").notNull().primaryKey(),
+  telegramId: integer("telegramId"),
   currency: varchar("currency", { length: 5 }).notNull().default("rub"),
 });
 
-export type InsertSettings = typeof settings.$inferInsert;
-export type Settings = typeof settings.$inferSelect;
-
-export const accounts = createTable("accounts", {
-  id: serial("id").primaryKey(),
+export const accounts = createTable("account", {
+  id: serial("id").notNull().primaryKey(),
   userId: integer("userId")
     .references(() => users.id)
     .notNull(),
@@ -47,10 +28,7 @@ export const accounts = createTable("accounts", {
   color: varchar("color", { length: 9 }),
 });
 
-export type InsertAccount = typeof accounts.$inferInsert;
-export type Account = typeof accounts.$inferSelect;
-
-export const operations = createTable("operation", {
+export const transactions = createTable("transaction", {
   id: serial("id").primaryKey(),
   userId: integer("userId")
     .references(() => users.id)
@@ -58,20 +36,14 @@ export const operations = createTable("operation", {
   accountId: integer("accountId")
     .references(() => accounts.id)
     .notNull(),
-  type: operationEnum("type").notNull(),
+  type: varchar("type", { enum: ["expense", "income"] }).notNull(),
   value: real("value").notNull(),
   name: varchar("name", { length: 256 }).notNull(),
   createdAt: timestamp("createdAt").defaultNow(),
 });
 
-export type InsertOperation = Omit<
-  typeof operations.$inferInsert,
-  "user_id" | "id"
->;
-export type Operation = typeof operations.$inferSelect;
-
-export const operationsRelations = relations(operations, ({ many }) => ({
-  operationCategories: many(operationOnCategories),
+export const transactionsRelations = relations(transactions, ({ many }) => ({
+  categories: many(transactionOnCategories),
 }));
 
 export const categories = createTable("category", {
@@ -86,36 +58,33 @@ export const categoriesRelations = relations(categories, ({ one, many }) => ({
     fields: [categories.parentId],
     references: [categories.id],
   }),
-  operations: many(operations),
+  transactions: many(transactions),
 }));
 
-export type InsertCategory = Omit<typeof categories.$inferInsert, "id">;
-export type Category = typeof categories.$inferSelect;
-
-export const operationOnCategories = createTable(
-  "post_categories",
+export const transactionOnCategories = createTable(
+  "transaction_categories",
   {
-    operationId: integer("operationId")
+    transactionId: integer("transactionId")
       .notNull()
-      .references(() => operations.id),
+      .references(() => transactions.id),
     categoryId: integer("categoryId")
       .notNull()
       .references(() => categories.id),
   },
   (t) => ({
-    pk: primaryKey({ columns: [t.operationId, t.categoryId] }),
+    pk: primaryKey({ columns: [t.transactionId, t.categoryId] }),
   }),
 );
 
-export const operationOnCategoriesRelations = relations(
-  operationOnCategories,
+export const transactionOnCategoriesRelations = relations(
+  transactionOnCategories,
   ({ one }) => ({
-    operation: one(operations, {
-      fields: [operationOnCategories.operationId],
-      references: [operations.id],
+    transaction: one(transactions, {
+      fields: [transactionOnCategories.transactionId],
+      references: [transactions.id],
     }),
     category: one(categories, {
-      fields: [operationOnCategories.categoryId],
+      fields: [transactionOnCategories.categoryId],
       references: [categories.id],
     }),
   }),
