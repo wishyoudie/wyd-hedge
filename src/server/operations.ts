@@ -1,7 +1,7 @@
 import { getSessionUser } from "~/shared/utils/getServerSession";
 import { db } from "./db";
-import { type Operation, operations } from "./db/schema";
-import { desc } from "drizzle-orm";
+import { type Operation, operations, operationOnCategories } from "./db/schema";
+import { desc, eq } from "drizzle-orm";
 
 export type OperationWithCategories = Operation & {
   operationCategories: {
@@ -37,4 +37,15 @@ export async function getOperationsWithCategories(
       },
     },
   });
+}
+
+export async function changeOperation(data: Operation) {
+  await db.update(operations).set(data).where(eq(operations.id, data.id));
+}
+
+export async function deleteOperation(operationId: number) {
+  await db.delete(operations).where(eq(operations.id, operationId));
+  await db
+    .delete(operationOnCategories)
+    .where(eq(operationOnCategories.operationId, operationId));
 }
