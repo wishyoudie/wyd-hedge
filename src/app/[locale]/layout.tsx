@@ -7,6 +7,7 @@ import { Inter } from "next/font/google";
 import AuthProvider from "./_providers/auth-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { type Locale } from "@/i18n";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,8 +34,10 @@ export default function LocalizedRootLayout({
       >
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-            <Toaster />
+            <TooltipProvider>
+              {children}
+              <Toaster />
+            </TooltipProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>

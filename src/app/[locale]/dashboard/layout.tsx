@@ -1,18 +1,22 @@
-import Nav from "@/components/nav/topnav";
-import Footer from "./footer";
 import AppCommandDialog from "@/widgets/command/command";
+import Aside from "../_components/aside";
+import Header from "../_components/header";
 
 export default function WebLayout(props: {
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
   return (
-    <div>
-      <Nav />
-      <main className="flex-1 border-b">{props.children}</main>
-      {props.modal}
+    <>
+      <div className="flex min-h-screen w-full flex-col bg-muted/40">
+        <Aside />
+        <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+          <Header />
+          {props.children}
+        </div>
+      </div>
       <AppCommandDialog />
-      <Footer />
-    </div>
+      {props.modal}
+    </>
   );
 }

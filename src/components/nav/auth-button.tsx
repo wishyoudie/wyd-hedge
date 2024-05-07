@@ -13,13 +13,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ExitIcon, GearIcon } from "@radix-ui/react-icons";
 
 import { useSession, signOut } from "next-auth/react";
-import TelegramButton from "../telegram-button/telegram-button";
 import Spinner from "@/components/ui/spinner";
 import { useRouter } from "@/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
-  botUsername: string;
+  // botUsername: string;
   signOut: string;
   settings: string;
 };
@@ -40,7 +39,7 @@ export default function AuthButton(props: Props) {
             <Avatar className="size-10">
               <AvatarImage
                 src={session.user?.image ?? ""}
-                alt={session.user?.name}
+                alt={session.user?.name ?? ""}
               />
               <AvatarFallback>
                 <Skeleton className="size-10" />
@@ -65,5 +64,6 @@ export default function AuthButton(props: Props) {
     );
   }
 
-  return <TelegramButton botUsername={props.botUsername} />;
+  // return <TelegramButton botUsername={props.botUsername} />;
+  return <div>tgbtn</div>;
 }
