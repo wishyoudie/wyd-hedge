@@ -1,22 +1,5 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-// import CredentialsProvider from "next-auth/providers/credentials";
-// import { validate, parse } from "@tma.js/init-data-node";
-// import { objectToAuthDataMap, AuthDataValidator } from "@telegram-auth/server";
-// import { createUserOrUpdate } from "@/server/queries";
-import { env } from "@/env";
-
-// declare module "next-auth" {
-//   interface User {
-//     id: string;
-//     name: string;
-//     image?: string;
-//     email: string;
-//   }
-//   interface Session {
-//     user: User;
-//   }
-// }
+import NextAuth from "next-auth";
+import { authOptions } from "../options";
 
 // export const authOptions: NextAuthOptions = {
 //   providers: [
@@ -110,15 +93,6 @@ import { env } from "@/env";
 //     error: "/auth/error",
 //   },
 // };
-
-export const authOptions: NextAuthOptions = {
-  providers: [
-    GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
-};
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

@@ -13,7 +13,9 @@ export const createTable = pgTableCreator((name) => `wyd-hedge_${name}`);
 
 export const users = createTable("user", {
   id: serial("id").notNull().primaryKey(),
-  telegramId: integer("telegramId"),
+  tgUsername: varchar("tgUsername"),
+  username: varchar("username"),
+  password: varchar("password"),
   currency: varchar("currency", { length: 5 }).notNull().default("rub"),
 });
 

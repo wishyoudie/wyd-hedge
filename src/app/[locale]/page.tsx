@@ -1,5 +1,5 @@
-import { getServerSession } from "@/shared/utils/getServerSession";
 import { redirect } from "@/navigation";
+import { getServerSession } from "@/app/api/auth/options";
 
 export default async function Home() {
   const session = await getServerSession();
