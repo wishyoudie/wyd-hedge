@@ -22,3 +22,4 @@ const config = {
 };
 
 export default withNextIntl(config);
+// export default config;

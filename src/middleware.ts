@@ -1,13 +1,14 @@
+import { chain } from "@/middlewares/chain";
+import { withAuthMiddleware } from "@/middlewares/withAuthMiddleware";
 import createMiddleware from "next-intl/middleware";
-import Settings from "./shared/lib/settings";
+import { i18n } from "./i18n";
 
-export default createMiddleware({
-  defaultLocale: "ru",
-  locales: Settings.locales,
-  localePrefix: undefined,
-});
+const withI18nMiddleware = () => {
+  return createMiddleware(i18n);
+};
+
+export default chain([withAuthMiddleware, withI18nMiddleware]);
 
 export const config = {
-  // Match only internationalized pathnames
-  matcher: ["/", "/(ru|en)/:path*", "/((?!_next|_vercel|.*\\..*).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

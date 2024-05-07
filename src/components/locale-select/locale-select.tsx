@@ -8,9 +8,9 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "~/components/dropdown-menu/dropdown-menu";
-import { usePathname, useRouter } from "~/navigation";
-import Settings from "~/shared/lib/settings";
+} from "@/components/ui/dropdown-menu";
+import { usePathname, useRouter } from "@/navigation";
+import Settings from "@/shared/lib/settings";
 
 export default function LocaleToggle() {
   const currentLocale = useLocale();

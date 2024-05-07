@@ -1,11 +1,12 @@
-import ThemeProvider from "~/app/[locale]/_providers/theme-provider";
+import ThemeProvider from "./_providers/theme-provider";
 
-import "~/styles/globals.css";
+import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
 
 import AuthProvider from "./_providers/auth-provider";
-import { Toaster } from "~/components/sonner/sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { type Locale } from "@/i18n";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,29 +15,29 @@ const inter = Inter({
 
 export const metadata = {
   title: "Accountant",
-  description: "Finances Managing App",
+  description: "Budget Planner App",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default function LocalizedRootLayout({
   children,
   params: { locale },
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: { locale: Locale };
 }) {
   return (
-    <AuthProvider>
-      <html lang={locale} suppressHydrationWarning>
-        <body
-          className={`font-sans antialiased ${inter.variable} flex h-screen flex-col overflow-hidden bg-background`}
-        >
+    <html lang={locale} suppressHydrationWarning>
+      <body
+        className={`font-sans antialiased ${inter.variable} h-screen overflow-hidden bg-background`}
+      >
+        <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
             <Toaster />
           </ThemeProvider>
-        </body>
-      </html>
-    </AuthProvider>
+        </AuthProvider>
+      </body>
+    </html>
   );
 }

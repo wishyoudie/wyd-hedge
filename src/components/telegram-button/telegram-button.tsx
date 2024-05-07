@@ -3,7 +3,7 @@
 import { LoginButton } from "@telegram-auth/react";
 import { useLocale } from "next-intl";
 import { useTheme } from "next-themes";
-import { signInAs } from "~/shared/utils";
+import { signInAs } from "@/shared/utils";
 
 const defaultFilter = "saturate(0%) brightness(70%) contrast(500%)";
 

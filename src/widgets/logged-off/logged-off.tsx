@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { env } from "~/env";
-import { Button } from "~/components/button/button";
-import { Card } from "~/components/card/card";
-import TelegramButton from "~/components/telegram-button/telegram-button";
+import { env } from "@/env";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import TelegramButton from "@/components/telegram-button/telegram-button";
 import { useTranslations } from "next-intl";
 
 export default function LoggedOffWidget() {

@@ -1,13 +1,12 @@
-import ThemeToggle from "~/components/theme-select/theme-select";
+import ThemeToggle from "@/components/theme-select/theme-select";
 import AuthButton from "./auth-button";
 
-import { Link } from "~/navigation";
-import { env } from "~/env";
-import Logo from "~/components/logo/logo";
-import { isAdmin } from "~/shared/utils/isAdmin";
+import { Link } from "@/navigation";
+import { env } from "@/env";
+import Logo from "@/components/logo/logo";
+import { isAdmin } from "@/shared/utils/isAdmin";
 import { getTranslations } from "next-intl/server";
 import LocaleToggle from "../locale-select/locale-select";
-import Shortcut from "../shortcut/shortcut";
 
 const adminItems = [
   {
@@ -75,7 +74,7 @@ export default async function Nav() {
           )}
         </nav>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <Shortcut letter="K" />
+          {/* <Shortcut letter="K" /> */}
           <ThemeToggle
             light={t("light")}
             dark={t("dark")}

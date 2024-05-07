@@ -7,20 +7,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/components/dropdown-menu/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "~/components/avatar/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ExitIcon, GearIcon } from "@radix-ui/react-icons";
 
 import { useSession, signOut } from "next-auth/react";
 import TelegramButton from "../telegram-button/telegram-button";
-import Spinner from "~/components/spinner/spinner";
-import { useRouter } from "~/navigation";
-import { Skeleton } from "~/components/skeleton/skeleton";
+import Spinner from "@/components/ui/spinner";
+import { useRouter } from "@/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
   botUsername: string;

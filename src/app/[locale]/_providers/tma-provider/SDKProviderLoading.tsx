@@ -1,4 +1,4 @@
-import Welcome from "~/app/[locale]/tma/wel";
+import Welcome from "@/app/[locale]/tma/wel";
 
 export default function SDKProviderLoading() {
   return (
