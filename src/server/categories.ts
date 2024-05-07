@@ -1,6 +1,6 @@
 import { getSessionUser } from "~/shared/utils/getServerSession";
 import { db } from "./db";
-import { categories, operationOnCategories } from "./db/schema";
+import { categories, transactionOnCategories } from "./db/schema";
 import { eq } from "drizzle-orm";
 
 export async function getUserCategories(userId?: string) {
@@ -31,8 +31,8 @@ export async function changeCategory(data: { id: number; name: string }) {
 export async function deleteCategory(id: number) {
   // Delete all operations relations with this category
   await db
-    .delete(operationOnCategories)
-    .where(eq(operationOnCategories.categoryId, id));
+    .delete(transactionOnCategories)
+    .where(eq(transactionOnCategories.categoryId, id));
   // Delete this category
   await db.delete(categories).where(eq(categories.id, id));
   // Delete all children of this category
@@ -44,8 +44,8 @@ export async function deleteCategory(id: number) {
   await Promise.all(
     children.map((child) =>
       db
-        .delete(operationOnCategories)
-        .where(eq(operationOnCategories.categoryId, child.id)),
+        .delete(transactionOnCategories)
+        .where(eq(transactionOnCategories.categoryId, child.id)),
     ),
   );
 }

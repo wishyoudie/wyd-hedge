@@ -3,7 +3,7 @@ import { DataTable } from "./data-table";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { getUserAccounts } from "~/server/accounts";
-import { getOperationsWithCategories } from "~/server/operations";
+import { getOperationsWithCategories } from "~/server/transactions";
 
 export default async function OperationsPage() {
   const messages = await getMessages();

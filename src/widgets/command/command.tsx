@@ -19,7 +19,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "~/components/command/command";
+} from "@/components/ui/command";
 
 export default function AppCommandDialog() {
   const [open, setOpen] = React.useState(false);

@@ -1,5 +1,5 @@
 import "server-only";
-import type { Account } from "./db/schema";
+import type { Account } from "./db/types";
 
 const BASE_URL =
   "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/";

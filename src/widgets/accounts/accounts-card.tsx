@@ -5,17 +5,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../components/card/card";
+} from "../../components/ui/card";
 import { DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons";
 import AccountItem from "../../components/accounts/account-item";
 import { getUserSettings } from "~/server/settings";
-import { Button } from "../../components/button/button";
+import { Button } from "../../components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../../components/dropdown-menu/dropdown-menu";
+} from "../../components/ui/dropdown-menu";
 import { Link } from "~/navigation";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { ScrollArea } from "~/components/scroll-area/scroll-area";

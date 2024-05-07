@@ -1,6 +1,6 @@
 import { getRatedValue } from "~/server/currencies";
 import type { Account } from "~/server/db/schema";
-import ColorCircle from "../color-circle/color-circle";
+import ColorCircle from "../ui/color-circle";
 import { getFormatter } from "next-intl/server";
 import {
   ContextMenu,
@@ -14,9 +14,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../dialog/dialog";
+} from "../ui/dialog";
 import { SubmitButton } from "../button/submit-button";
-import { Button } from "../button/button";
+import { Button } from "../ui/button";
 import { deleteAccount } from "~/server/actions";
 
 export default async function AccountItem(

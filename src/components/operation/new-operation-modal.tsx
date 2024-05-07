@@ -8,11 +8,11 @@ import {
   DialogTitle,
 } from "~/components/dialog/dialog";
 import { createOperation } from "~/server/actions";
-import { Label } from "../label/label";
+import { Label } from "../ui/label";
 import { SubmitButton } from "../button/submit-button";
 import SelectAccount from "~/widgets/operations/change-account";
 import { toast } from "sonner";
-import { Input } from "../input/input";
+import { Input } from "../ui/input";
 import type { Account } from "~/server/db/schema";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../tabs/tabs";
 import SelectCategory from "~/widgets/operations/select-category";

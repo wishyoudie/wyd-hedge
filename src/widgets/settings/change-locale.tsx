@@ -5,8 +5,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "~/components/select/select";
-import Settings from "~/shared/lib/settings";
+} from "@/components/ui/select";
+import Settings from "@/shared/lib/settings";
 
 type Props = {
   defaultValue: string;

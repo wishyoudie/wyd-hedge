@@ -1,5 +1,5 @@
 import { list } from "@vercel/blob";
-import { Skeleton } from "../skeleton/skeleton";
+import { Skeleton } from "../ui/skeleton";
 
 export default async function Logo({ size = 16 }: { size?: number }) {
   const blobs = await list();

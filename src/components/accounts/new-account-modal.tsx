@@ -8,10 +8,10 @@ import {
   DialogTitle,
 } from "~/components/dialog/dialog";
 import { createAccount } from "~/server/actions";
-import { Label } from "../label/label";
+import { Label } from "../ui/label";
 import { SubmitButton } from "../button/submit-button";
 import { toast } from "sonner";
-import { Input } from "../input/input";
+import { Input } from "../ui/input";
 import { useLocale } from "next-intl";
 import SelectCurrency from "~/widgets/settings/change-currency";
 

@@ -11,7 +11,7 @@ import {
   changeCategory,
 } from "./categories";
 import { getSessionUser } from "~/shared/utils/getServerSession";
-import { deleteOperation as _deleteOperation } from "./operations";
+import { deleteOperation as _deleteOperation } from "./transactions";
 
 const settingsSchema = z.object({
   currency: z.string().optional(),

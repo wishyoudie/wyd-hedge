@@ -49,7 +49,7 @@ import {
 } from "~/components/table/table";
 import { deleteOperation } from "~/server/actions";
 import type { Account, Operation } from "~/server/db/schema";
-import type { OperationWithCategories } from "~/server/operations";
+import type { OperationWithCategories } from "~/server/transactions";
 
 interface DataTableProps {
   data: OperationWithCategories[];

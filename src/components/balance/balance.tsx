@@ -1,6 +1,6 @@
 import { getUserTotalSavings } from "~/server/queries";
 import { getUserSettings } from "~/server/settings";
-import { Card, CardContent, CardHeader, CardTitle } from "../card/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { formatMoney } from "~/shared/lib/utils";
 import { getTranslations } from "next-intl/server";
 

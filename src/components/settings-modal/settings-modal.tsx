@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "~/components/dialog/dialog";
 import { changeSettings } from "~/server/actions";
-import { Label } from "../label/label";
+import { Label } from "../ui/label";
 import SelectCurrency from "~/widgets/settings/change-currency";
 import { SubmitButton } from "../button/submit-button";
 import { toast } from "sonner";
