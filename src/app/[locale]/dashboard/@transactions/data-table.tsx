@@ -19,25 +19,25 @@ import {
 import { useFormatter, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Badge } from "~/components/badge/badge";
-import { Button } from "~/components/button/button";
-import { SubmitButton } from "~/components/button/submit-button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { SubmitButton } from "@/components/button/submit-button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/dialog/dialog";
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "~/components/dropdown-menu/dropdown-menu";
-import TagIcon from "~/components/icons/tag";
-import { Input } from "~/components/input/input";
+} from "@/components/ui/dropdown-menu";
+// import TagIcon from "@/components/icons/tag";
+import { Input } from "@/components/ui/input";
 
 import {
   Table,
@@ -46,17 +46,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/components/table/table";
-import { deleteOperation } from "~/server/actions";
-import type { Account, Operation } from "~/server/db/schema";
-import type { OperationWithCategories } from "~/server/transactions";
+} from "@/components/ui/table";
+import type { Transaction } from "@/server/db/types";
+import { deleteTransaction } from "@/server/actions";
 
 interface DataTableProps {
-  data: OperationWithCategories[];
-  accounts: Account[];
+  data: Transaction[];
 }
 
-export function DataTable({ data, accounts }: DataTableProps) {
+export function DataTable({ data }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [dialogData, setDialogData] = useState<number>();
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -64,7 +62,7 @@ export function DataTable({ data, accounts }: DataTableProps) {
   const formatter = useFormatter();
   const t = useTranslations("web.operations");
 
-  const handleCopyClick = (operation: Operation) => () => {
+  const handleCopyClick = (operation: Transaction) => () => {
     navigator.clipboard
       .writeText(JSON.stringify(operation))
       .then(() => {
@@ -82,7 +80,7 @@ export function DataTable({ data, accounts }: DataTableProps) {
     toast("Success", { description: "Operation Deleted" });
   };
 
-  const columns: ColumnDef<OperationWithCategories>[] = useMemo(
+  const columns: ColumnDef<Transaction>[] = useMemo(
     () => [
       {
         accessorKey: "type",
@@ -108,65 +106,65 @@ export function DataTable({ data, accounts }: DataTableProps) {
         accessorKey: "name",
         header: t("name"),
       },
-      {
-        accessorKey: "value",
-        header: ({ column }) => (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            {t("value")}
-          </Button>
-        ),
-        cell: ({ row }) => {
-          const value = parseFloat(row.getValue("value"));
-          const account = accounts.find(
-            (ac) => ac.id === row.getValue("accountId"),
-          );
-          const formatted = formatter.number(value, {
-            style: "currency",
-            currency: account!.currency!,
-          });
+      // {
+      //   accessorKey: "value",
+      //   header: ({ column }) => (
+      //     <Button
+      //       variant="ghost"
+      //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      //     >
+      //       {t("value")}
+      //     </Button>
+      //   ),
+      //   cell: ({ row }) => {
+      //     const value = parseFloat(row.getValue("value"));
+      //     const account = accounts.find(
+      //       (ac) => ac.id === row.getValue("accountId"),
+      //     );
+      //     const formatted = formatter.number(value, {
+      //       style: "currency",
+      //       currency: account!.currency!,
+      //     });
 
-          return <span className="text-right font-medium">{formatted}</span>;
-        },
-      },
-      {
-        accessorKey: "operationCategories",
-        header: "Categories",
-        cell: ({ row }) => {
-          const operationCategories: {
-            category: { id: number; name: string };
-          }[] = row.getValue("operationCategories");
-          const categories = operationCategories.map((oc) => oc.category);
+      //     return <span className="text-right font-medium">{formatted}</span>;
+      //   },
+      // },
+      // {
+      //   accessorKey: "operationCategories",
+      //   header: "Categories",
+      //   cell: ({ row }) => {
+      //     const operationCategories: {
+      //       category: { id: number; name: string };
+      //     }[] = row.getValue("operationCategories");
+      //     const categories = operationCategories.map((oc) => oc.category);
 
-          if (categories.length === 1 && categories[0]!.name === "root") {
-            return <Badge variant="secondary">Unsorted</Badge>;
-          }
+      //     if (categories.length === 1 && categories[0]!.name === "root") {
+      //       return <Badge variant="secondary">Unsorted</Badge>;
+      //     }
 
-          return (
-            <div className="flex max-w-40 flex-wrap gap-1">
-              {categories.map((category) => (
-                <Badge key={category.id} variant="secondary">
-                  <TagIcon className="mr-1 size-2" />
-                  <span>{category.name}</span>
-                </Badge>
-              ))}
-            </div>
-          );
-        },
-      },
-      {
-        accessorKey: "accountId",
-        header: "Account",
-        cell: ({ row }) => {
-          const id = Number(row.getValue("accountId"));
-          const account = accounts.find((ac) => ac.id === id);
-          return (
-            <span className="text-right font-medium">{account!.name}</span>
-          );
-        },
-      },
+      //     return (
+      //       <div className="flex max-w-40 flex-wrap gap-1">
+      //         {categories.map((category) => (
+      //           <Badge key={category.id} variant="secondary">
+      //             <TagIcon className="mr-1 size-2" />
+      //             <span>{category.name}</span>
+      //           </Badge>
+      //         ))}
+      //       </div>
+      //     );
+      //   },
+      // },
+      // {
+      //   accessorKey: "accountId",
+      //   header: "Account",
+      //   cell: ({ row }) => {
+      //     const id = Number(row.getValue("accountId"));
+      //     const account = accounts.find((ac) => ac.id === id);
+      //     return (
+      //       <span className="text-right font-medium">{account!.name}</span>
+      //     );
+      //   },
+      // },
       {
         accessorKey: "createdAt",
         header: ({ column }) => (
@@ -333,7 +331,7 @@ export function DataTable({ data, accounts }: DataTableProps) {
             <Button variant="outline" onClick={() => setDialogOpen(false)}>
               Cancel
             </Button>
-            <form action={deleteOperation}>
+            <form action={deleteTransaction}>
               <input type="hidden" value={dialogData} name="id" />
               <SubmitButton onClick={handleDeleteSubmit}>Continue</SubmitButton>
             </form>

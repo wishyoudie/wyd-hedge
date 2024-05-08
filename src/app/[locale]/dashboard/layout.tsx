@@ -4,7 +4,7 @@ import Header from "../_components/header";
 
 export default function WebLayout(props: {
   children: React.ReactNode;
-  modal: React.ReactNode;
+  transactions: React.ReactNode;
 }) {
   return (
     <>
@@ -13,10 +13,11 @@ export default function WebLayout(props: {
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
           <Header />
           {props.children}
+          {props.transactions}
         </div>
       </div>
       <AppCommandDialog />
-      {props.modal}
+      {/* {props.modal} */}
     </>
   );
 }

@@ -115,11 +115,16 @@ export const authOptions: NextAuthOptions = {
     newUser: "/dashboard?tutorial=true",
   },
   callbacks: {
-    signIn: async ({ profile }) => {
+    signIn: async ({ profile, user }) => {
       if (profile) {
         try {
           // Sign up, throws when encounters conflicting usernames
-          await createUser({ username: profile.email });
+          const newUser = await createUser({ username: profile.email });
+
+          if (newUser) {
+            user.id = newUser.id;
+            user.username = newUser.username;
+          }
         } catch {
           // Here user uses same OAuth second time => already signed up
           // console.log("Signed up lol");
@@ -128,7 +133,19 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     jwt: async ({ token, user }) => {
-      user && (token.user = user);
+      if (user?.email) {
+        const dbUser = await getUserByUsername(user.email);
+        if (dbUser) {
+          token.user = {
+            id: dbUser.id,
+            name: user.name,
+            email: user.email,
+            username: dbUser.username,
+            currency: dbUser.currency,
+            image: user.image,
+          };
+        }
+      }
       return token;
     },
     session: async ({ session, token }) => {
@@ -139,6 +156,7 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export async function getServerSession(): Promise<Session | null> {
-  return await _getServerSession(authOptions);
+export async function getServerSession(): Promise<Session> {
+  const session = await _getServerSession(authOptions);
+  return session!;
 }
