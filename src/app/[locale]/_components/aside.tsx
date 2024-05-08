@@ -1,5 +1,12 @@
 import LogoIcon from "@/components/icons/logo";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -7,12 +14,15 @@ import {
 import {
   Home,
   LineChart,
+  MoonIcon,
   Package,
   Settings,
   ShoppingCart,
+  SunIcon,
   Users2,
 } from "lucide-react";
 import Link from "next/link";
+import ThemeDropdown from "./theme-dropdown";
 
 export default function Aside() {
   return (
@@ -84,18 +94,24 @@ export default function Aside() {
         </Tooltip>
       </nav>
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link
-              href="#"
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-            >
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
               <Settings className="h-5 w-5" />
               <span className="sr-only">Settings</span>
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="right">Settings</TooltipContent>
-        </Tooltip>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <SunIcon className="mr-2 size-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <MoonIcon className="absolute mr-2 size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span>Theme</span>
+              </DropdownMenuSubTrigger>
+              <ThemeDropdown />
+            </DropdownMenuSub>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </nav>
     </aside>
   );

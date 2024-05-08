@@ -27,13 +27,13 @@ export default function AuthButton(props: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="size-10">
+        <Avatar className="size-9">
           <AvatarImage
             src={props.user.image ?? ""}
             alt={props.user.name ?? ""}
           />
           <AvatarFallback>
-            <Button size="icon" className="size-10 rounded-full">
+            <Button size="icon" className="size-9 rounded-full">
               <User2 className="size-6" />
             </Button>
           </AvatarFallback>

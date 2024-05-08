@@ -13,7 +13,7 @@ import { Search } from "lucide-react";
 import Link from "next/link";
 
 export default async function Header() {
-  const session = await getServerSession();
+  const { user } = await getServerSession();
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -44,7 +44,7 @@ export default async function Header() {
           className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
         />
       </div>
-      <AuthButton signOut="Sign Out" user={session!.user} />
+      <AuthButton signOut="Sign Out" user={user} />
     </header>
   );
 }
