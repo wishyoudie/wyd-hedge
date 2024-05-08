@@ -15,6 +15,7 @@ declare module "next-auth" {
     id: number;
     currency: string;
     username?: string | null;
+    isPremium: boolean;
   }
   interface Session {
     user: User;
@@ -45,6 +46,7 @@ export const authOptions: NextAuthOptions = {
               id: user.id,
               username: user.username,
               currency: user.currency,
+              isPremium: user.isPremium,
             };
 
             return returned;
@@ -101,6 +103,7 @@ export const authOptions: NextAuthOptions = {
             id: newUser.id,
             username: newUser.username,
             currency: newUser.currency,
+            isPremium: newUser.isPremium,
           };
 
           return returned;
@@ -124,6 +127,7 @@ export const authOptions: NextAuthOptions = {
           if (newUser) {
             user.id = newUser.id;
             user.username = newUser.username;
+            user.isPremium = newUser.isPremium;
           }
         } catch {
           // Here user uses same OAuth second time => already signed up
@@ -143,6 +147,7 @@ export const authOptions: NextAuthOptions = {
             username: dbUser.username,
             currency: dbUser.currency,
             image: user.image,
+            isPremium: dbUser.isPremium,
           };
         }
       }

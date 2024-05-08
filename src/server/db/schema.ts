@@ -7,6 +7,7 @@ import {
   timestamp,
   real,
   primaryKey,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 export const createTable = pgTableCreator((name) => `wyd-hedge_${name}`);
@@ -17,6 +18,7 @@ export const users = createTable("user", {
   username: varchar("username").unique(),
   password: varchar("password"),
   currency: varchar("currency", { length: 5 }).notNull().default("rub"),
+  isPremium: boolean("isPremium").notNull().default(false),
 });
 
 export const accounts = createTable("account", {
