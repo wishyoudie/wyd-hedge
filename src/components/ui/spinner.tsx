@@ -18,9 +18,17 @@ const buildLine = (index: number) => {
   );
 };
 
-export default function Spinner() {
+export default function Spinner({
+  className,
+  size,
+}: {
+  className?: string;
+  size?: number;
+}) {
   return (
-    <span className="select-nones relative inline-block size-[28px]">
+    <span
+      className={`select-nones relative inline-block size-[${size ?? 28}px] ${className}`}
+    >
       {[0, 1, 2, 3, 4, 5, 6, 7].map(buildLine)}
     </span>
   );

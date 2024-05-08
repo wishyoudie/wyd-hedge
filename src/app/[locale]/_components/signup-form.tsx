@@ -6,11 +6,11 @@ import { useRouter } from "@/navigation";
 import { useState, type FormEvent } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import Spinner from "@/components/ui/spinner";
-import { Terminal } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal } from "lucide-react";
+import Spinner from "@/components/ui/spinner";
 
-export default function SignInForm() {
+export default function SignUpForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>();
@@ -23,7 +23,7 @@ export default function SignInForm() {
 
     const formData = new FormData(evt.currentTarget);
 
-    const res = await signIn("credentials", {
+    const res = await signIn("register", {
       username: formData.get("username"),
       password: formData.get("password"),
       redirect: false,
@@ -50,7 +50,7 @@ export default function SignInForm() {
       </div>
       <Button type="submit" className="w-full" disabled={isLoading}>
         {isLoading && <Spinner size={16} className="mr-2" />}
-        Login
+        Sign Up
       </Button>
       {error && (
         <Alert variant="destructive">

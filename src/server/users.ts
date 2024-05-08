@@ -27,7 +27,7 @@ export async function createUser({
   username?: string;
   password?: string;
 }) {
-  return await db
+  const returned = await db
     .insert(users)
     .values({
       password: generatePasswordHash(password ?? generateRandomString()),
@@ -35,4 +35,6 @@ export async function createUser({
     })
     .onConflictDoNothing()
     .returning();
+
+  return returned[0];
 }

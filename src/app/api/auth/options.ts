@@ -9,14 +9,13 @@ import {
   getUserByUsername,
 } from "@/server/users";
 import { getServerSession as _getServerSession } from "next-auth";
-import { useSession as _useSession } from "next-auth/react";
 
 declare module "next-auth" {
   interface User {
     id: number;
     currency: string;
     username?: string | null;
-    suggestTurorial: boolean;
+    showTutorial: boolean;
   }
   interface Session {
     user: User;
@@ -40,16 +39,56 @@ export const authOptions: NextAuthOptions = {
         }
 
         const user = await getUserByUsername(credentials.username);
+        console.log(user);
+        if (user) {
+          if (user.password === generatePasswordHash(credentials.password)) {
+            const returned: User = {
+              id: user.id,
+              username: user.username,
+              currency: user.currency,
+              showTutorial: false,
+            };
 
-        if (
-          user &&
-          user.password === generatePasswordHash(credentials.password)
-        ) {
+            return returned;
+          } else {
+            throw new Error("Incorrect password");
+          }
+        }
+
+        return null;
+      },
+    }),
+    CredentialsProvider({
+      id: "register",
+      name: "register",
+      credentials: {
+        username: { label: "username", type: "username" },
+        password: { label: "password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.username || !credentials.password) {
+          return null;
+        }
+
+        const user = await getUserByUsername(credentials.username);
+
+        if (user) {
+          throw new Error("User already exists");
+        }
+
+        const newUser = await createUser({
+          username: credentials.username,
+          password: credentials.password,
+        });
+
+        console.log(newUser);
+
+        if (newUser) {
           const returned: User = {
-            id: user.id,
-            username: user.username,
-            currency: user.currency,
-            suggestTurorial: false,
+            id: newUser.id,
+            username: newUser.username,
+            currency: newUser.currency,
+            showTutorial: true,
           };
 
           return returned;
@@ -61,7 +100,6 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/signin",
-    newUser: "/web/new",
   },
   callbacks: {
     signIn: async ({ profile }) => {
@@ -70,13 +108,18 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
+    jwt: async ({ token, user }) => {
+      user && (token.user = user);
+      return token;
+    },
+    session: async ({ session, token }) => {
+      //@ts-expect-error Forcing unknown
+      session.user = token.user;
+      return session;
+    },
   },
 };
 
 export async function getServerSession(): Promise<Session | null> {
   return await _getServerSession(authOptions);
-}
-
-export function useSession() {
-  return _useSession();
 }

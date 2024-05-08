@@ -1,3 +1,4 @@
+import { getServerSession } from "@/app/api/auth/options";
 import AuthButton from "@/components/nav/auth-button";
 import {
   Breadcrumb,
@@ -11,7 +12,9 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import Link from "next/link";
 
-export default function Header() {
+export default async function Header() {
+  const session = await getServerSession();
+
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <Breadcrumb className="hidden md:flex">
@@ -41,7 +44,7 @@ export default function Header() {
           className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
         />
       </div>
-      <AuthButton signOut="Sign Out" settings="Settings" />
+      <AuthButton signOut="Sign Out" user={session!.user} />
     </header>
   );
 }

@@ -10,60 +10,49 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ExitIcon, GearIcon } from "@radix-ui/react-icons";
+import { ExitIcon } from "@radix-ui/react-icons";
 
-import { useSession, signOut } from "next-auth/react";
-import Spinner from "@/components/ui/spinner";
-import { useRouter } from "@/navigation";
-import { Skeleton } from "@/components/ui/skeleton";
+import { signOut } from "next-auth/react";
+import { User2 } from "lucide-react";
+import { Button } from "../ui/button";
+import type { User } from "next-auth";
 
 type Props = {
   // botUsername: string;
   signOut: string;
-  settings: string;
+  user: User;
 };
 
 export default function AuthButton(props: Props) {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  if (status === "loading") {
-    return <Spinner />;
+  if (props.user.showTutorial) {
+    alert("Wanna go for a tutorial?");
   }
 
-  if (status === "authenticated") {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <div>
-            <Avatar className="size-10">
-              <AvatarImage
-                src={session.user?.image ?? ""}
-                alt={session.user?.name ?? ""}
-              />
-              <AvatarFallback>
-                <Skeleton className="size-10" />
-              </AvatarFallback>
-            </Avatar>
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>{session.user?.name}</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => router.push("/web/settings")}>
-            <GearIcon className="mr-2 size-4" />
-            {props.settings}
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => signOut()}>
-            <ExitIcon className="mr-2 size-4" />
-            {props.signOut}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  }
-
-  // return <TelegramButton botUsername={props.botUsername} />;
-  return <div>tgbtn</div>;
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Avatar className="size-10">
+          <AvatarImage
+            src={props.user.image ?? ""}
+            alt={props.user.name ?? ""}
+          />
+          <AvatarFallback>
+            <Button size="icon" className="size-10 rounded-full">
+              <User2 className="size-6" />
+            </Button>
+          </AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuLabel>
+          {props.user.name ?? props.user.username}
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => signOut()}>
+          <ExitIcon className="mr-2 size-4" />
+          {props.signOut}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
