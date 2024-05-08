@@ -1,14 +1,33 @@
+import LogoIcon from "@/components/icons/logo";
 import GoogleButton from "../_components/google-button";
 import SignInForm from "../_components/signin-form";
+import { Link } from "@/navigation";
 
-export default async function SignInPage() {
+export default function SignInPage() {
   return (
-    <main>
-      <div className="grid w-40 gap-2">
-        <h1>Sign In</h1>
-        <GoogleButton />
-        <div>or</div>
-        <SignInForm />
+    <main className="h-screen w-full lg:grid lg:grid-cols-2">
+      <div className="flex h-full items-center justify-center">
+        <div className="mx-auto grid w-[350px] gap-6">
+          <div className="grid gap-2 text-center">
+            <h1 className="text-3xl font-bold">Login</h1>
+            <p className="text-balance text-muted-foreground">
+              Enter your username below to login to your account
+            </p>
+          </div>
+          <div className="grid gap-4">
+            <SignInForm />
+            <GoogleButton />
+          </div>
+          <div className="mt-4 text-center text-sm">
+            Don&apos;t have an account?{" "}
+            <Link href="#" className="underline">
+              Sign up
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="relative hidden place-content-center bg-muted/50 lg:block">
+        <LogoIcon className="absolute left-[50%] top-[50%] z-50 size-[25%] translate-x-[-50%] translate-y-[-50%] text-black" />
       </div>
     </main>
   );

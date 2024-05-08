@@ -9,13 +9,15 @@ export default function GoogleButton() {
 
   return (
     <Button
+      variant="outline"
+      className="w-full"
       onClick={() =>
         signIn("google", {
           callbackUrl: searchParams.get("callbackUrl") ?? "/dashboard",
         })
       }
     >
-      Sign In With Google
+      Login with Google
     </Button>
   );
 }

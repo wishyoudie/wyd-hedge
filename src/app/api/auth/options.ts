@@ -1,6 +1,7 @@
 import type { NextAuthOptions, User, Session } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+
 import { env } from "@/env";
 import {
   createUser,
@@ -65,9 +66,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     signIn: async ({ profile }) => {
       if (profile) {
-        const { email } = profile;
-        const username = email!.split("@")[0]!;
-        await createUser({ username });
+        await createUser({ username: profile.email });
       }
       return true;
     },

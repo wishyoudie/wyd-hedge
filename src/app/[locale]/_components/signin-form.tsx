@@ -2,8 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
-import { useRouter } from "@/navigation";
+import { Link, useRouter } from "@/navigation";
 import type { FormEvent } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -26,10 +28,26 @@ export default function SignInForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-2">
-      <input type="text" name="username" required />
-      <input type="password" name="password" required />
-      <Button type="submit">Sign In</Button>
+    <form className="grid gap-4" onSubmit={handleSubmit}>
+      <div className="grid gap-2">
+        <Label htmlFor="email">Username</Label>
+        <Input name="username" type="text" placeholder="wishyoudie" required />
+      </div>
+      <div className="grid gap-2">
+        <div className="flex items-center">
+          <Label htmlFor="password">Password</Label>
+          <Link
+            href="/password"
+            className="ml-auto inline-block text-sm underline"
+          >
+            Forgot your password?
+          </Link>
+        </div>
+        <Input name="password" type="password" required />
+      </div>
+      <Button type="submit" className="w-full">
+        Login
+      </Button>
     </form>
   );
 }
