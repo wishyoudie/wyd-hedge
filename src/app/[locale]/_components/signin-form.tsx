@@ -9,8 +9,10 @@ import { Input } from "@/components/ui/input";
 import Spinner from "@/components/ui/spinner";
 import { Terminal } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useLocale } from "next-intl";
 
 export default function SignInForm() {
+  const locale = useLocale();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>();
@@ -32,7 +34,8 @@ export default function SignInForm() {
     if (res && !res.error) {
       router.push("/dashboard");
     } else {
-      setError(res?.error);
+      const err: Record<string, string> = JSON.parse(res!.error!);
+      setError(err[locale]);
     }
 
     setIsLoading(false);

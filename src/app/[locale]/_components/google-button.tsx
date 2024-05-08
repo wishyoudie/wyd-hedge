@@ -13,7 +13,8 @@ export default function GoogleButton() {
       className="w-full"
       onClick={() =>
         signIn("google", {
-          callbackUrl: searchParams.get("callbackUrl") ?? "/dashboard",
+          callbackUrl:
+            searchParams.get("callbackUrl") ?? "/dashboard?tutorial=true",
         })
       }
     >

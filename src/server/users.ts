@@ -33,7 +33,6 @@ export async function createUser({
       password: generatePasswordHash(password ?? generateRandomString()),
       username: username,
     })
-    .onConflictDoNothing()
     .returning();
 
   return returned[0];

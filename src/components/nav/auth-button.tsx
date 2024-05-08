@@ -24,10 +24,6 @@ type Props = {
 };
 
 export default function AuthButton(props: Props) {
-  if (props.user.showTutorial) {
-    alert("Wanna go for a tutorial?");
-  }
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -44,9 +40,19 @@ export default function AuthButton(props: Props) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>
-          {props.user.name ?? props.user.username}
-        </DropdownMenuLabel>
+        {props.user.name ? (
+          <>
+            <DropdownMenuLabel className="pb-0">
+              {props.user.name}
+            </DropdownMenuLabel>
+            <DropdownMenuLabel className="pt-0 text-xs text-muted-foreground">
+              {props.user.username ?? props.user.email}
+            </DropdownMenuLabel>
+          </>
+        ) : (
+          <DropdownMenuLabel>{props.user.username}</DropdownMenuLabel>
+        )}
+
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()}>
           <ExitIcon className="mr-2 size-4" />

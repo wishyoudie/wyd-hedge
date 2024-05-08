@@ -15,7 +15,6 @@ declare module "next-auth" {
     id: number;
     currency: string;
     username?: string | null;
-    showTutorial: boolean;
   }
   interface Session {
     user: User;
@@ -39,23 +38,34 @@ export const authOptions: NextAuthOptions = {
         }
 
         const user = await getUserByUsername(credentials.username);
-        console.log(user);
+
         if (user) {
           if (user.password === generatePasswordHash(credentials.password)) {
             const returned: User = {
               id: user.id,
               username: user.username,
               currency: user.currency,
-              showTutorial: false,
             };
 
             return returned;
           } else {
-            throw new Error("Incorrect password");
+            throw new Error(
+              JSON.stringify({
+                en: "Incorrect username or password",
+                ru: "Неверное имя пользователя или пароль",
+              }),
+            );
           }
         }
 
-        return null;
+        throw new Error(
+          JSON.stringify({
+            en: "Incorrect username or password",
+            ru: "Неверное имя пользователя или пароль",
+          }),
+        );
+
+        // return null;
       },
     }),
     CredentialsProvider({
@@ -73,7 +83,12 @@ export const authOptions: NextAuthOptions = {
         const user = await getUserByUsername(credentials.username);
 
         if (user) {
-          throw new Error("User already exists");
+          throw new Error(
+            JSON.stringify({
+              en: "User already exists",
+              ru: "Пользователь с таким именем пользователя уже существует",
+            }),
+          );
         }
 
         const newUser = await createUser({
@@ -81,14 +96,11 @@ export const authOptions: NextAuthOptions = {
           password: credentials.password,
         });
 
-        console.log(newUser);
-
         if (newUser) {
           const returned: User = {
             id: newUser.id,
             username: newUser.username,
             currency: newUser.currency,
-            showTutorial: true,
           };
 
           return returned;
@@ -100,11 +112,18 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/signin",
+    newUser: "/dashboard?tutorial=true",
   },
   callbacks: {
     signIn: async ({ profile }) => {
       if (profile) {
-        await createUser({ username: profile.email });
+        try {
+          // Sign up, throws when encounters conflicting usernames
+          await createUser({ username: profile.email });
+        } catch {
+          // Here user uses same OAuth second time => already signed up
+          // console.log("Signed up lol");
+        }
       }
       return true;
     },

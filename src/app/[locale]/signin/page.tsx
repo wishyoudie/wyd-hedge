@@ -27,7 +27,7 @@ export default function SignInPage() {
         </div>
       </div>
       <div className="relative hidden place-content-center bg-muted/50 lg:block">
-        <LogoIcon className="absolute left-[50%] top-[50%] z-50 size-[25%] translate-x-[-50%] translate-y-[-50%] text-black" />
+        <LogoIcon className="absolute left-[50%] top-[50%] z-50 size-[25%] translate-x-[-50%] translate-y-[-50%] text-foreground dark:text-background" />
       </div>
     </main>
   );
