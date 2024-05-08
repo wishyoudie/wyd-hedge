@@ -112,7 +112,7 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/signin",
-    newUser: "/dashboard?tutorial=true",
+    newUser: "/app/dashboard?tutorial=true",
   },
   callbacks: {
     signIn: async ({ profile, user }) => {

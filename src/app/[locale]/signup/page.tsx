@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import SignUpForm from "../_components/signup-form";
+import SignUpForm from "../app/_components/signup-form";
 
 export default function SignUpPage() {
   return (

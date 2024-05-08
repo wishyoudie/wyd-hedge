@@ -1,6 +1,6 @@
 import LogoIcon from "@/components/icons/logo";
-import GoogleButton from "../_components/google-button";
-import SignInForm from "../_components/signin-form";
+import GoogleButton from "../app/_components/google-button";
+import SignInForm from "../app/_components/signin-form";
 import { Link } from "@/navigation";
 
 export default function SignInPage() {

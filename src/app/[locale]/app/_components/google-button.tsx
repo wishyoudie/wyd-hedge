@@ -14,7 +14,7 @@ export default function GoogleButton() {
       onClick={() =>
         signIn("google", {
           callbackUrl:
-            searchParams.get("callbackUrl") ?? "/dashboard?tutorial=true",
+            searchParams.get("callbackUrl") ?? "/app/dashboard?tutorial=true",
         })
       }
     >

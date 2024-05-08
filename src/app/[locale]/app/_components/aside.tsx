@@ -20,7 +20,7 @@ import { usePathname } from "@/navigation";
 
 export default function Aside() {
   const pathname = usePathname();
-  const current = pathname.split("/")[1];
+  const current = pathname.split("/")[2];
 
   const cn = (pn: string) =>
     current === pn
@@ -37,7 +37,7 @@ export default function Aside() {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="/dashboard"
+              href="/app/dashboard"
               className={`${cn("dashboard")} flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8`}
             >
               <Home className="h-5 w-5" />
@@ -98,7 +98,7 @@ export default function Aside() {
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
         <ThemeDropdown />
         <Link
-          href="/settings"
+          href="/app/settings"
           className={`${cn("settings")} flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8`}
         >
           <Settings className="h-5 w-5" />

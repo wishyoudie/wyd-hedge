@@ -12,7 +12,7 @@ export default async function Home() {
   const t = await getTranslations("web.loggedoff");
 
   if (user) {
-    redirect("/dashboard");
+    redirect("/app/dashboard");
   }
 
   return (
