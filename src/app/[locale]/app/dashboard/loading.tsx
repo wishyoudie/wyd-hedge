@@ -1,3 +1,5 @@
+import { Skeleton } from "@/components/ui/skeleton";
+
 export default function DashboardLoading() {
-  return <div>Loading...</div>;
+  return <Skeleton className="h-full w-full" />;
 }

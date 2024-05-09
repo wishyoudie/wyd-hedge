@@ -3,28 +3,28 @@
 import { Pencil2Icon, PlusCircledIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Button } from "~/components/button/button";
-import { SubmitButton } from "~/components/button/submit-button";
+import { Button } from "@/components/ui/button";
+import { SubmitButton } from "@/components/button/submit-button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/dialog/dialog";
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "~/components/dropdown-menu/dropdown-menu";
-import { Input } from "~/components/input/input";
-import { Label } from "~/components/label/label";
+} from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   createCategory,
   deleteCategory,
   updateCategory,
-} from "~/server/actions";
+} from "@/server/actions";
 
 type Props = {
   name: string;

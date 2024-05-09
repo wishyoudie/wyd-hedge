@@ -16,7 +16,7 @@ const pathnameToBreadcrumbs = (
   const parts = pathname
     .split("/")
     .filter((part) => part.length > 0 && part !== "/" && part !== "app");
-  console.log(parts);
+
   if (parts.length === 0) return [null, null];
   if (parts.length === 1) return [null, parts[0]!];
 

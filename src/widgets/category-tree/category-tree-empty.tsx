@@ -2,18 +2,18 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Button } from "~/components/button/button";
-import { SubmitButton } from "~/components/button/submit-button";
+import { Button } from "@/components/ui/button";
+import { SubmitButton } from "@/components/button/submit-button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/dialog/dialog";
-import { Input } from "~/components/input/input";
-import { Label } from "~/components/label/label";
-import { createCategory } from "~/server/actions";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { createCategory } from "@/server/actions";
 
 export default function CategoryTreePlaceholder(props: { rootId: number }) {
   const [dialogOpen, setDialogOpen] = useState(false);

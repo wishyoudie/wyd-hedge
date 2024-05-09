@@ -1,17 +1,18 @@
 "use server";
 
-// import { revalidatePath } from "next/cache";
+import { revalidatePath } from "next/cache";
 // import { updateUserSettings } from "./settings";
-// import { z } from "zod";
+import { z } from "zod";
 // import { insertOperation, insertOperationCategories } from "./queries";
 // import { insertAccount, deleteAccount as _deleteAccount } from "./accounts";
-// import {
-//   insertCategory,
-//   deleteCategory as _deleteCategory,
-//   changeCategory,
-// } from "./categories";
+import {
+  createCategory as _createCategory,
+  deleteCategory as _deleteCategory,
+  updateCategory as _updateCategory,
+} from "./categories";
 // import { getSessionUser } from "~/shared/utils/getServerSession";
 import { deleteTransaction as _deleteTransaction } from "./transactions";
+import { getServerSession } from "@/app/api/auth/options";
 
 // const settingsSchema = z.object({
 //   currency: z.string().optional(),
@@ -32,10 +33,10 @@ import { deleteTransaction as _deleteTransaction } from "./transactions";
 //   color: z.string().optional(),
 // });
 
-// const categorySchema = z.object({
-//   name: z.string(),
-//   parentId: z.number(),
-// });
+const categorySchema = z.object({
+  name: z.string(),
+  parentId: z.number(),
+});
 
 // export async function changeSettings(userId: number, formData: FormData) {
 //   const validation = settingsSchema.safeParse({
@@ -112,37 +113,37 @@ export async function deleteTransaction(formData: FormData) {
 //   }
 // }
 
-// export async function createCategory(formData: FormData) {
-//   const validation = categorySchema.safeParse({
-//     name: formData.get("name"),
-//     parentId: Number(formData.get("parentId")),
-//   });
+export async function createCategory(formData: FormData) {
+  const validation = categorySchema.safeParse({
+    name: formData.get("name"),
+    parentId: Number(formData.get("parentId")),
+  });
 
-//   if (validation.success) {
-//     const userId = +(await getSessionUser())!.id;
-//     const data = { ...validation.data, userId };
+  if (validation.success) {
+    const { user } = await getServerSession();
+    const data = { ...validation.data, userId: user.id };
 
-//     await insertCategory(data);
-//     revalidatePath("/categories");
-//   } else {
-//     throw new Error(validation.error.message);
-//   }
-// }
+    await _createCategory(data);
+    revalidatePath("/app/categories");
+  } else {
+    throw new Error(validation.error.message);
+  }
+}
 
-// export async function updateCategory(formData: FormData) {
-//   const data = {
-//     name: formData.get("name") as string,
-//     id: Number(formData.get("id")),
-//   };
+export async function updateCategory(formData: FormData) {
+  const data = {
+    name: formData.get("name") as string,
+    id: Number(formData.get("id")),
+  };
 
-//   await changeCategory(data);
-//   revalidatePath("/categories");
-// }
+  await _updateCategory(data);
+  revalidatePath("/categories");
+}
 
-// export async function deleteCategory(formData: FormData) {
-//   await _deleteCategory(Number(formData.get("id")));
-//   revalidatePath("/categories");
-// }
+export async function deleteCategory(formData: FormData) {
+  await _deleteCategory(Number(formData.get("id")));
+  revalidatePath("/categories");
+}
 
 // export async function deleteAccount(formData: FormData) {
 //   await _deleteAccount(Number(formData.get("id")));

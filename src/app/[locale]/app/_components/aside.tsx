@@ -9,7 +9,7 @@ import {
 import {
   Home,
   LineChart,
-  Package,
+  Network,
   Settings,
   ShoppingCart,
   Users2,
@@ -61,14 +61,14 @@ export default function Aside() {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
-              className={`${cn("transactions")} flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8`}
+              href="/app/categories"
+              className={`${cn("categories")} flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8`}
             >
-              <Package className="h-5 w-5" />
-              <span className="sr-only">Products</span>
+              <Network className="h-5 w-5" />
+              <span className="sr-only">Categories</span>
             </Link>
           </TooltipTrigger>
-          <TooltipContent side="right">Products</TooltipContent>
+          <TooltipContent side="right">Categories</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>

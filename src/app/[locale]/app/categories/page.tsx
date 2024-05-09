@@ -1,9 +1,9 @@
-import { getUserCategories } from "~/server/categories";
+import { getUserCategories } from "@/server/categories";
 import CategoryTree, {
   type TreeNode,
-} from "~/widgets/category-tree/category-tree";
-import type { Category } from "~/server/db/schema";
-import CategoryTreePlaceholder from "~/widgets/category-tree/category-tree-empty";
+} from "@/widgets/category-tree/category-tree";
+import type { Category } from "@/server/db/types";
+import CategoryTreePlaceholder from "@/widgets/category-tree/category-tree-empty";
 
 function findParent(tree: TreeNode, id: number) {
   if (tree.attributes!.id === id) return tree;
@@ -98,17 +98,6 @@ export default async function CategoriesPage() {
 
   const categoriesTreeData = toTreeData(categories);
 
-  return (
-    <div className="h-full space-y-4 p-8 pt-6">
-      <header className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Categories</h2>
-      </header>
-
-      {categoriesTreeData ? (
-        <CategoryTree data={categoriesTreeData} />
-      ) : (
-        <div>No Valid Data</div>
-      )}
-    </div>
-  );
+  if (categoriesTreeData) return <CategoryTree data={categoriesTreeData} />;
+  return <div>No Valid Data</div>;
 }

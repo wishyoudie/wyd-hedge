@@ -1,17 +1,17 @@
-import { getSessionUser } from "~/shared/utils/getServerSession";
 import { db } from "./db";
 import { categories, transactionOnCategories } from "./db/schema";
 import { eq } from "drizzle-orm";
+import { getServerSession } from "@/app/api/auth/options";
 
-export async function getUserCategories(userId?: string) {
-  const id = +(userId ?? (await getSessionUser())!.id);
+export async function getUserCategories() {
+  const { user } = await getServerSession();
 
   return await db.query.categories.findMany({
-    where: (model, { eq }) => eq(model.userId, id),
+    where: (model, { eq }) => eq(model.userId, user.id),
   });
 }
 
-export async function insertCategory(data: {
+export async function createCategory(data: {
   name: string;
   parentId: number;
   userId: number;
@@ -19,7 +19,7 @@ export async function insertCategory(data: {
   return await db.insert(categories).values(data);
 }
 
-export async function changeCategory(data: { id: number; name: string }) {
+export async function updateCategory(data: { id: number; name: string }) {
   return await db
     .update(categories)
     .set({
