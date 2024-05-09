@@ -13,11 +13,14 @@ import { Link, usePathname } from "@/navigation";
 const pathnameToBreadcrumbs = (
   pathname: string,
 ): [string[] | null, string | null] => {
-  const parts = pathname.split("/").filter((part) => part !== "app");
+  const parts = pathname
+    .split("/")
+    .filter((part) => part.length > 0 && part !== "/" && part !== "app");
+  console.log(parts);
   if (parts.length === 0) return [null, null];
   if (parts.length === 1) return [null, parts[0]!];
 
-  return [parts.slice(0, parts.length - 2), parts[parts.length - 1]!];
+  return [parts.slice(0, parts.length - 1), parts[parts.length - 1]!];
 };
 
 export default function AppBreadcrumbs() {
@@ -27,14 +30,16 @@ export default function AppBreadcrumbs() {
   return (
     <Breadcrumb className="hidden md:flex">
       <BreadcrumbList>
-        {breadcrumbs?.map((bc) => (
+        {breadcrumbs?.map((bc, i) => (
           <>
             <BreadcrumbItem key={bc}>
               <BreadcrumbLink asChild>
-                <Link href="#">{bc}</Link>
+                <Link href={`/app/${breadcrumbs.slice(0, i).join("/")}/${bc}`}>
+                  {bc}
+                </Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbSeparator />
+            <BreadcrumbSeparator key={`${bc}-separator`} />
           </>
         ))}
         {page && (

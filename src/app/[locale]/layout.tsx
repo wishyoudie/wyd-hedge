@@ -32,7 +32,7 @@ export default function LocalizedRootLayout({
       >
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+            <div className="h-full overflow-y-scroll">{children}</div>
           </ThemeProvider>
         </AuthProvider>
       </body>

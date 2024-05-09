@@ -24,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Link } from "@/navigation";
 import { ListFilter, File } from "lucide-react";
 
 export default function MockTable() {
@@ -70,7 +71,9 @@ export default function MockTable() {
                 </CardDescription>
               </div>
             </CardHeader>
-            <Button>New</Button>
+            <Link href="/app/transactions/new">
+              <Button>New</Button>
+            </Link>
           </div>
           <CardContent>
             <Table>
