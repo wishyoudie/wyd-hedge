@@ -37,18 +37,27 @@ export const transactions = createTable("transaction", {
   userId: integer("userId")
     .references(() => users.id)
     .notNull(),
-  accountId: integer("accountId")
-    .references(() => accounts.id)
-    .notNull(),
+  accountId: integer("accountId").notNull(),
   type: varchar("type", { enum: ["expense", "income"] }).notNull(),
   value: real("value").notNull(),
   name: varchar("name", { length: 256 }).notNull(),
   createdAt: timestamp("createdAt").defaultNow(),
 });
 
-export const transactionsRelations = relations(transactions, ({ many }) => ({
-  categories: many(transactionOnCategories),
+export const accountsRelations = relations(accounts, ({ many }) => ({
+  transactions: many(transactions),
 }));
+
+export const transactionsRelations = relations(
+  transactions,
+  ({ one, many }) => ({
+    categories: many(transactionOnCategories),
+    account: one(accounts, {
+      fields: [transactions.accountId],
+      references: [accounts.id],
+    }),
+  }),
+);
 
 export const categories = createTable("category", {
   id: serial("id").primaryKey(),

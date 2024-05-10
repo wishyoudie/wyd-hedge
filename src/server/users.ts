@@ -3,7 +3,6 @@ import "server-only";
 import { db } from "./db";
 import { createHash, randomBytes } from "crypto";
 import { users } from "./db/schema";
-import { getServerSession } from "@/app/api/auth/options";
 
 export function generatePasswordHash(password: string) {
   return createHash("md5").update(password).digest("hex");
@@ -37,13 +36,4 @@ export async function createUser({
     .returning();
 
   return returned[0];
-}
-
-export async function getDBUser() {
-  const session = await getServerSession();
-
-  console.log(session);
-  return await db.query.users.findFirst({
-    where: (m, { eq }) => eq(m.username, session!.user.email),
-  });
 }

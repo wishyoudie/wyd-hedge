@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PlusCircle, Upload } from "lucide-react";
-import NewEntityPage from "../../_components/new-entity-page";
+import NewEntityPage from "~/_components/new-entity-page";
 
 export default function Page() {
   return (

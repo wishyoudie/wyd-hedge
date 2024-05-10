@@ -1,24 +1,16 @@
 import "server-only";
+
 import { db } from "./db";
-import { accounts } from "./db/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
+import { accounts, transactions } from "./db/schema";
 import { deleteTransaction } from "./transactions";
-import type { Account } from "./db/types";
+import type { Account, AccountWithTransactions } from "./db/types";
+import { getServerSession } from "@/app/api/auth/options";
 
-function getDefaultAccountName(locale: string) {
-  return locale === "ru" ? "Счет" : "Account";
-}
-
-export async function insertAccount(
-  account: Omit<Account, "id">,
-  locale = "ru",
-) {
-  const settings = await getUserSettings(account.userId);
-
-  const currency = account.currency ?? settings.currency;
-
+export async function createAccount(account: Omit<Account, "id">) {
+  const currency = account.currency;
   const value = account.value ?? 0;
-  const name = account.name ?? getDefaultAccountName(locale);
+  const name = account.name;
 
   return await db
     .insert(accounts)
@@ -43,14 +35,44 @@ export async function increaseAccountValue(accountId: number, value: number) {
     .returning();
 }
 
-export async function getUserAccounts(userId: number) {
-  return await db.select().from(accounts).where(eq(accounts.userId, userId));
+export async function getUserAccounts() {
+  const { user } = await getServerSession();
+  return await db.query.accounts.findMany({
+    where: (m, { eq }) => eq(m.userId, user.id),
+  });
 }
 
 export async function deleteAccount(accountId: number) {
-  const Transactions = await db.query.transactions.findMany({
+  const transactions = await db.query.transactions.findMany({
     where: (model, { eq }) => eq(model.accountId, accountId),
   });
-  await Promise.all(Transactions.map((op) => deleteTransaction(op.id)));
+  await Promise.all(transactions.map((op) => deleteTransaction(op.id)));
   return await db.delete(accounts).where(eq(accounts.id, accountId));
+}
+
+export async function getUserAccountsWithLastTransaction() {
+  const { user } = await getServerSession();
+  return await db.query.accounts.findMany({
+    where: (m, { eq }) => eq(m.userId, user.id),
+    with: {
+      transactions: {
+        orderBy: desc(transactions.createdAt),
+      },
+    },
+  });
+}
+
+export function sortAccountsByLastTransaction(
+  a: AccountWithTransactions,
+  b: AccountWithTransactions,
+) {
+  const leftTransaction = a.transactions[0];
+  const rightTransaction = b.transactions[0];
+
+  if (!leftTransaction && rightTransaction) return 1;
+  if (leftTransaction && !rightTransaction) return -1;
+
+  const leftDate = leftTransaction!.createdAt!;
+  const rightDate = rightTransaction!.createdAt!;
+  return rightDate.getTime() - leftDate.getTime();
 }
