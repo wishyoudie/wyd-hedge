@@ -14,6 +14,16 @@ const Settings = {
     },
   ],
   currencies: ["rub", "usd"],
+  colors: [
+    "#000000",
+    "#ffffff",
+    "#303030",
+    "#a0a0a0",
+    "#f12c15",
+    "#fae04b",
+    "#00a0df",
+    "#1ed27c",
+  ],
 };
 
 export default Settings;

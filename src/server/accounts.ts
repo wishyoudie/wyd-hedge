@@ -7,14 +7,11 @@ import { deleteTransaction } from "./transactions";
 import type { Account, AccountWithTransactions } from "./db/types";
 import { getServerSession } from "@/app/api/auth/options";
 
-export async function createAccount(account: Omit<Account, "id">) {
-  const currency = account.currency;
-  const value = account.value ?? 0;
-  const name = account.name;
-
+export async function createAccount(account: Omit<Account, "id" | "userId">) {
+  const { user } = await getServerSession();
   return await db
     .insert(accounts)
-    .values({ ...account, currency, value, name })
+    .values({ ...account, userId: user.id })
     .onConflictDoNothing()
     .returning({ id: accounts.id });
 }
@@ -72,7 +69,7 @@ export function sortAccountsByLastTransaction(
   if (!leftTransaction && rightTransaction) return 1;
   if (leftTransaction && !rightTransaction) return -1;
 
-  const leftDate = leftTransaction!.createdAt!;
-  const rightDate = rightTransaction!.createdAt!;
+  const leftDate = leftTransaction?.createdAt ?? new Date();
+  const rightDate = rightTransaction?.createdAt ?? new Date();
   return rightDate.getTime() - leftDate.getTime();
 }

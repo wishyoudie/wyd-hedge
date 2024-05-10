@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 // import { updateUserSettings } from "./settings";
 import { z } from "zod";
 // import { insertOperation, insertOperationCategories } from "./queries";
-import { deleteAccount as _deleteAccount } from "./accounts";
+import {
+  createAccount as _createAccount,
+  deleteAccount as _deleteAccount,
+} from "./accounts";
 import {
   createCategory as _createCategory,
   deleteCategory as _deleteCategory,
@@ -13,6 +16,7 @@ import {
 // import { getSessionUser } from "~/shared/utils/getServerSession";
 import { deleteTransaction as _deleteTransaction } from "./transactions";
 import { getServerSession } from "@/app/api/auth/options";
+import { redirect } from "@/navigation";
 
 // const settingsSchema = z.object({
 //   currency: z.string().optional(),
@@ -26,12 +30,12 @@ import { getServerSession } from "@/app/api/auth/options";
 //   categories: z.string(),
 // });
 
-// const accountSchema = z.object({
-//   name: z.string(),
-//   currency: z.string(),
-//   value: z.number().optional(),
-//   color: z.string().optional(),
-// });
+const accountSchema = z.object({
+  name: z.string(),
+  currency: z.string(),
+  value: z.number().optional(),
+  color: z.string().optional(),
+});
 
 const categorySchema = z.object({
   name: z.string(),
@@ -91,28 +95,6 @@ export async function deleteTransaction(formData: FormData) {
   // revalidatePath("/web/operations");
 }
 
-// export async function createAccount(
-//   userId: number,
-//   locale: string,
-//   formData: FormData,
-// ) {
-//   const validation = accountSchema.safeParse({
-//     name: formData.get("name"),
-//     currency: formData.get("currency"),
-//     value: Number(formData.get("value")),
-//     color: formData.get("color"),
-//   });
-
-//   if (validation.success) {
-//     const data = { ...validation.data, userId };
-
-//     await insertAccount(data, locale);
-//     revalidatePath("/web");
-//   } else {
-//     throw new Error(validation.error.message);
-//   }
-// }
-
 export async function createCategory(formData: FormData) {
   const validation = categorySchema.safeParse({
     name: formData.get("name"),
@@ -143,6 +125,27 @@ export async function updateCategory(formData: FormData) {
 export async function deleteCategory(formData: FormData) {
   await _deleteCategory(Number(formData.get("id")));
   revalidatePath("/categories");
+}
+
+export async function createAccount(formData: FormData) {
+  const validation = accountSchema.safeParse({
+    name: formData.get("name"),
+    currency: formData.get("currency"),
+    value: Number(formData.get("value")),
+    color: formData.get("color"),
+  });
+
+  if (validation.success) {
+    await _createAccount({
+      ...validation.data,
+      value: validation.data.value ?? 0,
+      color: validation.data.color ?? null,
+    });
+    revalidatePath("/app/accounts");
+    redirect("/app/accounts");
+  } else {
+    throw new Error(validation.error.message);
+  }
 }
 
 export async function deleteAccount(formData: FormData) {
