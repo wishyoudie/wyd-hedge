@@ -98,6 +98,13 @@ export default async function CategoriesPage() {
 
   const categoriesTreeData = toTreeData(categories);
 
-  if (categoriesTreeData) return <CategoryTree data={categoriesTreeData} />;
-  return <div>No Valid Data</div>;
+  if (!categoriesTreeData) return <div>No valid data</div>;
+
+  return (
+    <main className="container">
+      <div className="grid h-[60rem]">
+        <CategoryTree data={categoriesTreeData} />
+      </div>
+    </main>
+  );
 }

@@ -1,15 +1,33 @@
 import { getServerSession } from "@/app/api/auth/options";
 import AuthButton from "@/components/nav/auth-button";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { SlashIcon } from "@radix-ui/react-icons";
 import { Search } from "lucide-react";
-import AppBreadcrumbs from "./app-breadcrumbs";
+
+export function TypographyH4() {
+  return (
+    <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+      People stopped telling jokes
+    </h4>
+  );
+}
 
 export default async function Header() {
   const { user } = await getServerSession();
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-      <AppBreadcrumbs />
+    <header className="sticky top-0 z-30 flex h-14 gap-4 border-0 bg-background/95 px-6 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:ml-14 sm:border-b ">
+      <div className="hidden items-center gap-2 sm:flex">
+        <SlashIcon className="mx-[-6px] size-3.5 text-muted-foreground" />
+        <p className="text-balance text-sm leading-relaxed text-muted-foreground">
+          {user.name ?? user.username}
+          &apos; s Accountant
+        </p>
+        <Badge variant={user.isPremium ? "default" : "outline"}>
+          {user.isPremium ? "Premium" : "Basic"}
+        </Badge>
+      </div>
       <div className="relative ml-auto flex-1 md:grow-0">
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input

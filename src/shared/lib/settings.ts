@@ -24,6 +24,14 @@ const Settings = {
     "#00a0df",
     "#1ed27c",
   ],
+  protectedRoutes: [
+    "/app/dashboard",
+    "/app/transactions",
+    "/app/accounts",
+    "/app/categories",
+    "/app/analytics",
+    "/app/settings",
+  ],
 };
 
 export default Settings;
