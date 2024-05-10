@@ -1,5 +1,5 @@
 import { getServerSession } from "@/app/api/auth/options";
-import AuthButton from "@/components/nav/auth-button";
+import AuthButton from "@/app/[locale]/app/_components/auth-button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { SlashIcon } from "@radix-ui/react-icons";

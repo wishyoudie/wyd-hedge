@@ -1,7 +1,7 @@
 "use client";
 
 import { useBackButton } from "@tma.js/sdk-react";
-import { useRouter } from "~/navigation";
+import { useRouter } from "@/navigation";
 import { useEffect } from "react";
 
 type BackButtonProps =

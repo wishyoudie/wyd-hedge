@@ -1,4 +1,4 @@
-import DuckWorkLottie from "~/components/lottie/duck-work";
+import DuckWorkLottie from "@/components/lotties/duck-work";
 import BackButton from "./_components/back-button";
 import { Placeholder } from "@xelene/tgui";
 

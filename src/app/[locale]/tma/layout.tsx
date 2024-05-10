@@ -1,5 +1,5 @@
-import { TMANavbar } from "~/components/nav/tma-navbar";
-import TmaSDKLoader from "~/app/[locale]/_providers/tma-provider";
+// import { TMANavbar } from "@/components/nav/tma-navbar";
+import TmaSDKLoader from "@/app/[locale]/_providers/tma-provider";
 import SettingsButton from "./_components/settings-button";
 
 export default function TMARootLayout({
@@ -11,7 +11,7 @@ export default function TMARootLayout({
     <TmaSDKLoader>
       <main className="overflow-y-scroll">
         {children}
-        <TMANavbar />
+        {/* <TMANavbar /> */}
       </main>
       <SettingsButton />
     </TmaSDKLoader>

@@ -2,7 +2,7 @@
 
 import { useQRScanner } from "@tma.js/sdk-react";
 import React from "react";
-import { Button } from "~/components/button/button";
+import { Button } from "@/components/ui/button";
 
 export default function QrScanner() {
   const scanner = useQRScanner();

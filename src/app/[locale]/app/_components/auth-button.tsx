@@ -14,7 +14,7 @@ import { ExitIcon } from "@radix-ui/react-icons";
 
 import { signOut } from "next-auth/react";
 import { User2 } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../../../components/ui/button";
 import type { User } from "next-auth";
 
 type Props = {

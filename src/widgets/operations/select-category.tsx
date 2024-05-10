@@ -9,7 +9,7 @@ import {
   MultiSelectList,
   MultiSelectTrigger,
   MultiSelectValue,
-} from "~/components/multi-select/multi-select";
+} from "@/components/ui/multi-select";
 
 type Props = {
   categories: { label: string; value: string }[];

@@ -1,6 +1,6 @@
 "use client";
 import { useSettingsButton } from "@tma.js/sdk-react";
-import { useRouter } from "~/navigation";
+import { useRouter } from "@/navigation";
 import { useEffect } from "react";
 
 export default function SettingsButton() {

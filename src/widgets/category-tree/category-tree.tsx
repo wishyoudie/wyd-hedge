@@ -1,9 +1,10 @@
 "use client";
 
 import Tree, { type CustomNodeElementProps } from "react-d3-tree";
-import NewChildButton from "./new-child-button";
+
 import { useCenteredTree } from "@/shared/hooks/useCenteredTree";
 import CategoryTreeItem from "./category-tree-item";
+import NewChildButton from "./new-child-button";
 
 export type TreeNode = {
   name: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import Lottie from "lottie-react";
-import animationData from "~/../public/static/duck_work.json";
+import animationData from "@/../public/static/duck_work.json";
 
 export default function DuckWorkLottie(props: { className?: string }) {
   return (

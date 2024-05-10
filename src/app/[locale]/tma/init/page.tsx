@@ -3,7 +3,7 @@
 import { useInitDataRaw, useMiniApp } from "@tma.js/sdk-react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { signInAs } from "~/shared/utils";
+import { signInAs } from "@/shared/utils";
 
 export default function TmaAuth() {
   const initData = useInitDataRaw();
