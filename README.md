@@ -24,7 +24,7 @@ Codebase-wise:
 - [x] Add i18n (`next-intl`).
 - [x] Rename all internal backend to camelCase.
 - [ ] Add loading states to improve UX.
-- [ ] Add low-res favicon.
+- [x] Add low-res favicon.
 - [x] Add better components for TMA, decide the code structure to separate those from shadcn.
 
 Global:
