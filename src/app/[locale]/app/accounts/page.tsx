@@ -11,6 +11,27 @@ import { Link } from "@/navigation";
 
 export default async function AccountsPage() {
   const accounts = await getUserAccountsWithLastTransaction();
+
+  if (accounts.length === 0) {
+    return (
+      <main className="flex w-full items-center justify-center">
+        <div className="flex h-[300px] items-center justify-center rounded-lg border border-dashed bg-background px-4 shadow-sm md:w-[600px] lg:h-[400px] lg:w-[800px]">
+          <div className="flex flex-col items-center gap-2 text-center">
+            <h2 className="text-3xl font-bold tracking-tight">
+              You have no accounts
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              You need to have at least one account to use Accountant.
+            </p>
+            <Link href="/app/accounts/new">
+              <Button className="mt-4">Create Account</Button>
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   const sortedAccounts = accounts.sort(sortAccountsByLastTransaction);
 
   return (
@@ -36,7 +57,7 @@ export default async function AccountsPage() {
           <Button>New</Button>
         </Link>
       </div>
-      <div className="grid gap-4 py-4 md:grid-cols-3 xl:grid-cols-3">
+      <div className="grid gap-4 py-4 md:grid-cols-2 lg:grid-cols-3">
         {sortedAccounts.map((account) => (
           <AccountCard key={account.id} account={account} />
         ))}
