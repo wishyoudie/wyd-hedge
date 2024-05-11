@@ -10,12 +10,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ExitIcon } from "@radix-ui/react-icons";
+import { ExitIcon, GearIcon } from "@radix-ui/react-icons";
 
 import { signOut } from "next-auth/react";
 import { User2 } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 import type { User } from "next-auth";
+import { useRouter } from "@/navigation";
 
 type Props = {
   // botUsername: string;
@@ -24,6 +25,8 @@ type Props = {
 };
 
 export default function AuthButton(props: Props) {
+  const router = useRouter();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -53,6 +56,11 @@ export default function AuthButton(props: Props) {
           <DropdownMenuLabel>{props.user.username}</DropdownMenuLabel>
         )}
 
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => router.push("/app/settings")}>
+          <GearIcon className="mr-2 size-4" />
+          Settings
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()}>
           <ExitIcon className="mr-2 size-4" />

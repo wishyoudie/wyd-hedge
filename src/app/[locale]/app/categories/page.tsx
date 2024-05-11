@@ -22,10 +22,13 @@ export default async function CategoriesPage() {
   if (!categoriesTreeData) return <div>No valid data</div>;
 
   return (
-    <main className="container">
-      <div className="grid h-[60rem]">
-        <CategoryTree data={categoriesTreeData} />
+    <main className="container h-[calc(100vh-88px)] pb-4">
+      <div className="flex items-center justify-between py-4">
+        <h1 className="whitespace-nowrap text-xl font-semibold tracking-tight">
+          Categories
+        </h1>
       </div>
+      <CategoryTree data={categoriesTreeData} />
     </main>
   );
 }
