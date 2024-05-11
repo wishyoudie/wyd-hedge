@@ -6,6 +6,7 @@ import { z } from "zod";
 // import { insertOperation, insertOperationCategories } from "./queries";
 import {
   createAccount as _createAccount,
+  patchAccount as _patchAccount,
   deleteAccount as _deleteAccount,
 } from "./accounts";
 import {
@@ -35,6 +36,8 @@ const accountSchema = z.object({
   currency: z.string(),
   value: z.number().optional(),
   color: z.string().optional(),
+  userId: z.number().optional(),
+  id: z.number().optional(),
 });
 
 const categorySchema = z.object({
@@ -138,6 +141,31 @@ export async function createAccount(formData: FormData) {
   if (validation.success) {
     await _createAccount({
       ...validation.data,
+      value: validation.data.value ?? 0,
+      color: validation.data.color ?? null,
+    });
+    revalidatePath("/app/accounts");
+    redirect("/app/accounts");
+  } else {
+    throw new Error(validation.error.message);
+  }
+}
+
+export async function patchAccount(formData: FormData) {
+  const validation = accountSchema.safeParse({
+    name: formData.get("name"),
+    currency: formData.get("currency"),
+    value: Number(formData.get("value")),
+    color: formData.get("color"),
+    id: Number(formData.get("id")),
+    userId: Number(formData.get("userId")),
+  });
+
+  if (validation.success) {
+    await _patchAccount({
+      ...validation.data,
+      id: validation.data.id!,
+      userId: validation.data.userId!,
       value: validation.data.value ?? 0,
       color: validation.data.color ?? null,
     });

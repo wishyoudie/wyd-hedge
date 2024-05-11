@@ -8,11 +8,11 @@ import { useState } from "react";
 /**
  * @todo Add premium colors or custom color picker
  */
-export default function ColorSelect() {
-  const [value, setValue] = useState<string>();
+export default function ColorSelect(props: { defaultValue?: string }) {
+  const [value, setValue] = useState<string | undefined>(props.defaultValue);
   return (
     <>
-      <ToggleGroup type="single" onValueChange={setValue}>
+      <ToggleGroup type="single" value={value} onValueChange={setValue}>
         {Settings.colors.map((color) => (
           <ToggleGroupItem value={color} key={color} className="px-1">
             <ColorCircle color={color} size={30} />

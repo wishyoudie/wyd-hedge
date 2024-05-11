@@ -47,6 +47,14 @@ export async function deleteAccount(accountId: number) {
   return await db.delete(accounts).where(eq(accounts.id, accountId));
 }
 
+export async function patchAccount(account: Account) {
+  return await db
+    .update(accounts)
+    .set(account)
+    .where(eq(accounts.id, account.id))
+    .returning();
+}
+
 export async function getUserAccountsWithLastTransaction() {
   const { user } = await getServerSession();
   return await db.query.accounts.findMany({
@@ -56,6 +64,14 @@ export async function getUserAccountsWithLastTransaction() {
         orderBy: desc(transactions.createdAt),
       },
     },
+  });
+}
+
+export async function getAccountById(accountId: string | number) {
+  const id = +accountId;
+
+  return await db.query.accounts.findFirst({
+    where: (m, { eq }) => eq(m.id, id),
   });
 }
 
