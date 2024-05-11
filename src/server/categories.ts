@@ -11,6 +11,17 @@ export async function getUserCategories() {
   });
 }
 
+export async function createRootCategory(userId: number) {
+  return await db
+    .insert(categories)
+    .values({
+      name: "root",
+      parentId: null,
+      userId: userId,
+    })
+    .returning();
+}
+
 export async function createCategory(data: {
   name: string;
   parentId: number;

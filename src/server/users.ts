@@ -3,6 +3,7 @@ import "server-only";
 import { db } from "./db";
 import { createHash, randomBytes } from "crypto";
 import { users } from "./db/schema";
+import { createRootCategory } from "./categories";
 
 export function generatePasswordHash(password: string) {
   return createHash("md5").update(password).digest("hex");
@@ -27,7 +28,7 @@ export async function createUser({
   username?: string;
   password?: string;
 }) {
-  const returned = await db
+  const callDb = await db
     .insert(users)
     .values({
       password: generatePasswordHash(password ?? generateRandomString()),
@@ -35,5 +36,12 @@ export async function createUser({
     })
     .returning();
 
-  return returned[0];
+  const returned = callDb[0];
+
+  if (returned) {
+    await createRootCategory(returned.id);
+    return returned;
+  }
+
+  throw new Error("Error creating user");
 }
