@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DotsHorizontalIcon,
-} from "@radix-ui/react-icons";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {
   type ColumnDef,
   type SortingState,
@@ -36,8 +32,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import TagIcon from "@/components/icons/tag";
-import { Input } from "@/components/ui/input";
 
 import {
   Table,
@@ -83,6 +77,10 @@ export function DataTable({ data }: DataTableProps) {
   const columns: ColumnDef<Transaction>[] = useMemo(
     () => [
       {
+        accessorKey: "name",
+        header: t("name"),
+      },
+      {
         accessorKey: "type",
         header: ({ column }) => (
           <Button
@@ -101,10 +99,6 @@ export function DataTable({ data }: DataTableProps) {
             </Badge>
           );
         },
-      },
-      {
-        accessorKey: "name",
-        header: t("name"),
       },
       // {
       //   accessorKey: "value",
@@ -238,16 +232,6 @@ export function DataTable({ data }: DataTableProps) {
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -297,26 +281,6 @@ export function DataTable({ data }: DataTableProps) {
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <ChevronLeftIcon className="size-3" />
-          <span>Previous</span>
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          <span>Next</span>
-          <ChevronRightIcon className="size-3" />
-        </Button>
       </div>
       <DialogContent>
         <DialogHeader>
