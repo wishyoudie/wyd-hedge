@@ -16,7 +16,9 @@ export default function TableHeader() {
       <TabsList>
         <TabsTrigger value="week">Week</TabsTrigger>
         <TabsTrigger value="month">Month</TabsTrigger>
-        <TabsTrigger value="year">Year</TabsTrigger>
+        <TabsTrigger value="year" disabled>
+          Year
+        </TabsTrigger>
       </TabsList>
       <div className="ml-auto flex items-center gap-2">
         <DropdownMenu>

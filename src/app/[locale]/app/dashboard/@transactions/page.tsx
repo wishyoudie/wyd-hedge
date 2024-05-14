@@ -1,16 +1,41 @@
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
-import { getTransactions } from "@/server/transactions";
-import TableLayout from "./table-layout";
+import { getRecentTransactionsWithCurrency } from "@/server/transactions";
+import DataTable from "./data-table";
+import TableHeader from "./table-header";
+import { Tabs } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Link } from "@/navigation";
+import { Button } from "@/components/ui/button";
 
 export default async function TransactionsPage() {
-  const messages = await getMessages();
-
-  const transactions = await getTransactions();
+  const transactions = await getRecentTransactionsWithCurrency("week");
 
   return (
-    <NextIntlClientProvider messages={messages}>
-      <TableLayout data={transactions} />
-    </NextIntlClientProvider>
+    <Tabs defaultValue="week">
+      <TableHeader />
+      <Card className="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+        <div className="flex items-center justify-between px-7">
+          <CardHeader className="px-0">
+            <div>
+              <CardTitle>Transactions</CardTitle>
+              <CardDescription>
+                Recent Transactions from your store.
+              </CardDescription>
+            </div>
+          </CardHeader>
+          <Link href="/app/transactions/new">
+            <Button>New</Button>
+          </Link>
+        </div>
+        <CardContent>
+          <DataTable data={transactions} />
+        </CardContent>
+      </Card>
+    </Tabs>
   );
 }

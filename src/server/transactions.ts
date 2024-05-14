@@ -3,6 +3,7 @@ import { desc, eq } from "drizzle-orm";
 import type { Transaction } from "./db/types";
 import { transactionOnCategories, transactions } from "./db/schema";
 import { getServerSession } from "@/app/api/auth/options";
+import { MONTH_MS, WEEK_MS } from "@/shared/const";
 
 export type TransactionWithCategories = Transaction & {
   categories: {
@@ -56,5 +57,32 @@ export async function getTransactions() {
 
   return await db.query.transactions.findMany({
     where: (m, { eq }) => eq(m.userId, user.id),
+  });
+}
+
+export async function getRecentTransactionsWithCurrency(
+  timespan: "week" | "month",
+) {
+  const { user } = await getServerSession();
+  const now = new Date();
+  const lowerBound = new Date(
+    timespan === "week" ? now.getTime() - WEEK_MS : MONTH_MS,
+  );
+
+  return await db.query.transactions.findMany({
+    columns: {
+      accountId: false,
+      userId: false,
+    },
+    where: (m, { eq, gte }) =>
+      eq(m.userId, user.id) && gte(m.createdAt, lowerBound),
+    orderBy: desc(transactions.createdAt),
+    with: {
+      account: {
+        columns: {
+          currency: true,
+        },
+      },
+    },
   });
 }
