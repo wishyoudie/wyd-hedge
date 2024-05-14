@@ -2,6 +2,7 @@ import { db } from "./db";
 import { categories, transactionOnCategories } from "./db/schema";
 import { eq } from "drizzle-orm";
 import { getServerSession } from "@/app/api/auth/options";
+import { toTreeData } from "@/shared/utils/toTreeData";
 
 export async function getUserCategories() {
   const { user } = await getServerSession();
@@ -9,6 +10,16 @@ export async function getUserCategories() {
   return await db.query.categories.findMany({
     where: (model, { eq }) => eq(model.userId, user.id),
   });
+}
+
+export async function getUserCategoriesTree() {
+  const categories = await getUserCategories();
+
+  if (categories.length === 1) {
+    return categories[0]!.id;
+  }
+
+  return toTreeData(categories);
 }
 
 export async function createRootCategory(userId: number) {

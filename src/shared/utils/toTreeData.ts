@@ -1,5 +1,10 @@
 import type { Category } from "@/server/db/types";
-import { type TreeNode } from "@/widgets/category-tree/category-tree";
+
+type TreeNode = {
+  name: string;
+  attributes?: Record<string, string | number | boolean>;
+  children: TreeNode[];
+};
 
 function findParent(tree: TreeNode, id: number) {
   if (tree.attributes!.id === id) return tree;

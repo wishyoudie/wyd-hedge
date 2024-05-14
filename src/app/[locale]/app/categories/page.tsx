@@ -1,25 +1,22 @@
-import { getUserCategories } from "@/server/categories";
-import { toTreeData } from "./toTreeData";
+import { getUserCategoriesTree } from "@/server/categories";
 import CategoryTreePlaceholder from "@/widgets/category-tree/category-tree-empty";
 import CategoryTree from "@/widgets/category-tree/category-tree";
 
 export default async function CategoriesPage() {
-  const categories = await getUserCategories();
+  const categories = await getUserCategoriesTree();
 
-  if (categories.length < 2) {
+  if (typeof categories === "number") {
     return (
       <div className="h-full space-y-4 p-8 pt-6">
         <header className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Categories</h2>
         </header>
-        <CategoryTreePlaceholder rootId={categories[0]!.id} />
+        <CategoryTreePlaceholder rootId={categories} />
       </div>
     );
   }
 
-  const categoriesTreeData = toTreeData(categories);
-
-  if (!categoriesTreeData) return <div>No valid data</div>;
+  if (!categories) return <div>No valid data</div>;
 
   return (
     <main className="container h-[calc(100vh-88px)] pb-4">
@@ -28,7 +25,7 @@ export default async function CategoriesPage() {
           Categories
         </h1>
       </div>
-      <CategoryTree data={categoriesTreeData} />
+      <CategoryTree data={categories} />
     </main>
   );
 }
