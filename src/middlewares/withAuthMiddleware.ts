@@ -25,14 +25,13 @@ function getProtectedRoutes(protectedPaths: string[], locales: Locale[]) {
 
 export function withAuthMiddleware(middleware: CustomMiddleware) {
   return async (request: NextRequest, event: NextFetchEvent) => {
-    // Create a response object to pass down the chain
     const response = NextResponse.next();
 
     const token = await getToken({ req: request });
 
-    // @ts-expect-error ASD
+    //@ts-expect-error Basic typings for NextResponse does not include custom property
     request.nextauth = request.nextauth || {};
-    // @ts-expect-error ASD
+    //@ts-expect-error See previous line
     request.nextauth.token = token;
     const pathname = request.nextUrl.pathname;
 

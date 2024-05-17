@@ -49,6 +49,28 @@ export default function Page() {
                 </div>
               </CardContent>
             </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Transaction Name</CardTitle>
+                <CardDescription>
+                  Add a identifiable name for your transaction
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6">
+                  <div className="grid gap-3">
+                    <Label htmlFor="name">Value</Label>
+                    <Input
+                      id="value"
+                      name="value"
+                      type="number"
+                      className="w-full"
+                      placeholder="Morning Latte"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             <Suspense fallback={<div>LOLOLOLOLO</div>}>
               <SelectCategories />
             </Suspense>

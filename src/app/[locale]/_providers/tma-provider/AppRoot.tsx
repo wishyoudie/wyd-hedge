@@ -1,5 +1,5 @@
 import { useLaunchParams } from "@tma.js/sdk-react";
-import { AppRoot as AR } from "@xelene/tgui";
+import { AppRoot as AR } from "@telegram-apps/telegram-ui";
 import type { PropsWithChildren } from "react";
 
 const resolvePlatform = (platform: string): "base" | "ios" => {
