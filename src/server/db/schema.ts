@@ -40,7 +40,7 @@ export const transactions = createTable("transaction", {
   accountId: integer("accountId").notNull(),
   type: varchar("type", { enum: ["expense", "income"] }).notNull(),
   value: real("value").notNull(),
-  name: varchar("name", { length: 256 }).notNull(),
+  name: varchar("name").notNull().default("Transaction"),
   createdAt: timestamp("createdAt").defaultNow(),
 });
 

@@ -25,6 +25,7 @@ import {
   deleteCategory,
   updateCategory,
 } from "@/server/actions";
+import TreeItemView from "./tree-item-view";
 
 type Props = {
   name: string;
@@ -35,10 +36,6 @@ export default function CategoryTreeItem(props: Props) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState<string>();
   const attributes = props.attributes as { id: number; isRoot: boolean };
-
-  const cn = attributes.isRoot
-    ? "bg-primary text-primary-foreground shadow"
-    : "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground";
 
   const handleSubmit = () => {
     setDialogOpen(false);
@@ -133,13 +130,7 @@ export default function CategoryTreeItem(props: Props) {
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div
-            className={`rounded-xl py-3 text-center transition-colors ${cn}`}
-          >
-            <h3 className="font-medium">
-              {props.name === "root" ? "All" : props.name}
-            </h3>
-          </div>
+          <TreeItemView name={props.name} attributes={attributes} />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DialogTrigger>

@@ -15,7 +15,11 @@ import {
   updateCategory as _updateCategory,
 } from "./categories";
 // import { getSessionUser } from "~/shared/utils/getServerSession";
-import { deleteTransaction as _deleteTransaction } from "./transactions";
+import {
+  createTransaction as _createTransaction,
+  addTransactionCategories,
+  deleteTransaction as _deleteTransaction,
+} from "./transactions";
 import { getServerSession } from "@/app/api/auth/options";
 import { redirect } from "@/navigation";
 
@@ -23,13 +27,14 @@ import { redirect } from "@/navigation";
 //   currency: z.string().optional(),
 // });
 
-// const transactionSchema = z.object({
-//   type: z.enum(["expense", "income"]),
-//   value: z.number(),
-//   accountId: z.number(),
-//   name: z.string().optional(),
-//   categories: z.string(),
-// });
+const transactionSchema = z.object({
+  type: z.enum(["expense", "income"]),
+  value: z.number(),
+  accountId: z.number(),
+  name: z.string().optional(),
+  categories: z.string(),
+  createdAt: z.date().optional(),
+});
 
 const accountSchema = z.object({
   name: z.string(),
@@ -60,36 +65,35 @@ const categorySchema = z.object({
 //   }
 // }
 
-// export async function createTransaction(userId: number, formData: FormData) {
-//   const validation = transactionSchema.safeParse({
-//     type: formData.get("type"),
-//     value: Number(formData.get("value")),
-//     accountId: Number(formData.get("accountId")),
-//     name: formData.get("name"),
-//     categories: formData.get("categories"),
-//   });
+export async function createTransaction(formData: FormData) {
+  const validation = transactionSchema.safeParse({
+    type: formData.get("type"),
+    value: Number(formData.get("value")),
+    accountId: Number(formData.get("accountId")),
+    name: formData.get("name"),
+    categories: formData.get("categories"),
+    createdAt: formData.get("createdAt"),
+  });
 
-//   if (validation.success) {
-//     const data = {
-//       userId,
-//       accountId: validation.data.accountId,
-//       type: validation.data.type,
-//       name: validation.data.name ?? "Unknown",
-//       value:
-//         validation.data.type === "income"
-//           ? validation.data.value
-//           : -validation.data.value,
-//     };
+  if (validation.success) {
+    const data = validation.data;
 
-//     const result = await insertOperation(data);
-//     const id = result[0]!.id;
-//     const categories = validation.data.categories.split("_").map(Number);
-//     await insertOperationCategories(id, categories);
-//     revalidatePath("/web");
-//   } else {
-//     throw new Error(validation.error.message);
-//   }
-// }
+    const result = await _createTransaction({
+      accountId: data.accountId,
+      type: data.type,
+      value: data.type === "income" ? data.value : -data.value,
+      name: data.name ?? "Transaction",
+      createdAt: data.createdAt ?? null,
+    });
+
+    const id = result[0]!.id;
+    const categories = data.categories.split("_").map(Number);
+    await addTransactionCategories(id, categories);
+    revalidatePath("/web");
+  } else {
+    throw new Error(validation.error.message);
+  }
+}
 
 export async function deleteTransaction(formData: FormData) {
   const id = Number(formData.get("id"));

@@ -41,6 +41,27 @@ export type TransactionWithCategories = Transaction & {
 //   });
 // }
 
+export async function createTransaction(
+  data: Omit<Transaction, "id" | "userId">,
+) {
+  const { user } = await getServerSession();
+  return await db
+    .insert(transactions)
+    .values({ ...data, userId: user.id })
+    .returning();
+}
+
+export async function addTransactionCategories(
+  transactionId: number,
+  categoriesIds: number[],
+) {
+  await Promise.all(
+    categoriesIds.map((categoryId) =>
+      db.insert(transactionOnCategories).values({ transactionId, categoryId }),
+    ),
+  );
+}
+
 export async function changeTransaction(data: Transaction) {
   await db.update(transactions).set(data).where(eq(transactions.id, data.id));
 }

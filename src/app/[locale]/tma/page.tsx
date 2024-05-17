@@ -1,6 +1,6 @@
 import DuckWorkLottie from "@/components/lotties/duck-work";
 import BackButton from "./_components/back-button";
-import { Placeholder } from "@xelene/tgui";
+import { Placeholder } from "@telegram-apps/telegram-ui";
 
 export default async function HomePage() {
   await new Promise((resolve) => setTimeout(resolve, 3000));
