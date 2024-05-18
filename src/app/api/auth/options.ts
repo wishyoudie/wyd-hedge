@@ -1,7 +1,7 @@
 import type { NextAuthOptions, User, Session } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import { parse, validate } from "@tma.js/init-data-node";
 import { env } from "@/env";
 import {
   createUser,
@@ -112,6 +112,39 @@ export const authOptions: NextAuthOptions = {
         return null;
       },
     }),
+    CredentialsProvider({
+      id: "telegram",
+      name: "telegram",
+      credentials: {
+        initData: {},
+      },
+      async authorize(credentials) {
+        if (!credentials?.initData) {
+          return null;
+        }
+
+        try {
+          validate(credentials.initData, env.BOT_TOKEN);
+          const { username } = parse(credentials.initData).user!;
+          const user = await getUserByUsername(username!);
+
+          if (user) {
+            const returned: User = {
+              id: user.id,
+              username: user.username,
+              currency: user.currency,
+              isPremium: user.isPremium,
+            };
+
+            return returned;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+
+        return null;
+      },
+    }),
   ],
   pages: {
     signIn: "/signin",
@@ -131,7 +164,6 @@ export const authOptions: NextAuthOptions = {
           }
         } catch {
           // Here user uses same OAuth second time => already signed up
-          // console.log("Signed up lol");
         }
       }
       return true;
