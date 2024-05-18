@@ -6,6 +6,7 @@ import { env } from "@/env";
 import {
   createUser,
   generatePasswordHash,
+  getUserByTelegramUsername,
   getUserByUsername,
 } from "@/server/users";
 import { getServerSession as _getServerSession } from "next-auth";
@@ -126,7 +127,7 @@ export const authOptions: NextAuthOptions = {
         try {
           validate(credentials.initData, env.BOT_TOKEN);
           const { username } = parse(credentials.initData).user!;
-          const user = await getUserByUsername(username!);
+          const user = await getUserByTelegramUsername(username!);
 
           if (user) {
             const returned: User = {

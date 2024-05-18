@@ -45,15 +45,22 @@ export default function AppRoot(props: PropsWithChildren) {
 
   useEffect(() => {
     if (lp) {
-      const auth = async () => {
-        const result = await signIn("telegram", {
-          initData: lp.initDataRaw,
-          redirect: false,
-        });
+      if (lp.startParam) {
+        const params = new URLSearchParams();
+        params.set("username", lp.initData?.user?.username ?? "");
+        params.set("link", lp.startParam);
+        router.replace("/tg/sync?" + params.toString());
+      } else {
+        const auth = async () => {
+          const result = await signIn("telegram", {
+            initData: lp.initDataRaw,
+            redirect: false,
+          });
 
-        router.replace(result?.ok ? "/tg/home" : "/tg/welcome");
-      };
-      auth().catch(console.log);
+          router.replace(result?.ok ? "/tg/home" : "/tg/welcome");
+        };
+        auth().catch(console.log);
+      }
     }
   }, [lp, router]);
 

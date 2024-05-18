@@ -17,12 +17,14 @@ import { Separator } from "@/components/ui/separator";
 import BackButton from "~/_components/back-button";
 import Settings from "@/shared/lib/settings";
 import { SubmitButton } from "@/components/button/submit-button";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import TelegramButton from "@/components/telegram-button/telegram-button";
+import TelegramSync from "./telegram-sync";
 import { env } from "@/env";
+import { getSyncLink } from "@/server/users";
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const syncLink = await getSyncLink();
+
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
       <div className="mx-auto grid max-w-[60rem] flex-1 auto-rows-max gap-4">
@@ -77,28 +79,7 @@ export default function SettingsPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-3 items-center gap-4 pt-4">
-                    <Label className="col-span-1 text-right">Username</Label>
-                    <Input
-                      className="col-span-2"
-                      type="text"
-                      name="username"
-                      placeholder="wishyoudie"
-                    />
-                  </div>
-                  <p className="mx-2 mt-2 text-[0.8rem] text-muted-foreground">
-                    Make sure to set your actual username. Otherwise, we
-                    don&apos;t guarantee your privacy.
-                  </p>
-                  <div className="grid grid-cols-3 items-center gap-4 pt-4">
-                    <Label className="col-span-2 text-right">
-                      Alternatively, you can use Telegram OAuth:
-                    </Label>
-                    <div className="col-span-1">
-                      <TelegramButton botUsername={env.BOT_USERNAME} />
-                    </div>
-                  </div>
-                  <Separator />
+                  <TelegramSync miniAppUrl={env.MINI_APP_URL} {...syncLink} />
                 </CardContent>
               </Card>
 
