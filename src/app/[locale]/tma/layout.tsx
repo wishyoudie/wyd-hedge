@@ -1,19 +1,14 @@
-// import { TMANavbar } from "@/components/nav/tma-navbar";
-import TmaSDKLoader from "@/app/[locale]/_providers/tma-provider";
-import SettingsButton from "./_components/settings-button";
+import { unstable_setRequestLocale } from "next-intl/server";
+import TelegramProvider from "../_providers/tma-provider";
+import type { Locale } from "@/i18n";
 
 export default function TMARootLayout({
   children,
+  params: { locale },
 }: {
   children: React.ReactNode;
+  params: { locale: Locale };
 }) {
-  return (
-    <TmaSDKLoader>
-      <main className="overflow-y-scroll">
-        {children}
-        {/* <TMANavbar /> */}
-      </main>
-      <SettingsButton />
-    </TmaSDKLoader>
-  );
+  unstable_setRequestLocale(locale);
+  return <TelegramProvider>{children}</TelegramProvider>;
 }

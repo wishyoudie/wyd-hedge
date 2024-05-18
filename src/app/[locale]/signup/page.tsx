@@ -9,8 +9,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import SignUpForm from "../app/_components/signup-form";
+import { unstable_setRequestLocale } from "next-intl/server";
+import type { Locale } from "@/i18n";
 
-export default function SignUpPage() {
+export default function SignUpPage({
+  params: { locale },
+}: {
+  params: { locale: Locale };
+}) {
+  unstable_setRequestLocale(locale);
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>

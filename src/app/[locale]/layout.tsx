@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 
 import AuthProvider from "./_providers/auth-provider";
 import { type Locale } from "@/i18n";
+import Settings from "@/shared/lib/settings";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,6 +18,10 @@ export const metadata = {
   description: "Budget Planner App",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
+
+export async function generateStaticParams() {
+  return Settings.locales.map((locale) => ({ locale }));
+}
 
 export default function LocalizedRootLayout({
   children,

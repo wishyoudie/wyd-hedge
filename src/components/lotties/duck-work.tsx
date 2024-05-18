@@ -1,7 +1,8 @@
 "use client";
 
-import Lottie from "lottie-react";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import animationData from "@/../public/static/duck_work.json";
+import dynamic from "next/dynamic";
 
 export default function DuckWorkLottie(props: { className?: string }) {
   return (

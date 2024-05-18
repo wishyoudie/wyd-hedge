@@ -1,9 +1,20 @@
-import { useLaunchParams } from "@tma.js/sdk-react";
+// import { useLaunchParams } from "@tma.js/sdk-react";
 import { AppRoot as AR } from "@telegram-apps/telegram-ui";
-import type { PropsWithChildren } from "react";
+import { useEffect, type PropsWithChildren } from "react";
+import "@telegram-apps/telegram-ui/dist/styles.css";
+import {
+  useMiniApp,
+  useThemeParams,
+  useViewport,
+  bindMiniAppCSSVars,
+  bindThemeParamsCSSVars,
+  bindViewportCSSVars,
+  type LaunchParams,
+} from "@tma.js/sdk-react";
+import { useServerLaunchParams } from "@/shared/hooks/useServerLaunchParams";
 
-const resolvePlatform = (platform: string): "base" | "ios" => {
-  if (platform === "ios" || platform === "macos") {
+const resolvePlatform = (lp: LaunchParams | null): "base" | "ios" => {
+  if (lp && (lp.platform === "ios" || lp.platform === "macos")) {
     return "ios";
   }
 
@@ -11,7 +22,24 @@ const resolvePlatform = (platform: string): "base" | "ios" => {
 };
 
 export default function AppRoot(props: PropsWithChildren) {
-  const { platform } = useLaunchParams();
+  const miniApp = useMiniApp();
+  const themeParams = useThemeParams();
+  const viewport = useViewport();
+  const lp = useServerLaunchParams();
 
-  return <AR platform={resolvePlatform(platform)}>{props.children}</AR>;
+  useEffect(() => {
+    return bindMiniAppCSSVars(miniApp, themeParams);
+  }, [miniApp, themeParams]);
+
+  useEffect(() => {
+    return bindThemeParamsCSSVars(themeParams);
+  }, [themeParams]);
+
+  useEffect(() => {
+    if (viewport) {
+      return bindViewportCSSVars(viewport);
+    }
+  }, [viewport]);
+
+  return <AR platform={resolvePlatform(lp)}>{props.children}</AR>;
 }

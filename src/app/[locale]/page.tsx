@@ -1,12 +1,18 @@
 import { Link, redirect } from "@/navigation";
 import { getServerSession } from "@/app/api/auth/options";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { Card } from "@/components/ui/card";
 // import NextLink from "next/link";
 // import { env } from "@/env";
 import { Button } from "@/components/ui/button";
+import type { Locale } from "@/i18n";
 
-export default async function Home() {
+export default async function Home({
+  params: { locale },
+}: {
+  params: { locale: Locale };
+}) {
+  unstable_setRequestLocale(locale);
   const session = await getServerSession();
   const user = session?.user;
   const t = await getTranslations("web.loggedoff");
