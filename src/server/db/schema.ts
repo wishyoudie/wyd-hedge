@@ -16,7 +16,6 @@ export const users = createTable("user", {
   id: serial("id").notNull().primaryKey(),
   tgUsername: varchar("tgUsername"),
   username: varchar("username").unique(),
-  password: varchar("password"),
   currency: varchar("currency", { length: 5 }).notNull().default("rub"),
   isPremium: boolean("isPremium").notNull().default(false),
 });
@@ -45,7 +44,9 @@ export const transactions = createTable("transaction", {
 });
 
 export const accountsRelations = relations(accounts, ({ many }) => ({
-  transactions: many(transactions),
+  transactions: many(transactions, {
+    relationName: "transaction_account",
+  }),
 }));
 
 export const transactionsRelations = relations(
@@ -55,6 +56,7 @@ export const transactionsRelations = relations(
     account: one(accounts, {
       fields: [transactions.accountId],
       references: [accounts.id],
+      relationName: "transaction_account",
     }),
   }),
 );
@@ -66,28 +68,29 @@ export const categories = createTable("category", {
   name: varchar("name").notNull(),
 });
 
-export const categoriesRelations = relations(categories, ({ one, many }) => ({
-  parent: one(categories, {
-    fields: [categories.parentId],
-    references: [categories.id],
-  }),
-  transactions: many(transactions),
-}));
-
 export const transactionOnCategories = createTable(
   "transaction_categories",
   {
     transactionId: integer("transactionId")
-      .notNull()
-      .references(() => transactions.id),
+      .references(() => transactions.id)
+      .notNull(),
     categoryId: integer("categoryId")
-      .notNull()
-      .references(() => categories.id),
+      .references(() => categories.id)
+      .notNull(),
   },
   (t) => ({
     pk: primaryKey({ columns: [t.transactionId, t.categoryId] }),
   }),
 );
+
+export const categoriesRelations = relations(categories, ({ one, many }) => ({
+  parent: one(categories, {
+    fields: [categories.parentId],
+    references: [categories.id],
+    relationName: "category_parent",
+  }),
+  transactions: many(transactionOnCategories),
+}));
 
 export const transactionOnCategoriesRelations = relations(
   transactionOnCategories,
