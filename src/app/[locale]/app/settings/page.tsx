@@ -23,7 +23,7 @@ import { env } from "@/env";
 import { getSyncLink } from "@/server/users";
 
 export default async function SettingsPage() {
-  const syncLink = await getSyncLink();
+  const sync = await getSyncLink();
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
@@ -74,12 +74,17 @@ export default async function SettingsPage() {
                     <Label className="text-lg">Telegram</Label>
                   </CardTitle>
                   <CardDescription>
-                    Sync your account with Telegram to create shared
-                    environment.
+                    {sync.isLink
+                      ? "Sync your account with Telegram to create shared environment."
+                      : "You have successfully synced your accounts."}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <TelegramSync miniAppUrl={env.MINI_APP_URL} {...syncLink} />
+                  <TelegramSync
+                    miniAppUrl={env.MINI_APP_URL}
+                    data={sync.data}
+                    isSynced={!sync.isLink}
+                  />
                 </CardContent>
               </Card>
 

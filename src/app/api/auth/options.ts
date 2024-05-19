@@ -3,12 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { parse, validate } from "@tma.js/init-data-node";
 import { env } from "@/env";
-import {
-  createUser,
-  generatePasswordHash,
-  getUserByTelegramUsername,
-  getUserByUsername,
-} from "@/server/users";
+import { createUser, getUserByUsername } from "@/server/users";
 import { getServerSession as _getServerSession } from "next-auth";
 
 declare module "next-auth" {
@@ -30,90 +25,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
-      credentials: {
-        username: { label: "username", type: "username" },
-        password: { label: "password", type: "password" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.username || !credentials.password) {
-          return null;
-        }
-
-        const user = await getUserByUsername(credentials.username);
-
-        if (user) {
-          if (user.password === generatePasswordHash(credentials.password)) {
-            const returned: User = {
-              id: user.id,
-              username: user.username,
-              currency: user.currency,
-              isPremium: user.isPremium,
-            };
-
-            return returned;
-          } else {
-            throw new Error(
-              JSON.stringify({
-                en: "Incorrect username or password",
-                ru: "Неверное имя пользователя или пароль",
-              }),
-            );
-          }
-        }
-
-        throw new Error(
-          JSON.stringify({
-            en: "Incorrect username or password",
-            ru: "Неверное имя пользователя или пароль",
-          }),
-        );
-
-        // return null;
-      },
-    }),
-    CredentialsProvider({
-      id: "register",
-      name: "register",
-      credentials: {
-        username: { label: "username", type: "username" },
-        password: { label: "password", type: "password" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.username || !credentials.password) {
-          return null;
-        }
-
-        const user = await getUserByUsername(credentials.username);
-
-        if (user) {
-          throw new Error(
-            JSON.stringify({
-              en: "User already exists",
-              ru: "Пользователь с таким именем пользователя уже существует",
-            }),
-          );
-        }
-
-        const newUser = await createUser({
-          username: credentials.username,
-          password: credentials.password,
-        });
-
-        if (newUser) {
-          const returned: User = {
-            id: newUser.id,
-            username: newUser.username,
-            currency: newUser.currency,
-            isPremium: newUser.isPremium,
-          };
-
-          return returned;
-        }
-
-        return null;
-      },
-    }),
-    CredentialsProvider({
       id: "telegram",
       name: "telegram",
       credentials: {
@@ -127,7 +38,7 @@ export const authOptions: NextAuthOptions = {
         try {
           validate(credentials.initData, env.BOT_TOKEN);
           const { username } = parse(credentials.initData).user!;
-          const user = await getUserByTelegramUsername(username!);
+          const user = await getUserByUsername(username!);
 
           if (user) {
             const returned: User = {

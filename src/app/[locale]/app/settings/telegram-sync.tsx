@@ -4,68 +4,21 @@ import { Icon24Telegram } from "@/components/icons/telegram";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyIcon } from "lucide-react";
-import { type MouseEventHandler, useEffect, useState } from "react";
+import { type MouseEventHandler } from "react";
 import { toast } from "sonner";
-
-function Timer({ time }: { time: number }) {
-  return (
-    <span className="absolute right-3 text-sm text-muted-foreground">
-      {`${Math.floor(time / 60)}`.padStart(2, "0")}:
-      {`${time % 60}`.padStart(2, "0")}
-    </span>
-  );
-}
 
 type Props = {
   miniAppUrl: string;
-  generated?: string;
-  timeLeft?: number;
+  data: string;
+  isSynced: boolean;
 };
 
-export default function TelegramSync({
-  miniAppUrl,
-  generated,
-  timeLeft,
-}: Props) {
-  const [link, setLink] = useState<string | undefined>(generated);
-  const [time, setTime] = useState<number | undefined>(timeLeft);
-
-  useEffect(() => {
-    if (link) {
-      const timer = setInterval(() => {
-        setTime((time) => {
-          if (time === 0) {
-            clearInterval(timer);
-            setLink(undefined);
-            return 0;
-          } else {
-            return time! - 1;
-          }
-        });
-      }, 1000);
-    }
-  }, [link]);
-
-  if (!link) {
-    const handleGenerateClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-      e.preventDefault();
-
-      fetch("/api/sync", {
-        cache: "no-cache",
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          setLink(res.startapp);
-          setTime(res.timeLeft);
-        })
-        .catch(console.error);
-    };
-
+export default function TelegramSync({ miniAppUrl, data, isSynced }: Props) {
+  if (isSynced) {
     return (
-      <div className="flex flex-1 items-center justify-center py-2">
-        <div>
-          <Button onClick={handleGenerateClick}>Generate Sync Link</Button>
-        </div>
+      <div className="flex items-center gap-2 pt-4">
+        <Input type="text" name="tgUsername" value={`@${data}`} disabled />
+        {/* <Button variant="ghost">Change</Button> */}
       </div>
     );
   }
@@ -73,7 +26,7 @@ export default function TelegramSync({
   const handleCopyClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     navigator.clipboard
-      .writeText(miniAppUrl + `?startapp=${link}`)
+      .writeText(miniAppUrl + `?startapp=${data}`)
       .then(() => {
         toast("Copied");
       })
@@ -84,15 +37,12 @@ export default function TelegramSync({
 
   const handleOpenClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
-    window.open(miniAppUrl + `?startapp=${link}`);
+    window.open(miniAppUrl + `?startapp=${data}`);
   };
 
   return (
     <div className="flex items-center gap-2 pt-4">
-      <span className="relative flex flex-1 items-center">
-        <Input type="text" name="username" value={link} disabled />
-        <Timer time={time!} />
-      </span>
+      <Input type="text" name="tgUsername" value={data} disabled />
       <Button size="icon" variant="ghost" onClick={handleCopyClick}>
         <CopyIcon className="size-4" />
       </Button>

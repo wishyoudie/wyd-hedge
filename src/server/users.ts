@@ -1,21 +1,22 @@
 import "server-only";
 
 import { db } from "./db";
-import { createHash, randomBytes } from "crypto";
 import { users } from "./db/schema";
 import { createRootCategory } from "./categories";
 import { getServerSession } from "@/app/api/auth/options";
-import { decrypt, encrypt } from "./encryption";
+import {
+  decrypt,
+  encrypt,
+  generatePasswordHash,
+  generateRandomString,
+} from "./encryption";
 import { eq } from "drizzle-orm";
 
-export function generatePasswordHash(password: string) {
-  return createHash("md5").update(password).digest("hex");
-}
-
-export function generateRandomString() {
-  const buf = randomBytes(20);
-
-  return buf.toString("hex");
+export async function getUserById(id?: number) {
+  const userId = id ?? (await getServerSession()).user.id;
+  return await db.query.users.findFirst({
+    where: (m, { eq }) => eq(m.id, userId),
+  });
 }
 
 export async function getUserByUsername(username: string) {
@@ -56,17 +57,24 @@ export async function createUser({
 }
 
 export async function getSyncLink() {
+  const user = await getUserById();
+  if (user?.tgUsername) {
+    return {
+      data: user.tgUsername,
+      isLink: false,
+    };
+  }
+
   return {
-    generated: undefined,
-    timeLeft: undefined,
+    data: await createSyncLink(),
+    isLink: true,
   };
 }
 
 export async function createSyncLink() {
   const { user } = await getServerSession();
-  const startapp = encrypt(`${user.id}`);
 
-  return { startapp: startapp, timeLeft: 300 };
+  return encrypt(`${user.id}`);
 }
 
 export async function syncUsers(receivedLink: string, username: string) {

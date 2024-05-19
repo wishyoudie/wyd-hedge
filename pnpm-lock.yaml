@@ -120,7 +120,7 @@ importers:
         specifier: ^14.2.1
         version: 14.2.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       next-auth:
-        specifier: 4.24.7
+        specifier: ^4.24.7
         version: 4.24.7(next@14.2.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       next-intl:
         specifier: ^3.12.0
@@ -184,8 +184,8 @@ importers:
         specifier: ^7.1.1
         version: 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       drizzle-kit:
-        specifier: ^0.21.1
-        version: 0.21.1
+        specifier: ^0.21.2
+        version: 0.21.2
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -1764,8 +1764,8 @@ packages:
     resolution: {integrity: sha512-vyJTp8+mC+G+5dfgsY+r3ckxlz+QMX40VjPQsZc5gxVAxLmi64TBoVkP54A/pRAXMXsbu2GMMBrZPxNv23waMg==}
     engines: {node: '>=0.4.0'}
 
-  drizzle-kit@0.21.1:
-    resolution: {integrity: sha512-Sp7OnCdROiE2ebMuHsAfrnRoHVGYCvErQxUh7/0l6R1caHssZu9oZu/hW9rLU19xnTK4/y3iSe3sL0Cc530wCg==}
+  drizzle-kit@0.21.2:
+    resolution: {integrity: sha512-U87IhZyCt/9d0ZT/Na3KFJVY31tSxtTx/n9UMcWFpW/5c2Ede39xiCG5efNV/0iimsv97UIRtDI0ldLBW5lbcg==}
     hasBin: true
 
   drizzle-orm@0.30.10:
@@ -2791,8 +2791,8 @@ packages:
     peerDependencies:
       preact: '>=10'
 
-  preact@10.21.0:
-    resolution: {integrity: sha512-aQAIxtzWEwH8ou+OovWVSVNlFImL7xUCwJX3YMqA3U8iKCNC34999fFOnWjYNsylgfPgMexpbk7WYOLtKr/mxg==}
+  preact@10.22.0:
+    resolution: {integrity: sha512-RRurnSjJPj4rp5K6XoP45Ui33ncb7e4H7WiOHVpjbkvqvA3U+N8Z6Qbo0AE6leGYBV66n8EhEaFixvIu3SkxFw==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -4868,7 +4868,7 @@ snapshots:
     dependencies:
       wordwrap: 1.0.0
 
-  drizzle-kit@0.21.1:
+  drizzle-kit@0.21.2:
     dependencies:
       '@esbuild-kit/esm-loader': 2.6.5
       commander: 9.5.0
@@ -5797,8 +5797,8 @@ snapshots:
       next: 14.2.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       oauth: 0.9.15
       openid-client: 5.6.5
-      preact: 10.21.0
-      preact-render-to-string: 5.2.6(preact@10.21.0)
+      preact: 10.22.0
+      preact-render-to-string: 5.2.6(preact@10.22.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       uuid: 8.3.2
@@ -6046,12 +6046,12 @@ snapshots:
 
   postgres@3.4.4: {}
 
-  preact-render-to-string@5.2.6(preact@10.21.0):
+  preact-render-to-string@5.2.6(preact@10.22.0):
     dependencies:
-      preact: 10.21.0
+      preact: 10.22.0
       pretty-format: 3.8.0
 
-  preact@10.21.0: {}
+  preact@10.22.0: {}
 
   prelude-ls@1.2.1: {}
 
