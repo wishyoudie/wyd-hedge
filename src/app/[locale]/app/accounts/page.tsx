@@ -12,21 +12,26 @@ import AccountsList from "./list";
 
 function Placeholder() {
   return (
-    <main className="flex w-full items-center justify-center">
-      <div className="flex h-[300px] items-center justify-center rounded-lg border border-dashed bg-background px-4 shadow-sm md:w-[600px] lg:h-[400px] lg:w-[800px]">
-        <div className="flex flex-col items-center gap-2 text-center">
-          <h2 className="text-3xl font-bold tracking-tight">
-            You have no accounts
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            You need to have at least one account to use Accountant.
-          </p>
-          <Link href="/app/accounts/new">
-            <Button className="mt-4">Create Account</Button>
-          </Link>
+    <div className="h-full space-y-4 p-8 pt-2">
+      <header className="flex items-center justify-between space-y-2">
+        <h2 className="text-3xl font-bold tracking-tight">Accounts</h2>
+      </header>
+      <main className="container h-[calc(100vh-100px)] pb-4">
+        <div className="flex h-[93%] flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
+          <div className="flex flex-col items-center gap-1 text-center">
+            <h3 className="text-2xl font-bold tracking-tight">
+              You have no accounts
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              You need to have at least one account to use Accountant.
+            </p>
+            <Link href="/app/accounts/new">
+              <Button className="mt-4">Create Account</Button>
+            </Link>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
 

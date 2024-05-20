@@ -105,12 +105,7 @@ export default async function SettingsPage() {
               </Card>
 
               <div className="pt-4">
-                <SubmitButton
-                  size="lg"
-                  className="w-full"
-                  toastMessage="Success"
-                  toastDescription="Updated settings"
-                >
+                <SubmitButton size="lg" className="w-full">
                   Save
                 </SubmitButton>
               </div>

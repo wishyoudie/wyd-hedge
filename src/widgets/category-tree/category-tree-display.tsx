@@ -1,8 +1,10 @@
-"use client";
-
 import { useCenteredTree } from "@/shared/hooks/useCenteredTree";
-import Tree, { type CustomNodeElementProps } from "react-d3-tree";
+import { type CustomNodeElementProps } from "react-d3-tree";
 import type { NodeType, TreeNode } from "./types";
+import dynamic from "next/dynamic";
+const Tree = dynamic(() => import("react-d3-tree").then((res) => res.default), {
+  ssr: false,
+});
 
 const renderForeignObjectNode = ({
   nodeDatum,
@@ -14,7 +16,8 @@ const renderForeignObjectNode = ({
 }) => (
   <g>
     <foreignObject {...foreignObjectProps}>
-      {Node(nodeDatum.name, nodeDatum.attributes)}
+      {/* {Node(nodeDatum.name, nodeDatum.attributes)} */}
+      <Node name={nodeDatum.name} attributes={nodeDatum.attributes} />
     </foreignObject>
   </g>
 );

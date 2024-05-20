@@ -97,12 +97,7 @@ export default function NewAccountPage() {
                 </CardContent>
               </Card>
               <div className="pt-4">
-                <SubmitButton
-                  size="lg"
-                  className="w-full"
-                  toastMessage="Success"
-                  toastDescription="Account created"
-                >
+                <SubmitButton size="lg" className="w-full">
                   Submit
                 </SubmitButton>
               </div>

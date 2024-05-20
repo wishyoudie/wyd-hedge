@@ -199,13 +199,7 @@ export default function Page() {
             </Card>
           </div>
         </div>
-        <SubmitButton
-          size="lg"
-          toastMessage="Success"
-          toastDescription="Transaction created"
-        >
-          Save
-        </SubmitButton>
+        <SubmitButton size="lg">Save</SubmitButton>
       </NewEntityPage>
     </form>
   );

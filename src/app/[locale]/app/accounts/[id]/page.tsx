@@ -109,12 +109,7 @@ export default async function AccountViewPage({
                 </CardContent>
               </Card>
               <div className="pt-4">
-                <SubmitButton
-                  className="w-full"
-                  size="lg"
-                  toastMessage="Success"
-                  toastDescription="Changes applied"
-                >
+                <SubmitButton className="w-full" size="lg">
                   Save Changes
                 </SubmitButton>
               </div>

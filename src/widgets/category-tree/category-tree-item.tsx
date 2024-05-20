@@ -25,7 +25,6 @@ import {
   deleteCategory,
   updateCategory,
 } from "@/server/actions";
-import TreeItemView from "./tree-item-view";
 
 type Props = {
   name: string;
@@ -130,7 +129,17 @@ export default function CategoryTreeItem(props: Props) {
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <TreeItemView name={props.name} attributes={attributes} />
+          {attributes.isRoot ? (
+            <div
+              className={`rounded-xl bg-primary py-3 text-center text-primary-foreground shadow transition-colors`}
+            >
+              <h3 className="font-medium">All</h3>
+            </div>
+          ) : (
+            <div className="rounded-xl border border-input bg-background py-3 text-center shadow-sm transition-colors hover:bg-accent">
+              <h3 className="font-medium">{props.name}</h3>
+            </div>
+          )}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DialogTrigger>
