@@ -3,7 +3,11 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { parse, validate } from "@tma.js/init-data-node";
 import { env } from "@/env";
-import { createUser, getUserByUsername } from "@/server/users";
+import {
+  createUser,
+  getUserByTelegramUsername,
+  getUserByUsername,
+} from "@/server/users";
 import { getServerSession as _getServerSession } from "next-auth";
 
 declare module "next-auth" {
@@ -38,7 +42,7 @@ export const authOptions: NextAuthOptions = {
         try {
           validate(credentials.initData, env.BOT_TOKEN);
           const { username } = parse(credentials.initData).user!;
-          const user = await getUserByUsername(username!);
+          const user = await getUserByTelegramUsername(username!);
 
           if (user) {
             const returned: User = {

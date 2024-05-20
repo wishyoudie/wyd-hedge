@@ -51,15 +51,18 @@ export default function AppRoot(props: PropsWithChildren) {
         params.set("link", lp.startParam);
         router.replace("/tg/sync?" + params.toString());
       } else {
-        const auth = async () => {
-          const result = await signIn("telegram", {
-            initData: lp.initDataRaw,
-            redirect: false,
-          });
-
-          router.replace(result?.ok ? "/tg/home" : "/tg/welcome");
-        };
-        auth().catch(console.log);
+        signIn("telegram", {
+          initData: lp.initDataRaw,
+          redirect: false,
+        })
+          .then((result) => {
+            if (result?.ok) {
+              router.replace("/tg/home");
+            } else {
+              router.replace("/tg/welcome");
+            }
+          })
+          .catch(console.error);
       }
     }
   }, [lp, router]);
