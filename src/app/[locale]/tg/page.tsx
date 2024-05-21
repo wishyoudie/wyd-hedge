@@ -1,6 +1,6 @@
 import type { Locale } from "@/i18n";
-import Logo from "@/components/logo/logo";
 import { unstable_setRequestLocale } from "next-intl/server";
+import LogoIcon from "@/components/icons/logo";
 
 export default async function HomePage({
   params: { locale },
@@ -10,8 +10,8 @@ export default async function HomePage({
   unstable_setRequestLocale(locale);
 
   return (
-    <div>
-      <Logo />
+    <div className="flex h-screen w-screen items-center justify-center bg-telegram-background">
+      <LogoIcon />
     </div>
   );
 }

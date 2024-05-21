@@ -84,11 +84,11 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2
       '@tma.js/sdk':
-        specifier: ^2.0.2
-        version: 2.0.2
+        specifier: ^2.2.0
+        version: 2.2.0
       '@tma.js/sdk-react':
-        specifier: ^2.1.2
-        version: 2.1.2(@types/react@18.3.2)(react@18.2.0)
+        specifier: ^2.2.0
+        version: 2.2.0(@types/react@18.3.2)(react@18.2.0)
       '@vercel/blob':
         specifier: ^0.23.0
         version: 0.23.2
@@ -1193,8 +1193,8 @@ packages:
   '@tma.js/init-data-node@1.2.2':
     resolution: {integrity: sha512-Q9nseG9LLGeDzyHOt6741l6H9oPQTbBcaNX3dubJhx69qvwjrW6HLABi60WfZr2cxTu24Y++rIRohfBIBPxARg==}
 
-  '@tma.js/sdk-react@2.1.2':
-    resolution: {integrity: sha512-NW7bdpF+J+TecJX2jATXeT0LY+s72MiHblK/aCzZSGy4icipw655KMUFsXhVW5Z9MoBsqdufi8EbWd1U9aEEvw==}
+  '@tma.js/sdk-react@2.2.0':
+    resolution: {integrity: sha512-AaJ+syds4FMxPrOpzghpJEEkxviAghCUUh2WATFVSQcQKrP6MGXnBBVt5moSFhFGBtGrpnH5WiyiDaVdAKcvMA==}
     peerDependencies:
       '@types/react': ^17.0.0 || ^18.0.0
       react: ^17.0.0 || ^18.0.0
@@ -1202,8 +1202,8 @@ packages:
       '@types/react':
         optional: true
 
-  '@tma.js/sdk@2.0.2':
-    resolution: {integrity: sha512-qQHxVUt8W3JB9T7esonnAiNhOdfn6JT0sB3X6h6yFu1qwWb3iL4G8hLwK1uSWAByzUepJkeWwwvM7jZ0vqpRDA==}
+  '@tma.js/sdk@2.2.0':
+    resolution: {integrity: sha512-Dn2Rg248NCCidI8qia77PJheDx2KDvHn6Fg3AHmOdv7DEMMfNf8D4o5DFHtZzGoMvvNTrrYrqK/KQxbs0wpYTg==}
 
   '@twa-dev/types@7.0.0':
     resolution: {integrity: sha512-LBnMklxORuXd/ypv9gFKcQVNJkCktkeuU+2V6B5Ww7dcxDCoYBAKkNnIwEQ3cShq+cxTi96jC/CqWhgDMQ7AXQ==}
@@ -4236,16 +4236,16 @@ snapshots:
 
   '@tma.js/init-data-node@1.2.2':
     dependencies:
-      '@tma.js/sdk': 2.0.2
+      '@tma.js/sdk': 2.2.0
 
-  '@tma.js/sdk-react@2.1.2(@types/react@18.3.2)(react@18.2.0)':
+  '@tma.js/sdk-react@2.2.0(@types/react@18.3.2)(react@18.2.0)':
     dependencies:
-      '@tma.js/sdk': 2.0.2
+      '@tma.js/sdk': 2.2.0
       react: 18.2.0
     optionalDependencies:
       '@types/react': 18.3.2
 
-  '@tma.js/sdk@2.0.2': {}
+  '@tma.js/sdk@2.2.0': {}
 
   '@twa-dev/types@7.0.0': {}
 

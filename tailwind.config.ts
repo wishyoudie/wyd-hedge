@@ -53,12 +53,12 @@ const config = {
         },
         telegram: {
           background: {
-            DEFAULT: "var(--tg-theme-background-color)",
-            secondary: "var(--tg-theme-secondary-background-color)",
+            DEFAULT: "var(--tg-theme-bg-color)",
+            secondary: "var(--tg-theme-secondary-bg-color)",
           },
           section: {
             header: "var(--tg-theme-section-header-text-color)",
-            background: "var(--tg-theme-section-background-color)",
+            background: "var(--tg-theme-section-bg-color)",
           },
           header: "var(--tg-header-color)",
           subtitle: "var(--tg-theme-subtitle-text-color)",

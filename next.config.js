@@ -18,7 +18,8 @@ const config = {
     },
     eslint: {
         ignoreDuringBuilds: true,
-    }
+    },
+    reactStrictMode: false,
 };
 
 export default withNextIntl(config);

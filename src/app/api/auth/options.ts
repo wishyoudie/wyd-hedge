@@ -51,13 +51,11 @@ export const authOptions: NextAuthOptions = {
               currency: user.currency,
               isPremium: user.isPremium,
             };
-
             return returned;
           }
         } catch (e) {
-          console.error(e);
+          console.error("Error while authorizing:", e);
         }
-
         return null;
       },
     }),
@@ -79,14 +77,14 @@ export const authOptions: NextAuthOptions = {
             user.isPremium = newUser.isPremium;
           }
         } catch {
-          // Here user uses same OAuth second time => already signed up
+          // Here user uses same OAuth second time => already signed up, do nothing
         }
       }
       return true;
     },
     jwt: async ({ token, user }) => {
-      if (user?.email) {
-        const dbUser = await getUserByUsername(user.email);
+      if (user) {
+        const dbUser = await getUserByUsername(user.email ?? user.username!);
         if (dbUser) {
           token.user = {
             id: dbUser.id,
