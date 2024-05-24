@@ -1,5 +1,7 @@
 "use client";
 
+import "@telegram-apps/telegram-ui/dist/styles.css";
+
 import { useEffect, type PropsWithChildren } from "react";
 import { SDKProvider } from "@tma.js/sdk-react";
 import AppRoot from "./AppRoot";
@@ -19,7 +21,6 @@ function LoginProvider({ children }: PropsWithChildren) {
         params.set("link", lp.startParam);
         router.replace("/tg/sync?" + params.toString());
       } else {
-        console.log(lp.initDataRaw);
         signIn("telegram", {
           initData: lp.initDataRaw,
           redirect: false,
@@ -34,7 +35,8 @@ function LoginProvider({ children }: PropsWithChildren) {
           .catch(console.error);
       }
     }
-  }, [lp, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lp]);
 
   return children;
 }

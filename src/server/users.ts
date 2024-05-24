@@ -95,3 +95,13 @@ export async function syncUsers(receivedLink: string, username: string) {
     .where(eq(users.id, +data))
     .returning();
 }
+
+export async function getUserTotalBalance() {
+  const { user } = await getServerSession();
+  const targetCurrency = user.currency;
+
+  return {
+    currency: targetCurrency,
+    total: 0,
+  };
+}

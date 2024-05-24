@@ -1,6 +1,9 @@
-import { getServerSession } from "@/app/api/auth/options";
 import type { Locale } from "@/i18n";
 import { unstable_setRequestLocale } from "next-intl/server";
+import LastUserTransactionsSection from "./last-transactions";
+import BalanceSection from "./balance";
+import Announcement from "./announcement";
+import { List } from "@telegram-apps/telegram-ui";
 
 export default async function HomePage({
   params: { locale },
@@ -8,13 +11,14 @@ export default async function HomePage({
   params: { locale: Locale };
 }) {
   unstable_setRequestLocale(locale);
-  const session = await getServerSession();
 
   return (
-    <div>
-      <pre>
-        <blockquote>{JSON.stringify(session, null, 2)}</blockquote>
-      </pre>
+    <div className="pb-14">
+      <Announcement />
+      <List>
+        <BalanceSection />
+        <LastUserTransactionsSection />
+      </List>
     </div>
   );
 }

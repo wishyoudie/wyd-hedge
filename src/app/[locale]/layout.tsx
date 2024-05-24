@@ -33,7 +33,7 @@ export default function LocalizedRootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`font-sans antialiased ${inter.variable} h-screen overflow-hidden bg-background`}
+        className={`font-sans antialiased ${inter.variable} h-screen overflow-hidden bg-telegram-background-secondary`}
       >
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

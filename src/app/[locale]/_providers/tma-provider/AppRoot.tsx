@@ -1,6 +1,5 @@
 import { AppRoot as AR } from "@telegram-apps/telegram-ui";
 import { useEffect, type PropsWithChildren } from "react";
-import "@telegram-apps/telegram-ui/dist/styles.css";
 import {
   useMiniApp,
   useThemeParams,
