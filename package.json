@@ -45,6 +45,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
+    "currency-symbol-map": "^5.1.0",
     "date-fns": "^3.6.0",
     "drizzle-orm": "^0.30.10",
     "lottie-react": "^2.4.0",

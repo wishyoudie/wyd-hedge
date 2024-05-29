@@ -15,6 +15,7 @@ export default async function HomePage({
   return (
     <div className="pb-14">
       <Announcement />
+      <div className="h-5 w-5 bg-telegram-link"></div>
       <List>
         <BalanceSection />
         <LastUserTransactionsSection />

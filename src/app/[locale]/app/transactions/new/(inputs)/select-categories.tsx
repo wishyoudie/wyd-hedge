@@ -14,7 +14,7 @@ export default async function SelectCategories() {
   const categories = await getUserCategoriesTree();
 
   return (
-    <Card>
+    <Card className="col-span-3">
       <CardHeader>
         <CardTitle>Categories</CardTitle>
         <CardDescription>Select your transaction categories</CardDescription>

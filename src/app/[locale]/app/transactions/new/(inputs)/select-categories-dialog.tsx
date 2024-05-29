@@ -13,7 +13,8 @@ import { Badge } from "@/components/ui/badge";
 
 export function SelectCategoriesDialog(props: { categories: TreeNode }) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<number[]>([]);
+  const rootId = +props.categories.attributes!.id!;
+  const [value, setValue] = useState<number[]>([rootId]);
   const categoriesMap = useMemo(
     () => getCategoriesMap(props.categories),
     [props.categories],

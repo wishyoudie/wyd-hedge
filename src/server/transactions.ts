@@ -47,7 +47,14 @@ export async function createTransaction(
   const { user } = await getServerSession();
   return await db
     .insert(transactions)
-    .values({ ...data, userId: user.id })
+    .values({
+      userId: user.id,
+      name: data.name,
+      type: data.type,
+      value: data.value,
+      accountId: data.accountId,
+      createdAt: data.createdAt ?? undefined,
+    })
     .returning();
 }
 

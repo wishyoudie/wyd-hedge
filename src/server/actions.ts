@@ -1,9 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-// import { updateUserSettings } from "./settings";
 import { z } from "zod";
-// import { insertOperation, insertOperationCategories } from "./queries";
 import {
   createAccount as _createAccount,
   patchAccount as _patchAccount,
@@ -14,7 +12,6 @@ import {
   deleteCategory as _deleteCategory,
   updateCategory as _updateCategory,
 } from "./categories";
-// import { getSessionUser } from "~/shared/utils/getServerSession";
 import {
   createTransaction as _createTransaction,
   addTransactionCategories,
@@ -23,17 +20,18 @@ import {
 import { getServerSession } from "@/app/api/auth/options";
 import { redirect } from "@/navigation";
 
-// const settingsSchema = z.object({
-//   currency: z.string().optional(),
-// });
+export type FormState = {
+  message: string | null;
+  ok: boolean | null;
+};
 
 const transactionSchema = z.object({
   type: z.enum(["expense", "income"]),
   value: z.number(),
-  accountId: z.number(),
+  accountId: z.number().positive(),
   name: z.string().optional(),
   categories: z.string(),
-  createdAt: z.date().optional(),
+  createdAt: z.date().nullable().optional(),
 });
 
 const accountSchema = z.object({
@@ -50,22 +48,10 @@ const categorySchema = z.object({
   parentId: z.number(),
 });
 
-// export async function changeSettings(userId: number, formData: FormData) {
-//   const validation = settingsSchema.safeParse({
-//     currency: formData.get("currency"),
-//   });
-
-//   if (validation.success) {
-//     await updateUserSettings({
-//       ...validation.data,
-//       userId: userId,
-//     });
-
-//     revalidatePath("/web");
-//   }
-// }
-
-export async function createTransaction(formData: FormData) {
+export async function createTransaction(
+  _: FormState,
+  formData: FormData,
+): Promise<FormState> {
   const validation = transactionSchema.safeParse({
     type: formData.get("type"),
     value: Number(formData.get("value")),
@@ -77,21 +63,29 @@ export async function createTransaction(formData: FormData) {
 
   if (validation.success) {
     const data = validation.data;
+    try {
+      const result = await _createTransaction({
+        accountId: data.accountId,
+        type: data.type,
+        value: data.type === "income" ? data.value : -data.value,
+        name: data.name ?? "Transaction",
+        createdAt: data.createdAt ?? null,
+      });
 
-    const result = await _createTransaction({
-      accountId: data.accountId,
-      type: data.type,
-      value: data.type === "income" ? data.value : -data.value,
-      name: data.name ?? "Transaction",
-      createdAt: data.createdAt ?? null,
-    });
+      const resultTransaction = result[0]!;
 
-    const id = result[0]!.id;
-    const categories = data.categories.split("_").map(Number);
-    await addTransactionCategories(id, categories);
-    revalidatePath("/web");
+      const categories = data.categories.split("_").map(Number);
+      await addTransactionCategories(resultTransaction.id, categories);
+      revalidatePath("/web");
+      return {
+        ok: true,
+        message: `Added transaction ${resultTransaction.name}`,
+      };
+    } catch (e) {
+      return { ok: false, message: "Couldnt create transaction" };
+    }
   } else {
-    throw new Error(validation.error.message);
+    return { ok: false, message: "Couldnt validate data" };
   }
 }
 
