@@ -21,9 +21,9 @@ export function SelectCategoriesDialog(props: { categories: TreeNode }) {
   );
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <input type="hidden" name="categories" value={value.join("_")} />
-      <div>
+      <div className="flex flex-wrap gap-2">
         {value.map((id) => {
           const name = categoriesMap[id];
           return name === "root" ? null : (
@@ -75,6 +75,6 @@ export function SelectCategoriesDialog(props: { categories: TreeNode }) {
           </div>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }
