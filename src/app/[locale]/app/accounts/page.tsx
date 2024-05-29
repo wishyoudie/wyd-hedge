@@ -3,7 +3,7 @@ import {
   sortAccountsByLastTransaction,
 } from "@/server/accounts";
 import { Input } from "@/components/ui/input";
-import { LayoutGrid, LayoutList, Search } from "lucide-react";
+import { LayoutGrid, List, Search } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/navigation";
@@ -68,7 +68,7 @@ export default async function AccountsPage({
           </Link>
           <Link href="/app/accounts?display=list">
             <ToggleGroupItem value="list">
-              <LayoutList className="h-4 w-4" />
+              <List className="h-4 w-4" />
             </ToggleGroupItem>
           </Link>
         </ToggleGroup>
